@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>5D9DE0A2-F4CF-48FE-806B-7DF9FE5FF48D</string>
+	<key>IDESourceControlProjectName</key>
+	<string>BDBOAuth1RequestSerializerDemo</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>0A66AF5E-E5F6-4E85-B954-0ACD4CA296B9</key>
+		<string>ssh://github.com/bdbergeron/BDBOAuth1Manager.git</string>
+		<key>93744727-7C60-4441-96BA-CA04157FC12A</key>
+		<string>https://github.com/AFNetworking/AFNetworking.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>BDBOAuth1RequestSerializerDemo/BDBOAuth1RequestSerializerDemo.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>0A66AF5E-E5F6-4E85-B954-0ACD4CA296B9</key>
+		<string>../../..</string>
+		<key>93744727-7C60-4441-96BA-CA04157FC12A</key>
+		<string>../../../AFNetworking</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/bdbergeron/BDBOAuth1Manager.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>0A66AF5E-E5F6-4E85-B954-0ACD4CA296B9</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>93744727-7C60-4441-96BA-CA04157FC12A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>AFNetworking</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>0A66AF5E-E5F6-4E85-B954-0ACD4CA296B9</string>
+			<key>IDESourceControlWCCName</key>
+			<string>BDBOAuth1RequestSerializer</string>
+		</dict>
+	</array>
+</dict>
+</plist>

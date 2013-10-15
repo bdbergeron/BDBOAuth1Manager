@@ -7,11 +7,17 @@
 
 #import <UIKit/UIKit.h>
 
+#import "AFNetworking.h"
+
 
 #pragma mark -
 @interface AppDelegate : UIResponder
 <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+
+@property (nonatomic, readonly) AFHTTPRequestSerializer *requestSerializer;
+
++ (instancetype)sharedDelegate;
 
 @end

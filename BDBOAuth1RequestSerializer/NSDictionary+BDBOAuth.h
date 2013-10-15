@@ -11,6 +11,8 @@
 #pragma mark -
 @interface NSDictionary (BDBOAuth)
 
++ (instancetype)dictionaryFromQueryString:(NSString *)queryString;
+
 - (NSString *)queryStringFromDictionary;
 
 @end

@@ -5,6 +5,7 @@
 //  Copyright (c) 2013 Bradley David Bergeron. All rights reserved.
 //
 
+#import "NSDictionary+BDBOAuth.h"
 #import "NSString+BDBOAuth.h"
 #import "NSURL+BDBOAuth.h"
 
@@ -83,14 +84,7 @@
 
 - (NSDictionary *)dictionaryFromQueryString
 {
-    NSArray *paramArray = [self.query componentsSeparatedByString:@"&"];
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    for (NSString *param in paramArray)
-    {
-        NSArray *keyValue = [param componentsSeparatedByString:@"="];
-        parameters[[keyValue[0] URLDecode]] = [keyValue[1] URLDecode];
-    }
-    return parameters;
+    return [NSDictionary dictionaryFromQueryString:self.query];
 }
 
 @end

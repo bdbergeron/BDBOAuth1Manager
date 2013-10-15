@@ -6,11 +6,17 @@
 //  Copyright (c) 2013 Bradley David Bergeron. All rights reserved.
 //
 
+#import "AppDelegate.h"
+#import "TweetCell.h"
 #import "TweetsViewController.h"
 
 
 #pragma mark -
 @interface TweetsViewController ()
+
+@property (nonatomic) NSMutableArray *tweets;
+
+@property (nonatomic, weak) TweetCell *tweetCell;
 
 @end
 
@@ -18,107 +24,95 @@
 #pragma mark -
 @implementation TweetsViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (void)loadView
 {
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+    [super loadView];
+    self.title = @"Tweets";
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.tableView.separatorInset = UIEdgeInsetsZero;
+
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(loadTweets) forControlEvents:UIControlEventValueChanged];
+
+    UINib *tableCellNib = [UINib nibWithNibName:@"TweetCell" bundle:nil];
+    [self.tableView registerNib:tableCellNib forCellReuseIdentifier:@"TweetCell"];
+    self.tweetCell = [tableCellNib instantiateWithOwner:nil options:nil][0];
+
+    self.tweets = [NSMutableArray array];
+
+    [self loadTweets];
 }
 
-- (void)didReceiveMemoryWarning
+#pragma mark Load Tweets
+- (void)loadTweets
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    NSURL *twitterAPIURL = [NSURL URLWithString:@"https://api.twitter.com/1.1/"];
+
+#ifdef __IPHONE_8_0
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:twitterAPIURL];
+    manager.requestSerializer = [[AppDelegate sharedDelegate] requestSerializer];
+    [manager GET:@"statuses/home_timeline.json"
+      parameters:nil
+         success:^(NSURLSessionDataTask *task, id responseObject) {
+             self.tweets = (NSMutableArray *)responseObject;
+             [self didLoadTweetsWithError:nil];
+         }
+         failure:^(NSURLSessionDataTask *task, NSError *error) {
+             [self didLoadTweetsWithError:error];
+         }];
+#else
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:twitterAPIURL];
+    manager.requestSerializer = [[AppDelegate sharedDelegate] requestSerializer];
+    [manager GET:@"statuses/home_timeline.json"
+      parameters:nil
+         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             self.tweets = (NSMutableArray *)responseObject;
+             [self didLoadTweetsWithError:nil];
+         }
+         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             [self didLoadTweetsWithError:error];
+         }];
+#endif
 }
 
-#pragma mark - Table view data source
+- (void)didLoadTweetsWithError:(NSError *)error
+{
+    [self.refreshControl endRefreshing];
 
+    if (!error)
+        [self.tableView reloadData];
+    else
+        NSLog(@"Error: %@", error);
+}
+
+#pragma mark TableView Data Source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
+    return self.tweets.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell...
+    TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell" forIndexPath:indexPath];
+
+    cell.tweetLabel.text = self.tweets[indexPath.row];
     
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+    return self.tweetCell.frame.size.height;
 }
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a story board-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-
- */
 
 @end

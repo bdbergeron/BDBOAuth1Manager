@@ -12,6 +12,18 @@
 #pragma mark -
 @implementation NSDictionary (BDBOAuth)
 
++ (instancetype)dictionaryFromQueryString:(NSString *)queryString
+{
+    NSArray *components = [queryString componentsSeparatedByString:@"&"];
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+    for (NSString *component in components)
+    {
+        NSArray *keyValue = [component componentsSeparatedByString:@"="];
+        dictionary[[keyValue[0] URLDecode]] = [keyValue[1] URLDecode];
+    }
+    return dictionary;
+}
+
 - (NSString *)queryStringFromDictionary
 {
     NSMutableArray *paramArray = [NSMutableArray array];

@@ -15,15 +15,83 @@
 
 
 #pragma mark -
+@interface BDBOAuthToken ()
+
+@property (nonatomic, copy, readwrite) NSString *token;
+@property (nonatomic, copy, readwrite) NSString *secret;
+
+@property (nonatomic, strong) NSDate *expiration;
+
+- (id)initWithToken:(NSString *)token secret:(NSString *)secret expiration:(NSDate *)expiration;
+- (id)initWithQueryString:(NSString *)queryString;
+
+@end
+
+
+#pragma mark -
+@implementation BDBOAuthToken
+
++ (instancetype)tokenWithToken:(NSString *)token secret:(NSString *)secret expiration:(NSDate *)expiration
+{
+    return [[BDBOAuthToken alloc] initWithToken:token secret:secret expiration:expiration];
+}
+
++ (instancetype)tokenWithQueryString:(NSString *)queryString
+{
+    return [[BDBOAuthToken alloc] initWithQueryString:queryString];
+}
+
+- (id)initWithToken:(NSString *)token secret:(NSString *)secret expiration:(NSDate *)expiration
+{
+    self = [super init];
+    if (self)
+    {
+        self.token = token;
+        self.secret = secret;
+        self.expiration = expiration;
+    }
+    return self;
+}
+
+- (id)initWithQueryString:(NSString *)queryString
+{
+    if (!queryString || queryString.length == 0)
+        return nil;
+
+    NSDictionary *attributes = [NSDictionary dictionaryFromQueryString:queryString];
+
+    if (attributes.count == 0)
+        return nil;
+
+    NSString *token  = attributes[@"oauth_token"];
+    NSString *secret = attributes[@"oauth_token_secret"];
+
+    NSDate *expiration = nil;
+    if (attributes[@"oauth_token_duration"])
+        expiration = [NSDate dateWithTimeIntervalSinceNow:[attributes[@"oauth_token_duration"] doubleValue]];
+
+    self = [self initWithToken:token secret:secret expiration:expiration];
+    if (self)
+    {
+
+    }
+    return self;
+}
+
+- (BOOL)isExpired
+{
+    return [self.expiration compare:[NSDate date]] == NSOrderedDescending;
+}
+
+@end
+
+
+#pragma mark -
 @interface BDBOAuth1RequestSerializer ()
 
 @property (nonatomic, copy) NSString *consumerKey;
 @property (nonatomic, copy) NSString *consumerSecret;
 
-@property (nonatomic, copy) NSString *tokenKey;
-@property (nonatomic, copy) NSString *tokenSecret;
-
-- (NSDictionary *)OAuthParameters;
 - (NSString *)OAuthSignatureForMethod:(NSString *)method URLString:(NSString *)URLString parameters:(NSDictionary *)parameters;
 - (NSString *)authorizationHeaderForMethod:(NSString *)method URLString:(NSString *)URLString parameters:(NSDictionary *)parameters;
 
@@ -44,10 +112,10 @@
 - (NSDictionary *)OAuthParameters
 {
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    parameters[@"oauth_versions"] = @"1.0";
-    parameters[@"oauth_signature_method"] = @"HMAC-SHA1";
+    parameters[@"oauth_version"] = @"1.0";
     parameters[@"oauth_consumer_key"] = self.consumerKey;
     parameters[@"oauth_timestamp"] = [@(floor([[NSDate date] timeIntervalSince1970])) stringValue];
+    parameters[@"oauth_signature_method"] = @"HMAC-SHA1";
 
     CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
     CFStringRef uuidString = CFUUIDCreateString(kCFAllocatorDefault, uuid);
@@ -63,8 +131,7 @@
     NSMutableURLRequest *request = [super requestWithMethod:@"GET" URLString:URLString parameters:parameters];
     [request setHTTPMethod:method];
 
-    NSString *secretString = [self.consumerSecret stringByAppendingFormat:@"&%@", self.tokenSecret];
-    NSData *secretData = [secretString dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *secretData = [[self.consumerSecret stringByAppendingFormat:@"&%@", self.accessToken.secret] dataUsingEncoding:NSUTF8StringEncoding];
 
     /**
      * Create signature from request data
@@ -103,8 +170,8 @@
     if (self.consumerKey && self.consumerSecret)
     {
         [mutableAuthorizationParameters addEntriesFromDictionary:[self OAuthParameters]];
-        if (self.tokenKey)
-            mutableAuthorizationParameters[@"oauth_token"] = self.tokenKey;
+        if (self.accessToken)
+            mutableAuthorizationParameters[@"oauth_token"] = self.accessToken.token;
     }
 
     [mutableParameters enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
@@ -150,8 +217,7 @@
         if (![[request valueForHTTPHeaderField:@"Content-Type"] hasPrefix:@"application/x-www-form-urlencoded"])
             authorizationParameters = nil;
 
-//    [request setValue:[self authorizationHeaderForMethod:method URLString:URLString parameters:authorizationParameters] forHTTPHeaderField:@"Authorization"];
-    [self setAuthorizationHeaderFieldWithToken:<#(NSString *)#>]
+    [request setValue:[self authorizationHeaderForMethod:method URLString:URLString parameters:authorizationParameters] forHTTPHeaderField:@"Authorization"];
     [request setHTTPShouldHandleCookies:NO];
 
     return request;

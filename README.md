@@ -11,6 +11,9 @@ BDBOAuth1Manager consists of three core classes: `BDBOAuth1RequestSerializer`, `
 `BDBOAuth1RequestOperationManger` is a subclass of `AFHTTPRequestOperationManager` that provides methods to facilitate the OAuth 1 authentication flow.
 
 ```objective-c
+@property (nonatomic, strong) BDBOAuth1RequestSerializer *requestSerializer;
+@property (nonatomic, assign, readonly, getter = isAuthorized) BOOL authorized;
+
 #pragma mark Initialization
 - (instancetype)initWithBaseURL:(NSURL *)url consumerKey:(NSString *)key consumerSecret:(NSString *)secret;
 

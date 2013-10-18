@@ -62,9 +62,25 @@ If you're targeting either iOS 6 or OS X 10.8, you must use `BDBOAuth1RequestOpe
 - (BOOL)removeAccessToken;
 ```
 
-## Authentication
+## Authentication Flow
 
-When calling `fetchRequestTokenWithPath:method:callbackURL:scope:success:failure:`, you must provide a unique callback URL whose scheme corresponds to a URL type you've added to your project target. This allows the OAuth provider to return the user to your app after the user has authorized it. For example, if I add a URL type to my project with the scheme bdboauth, my application would then respond to all URL requests that begin with bdboauth:. If I pass `bdboauth://request` as the callback URL, the OAuth provider would call that URL and my application would resume.
+The first step in performing the OAuth handshake is requesting an OAuth request token for your application. This can be done with the `fetchRequestTokenWithPath:method:callbackURL:scope:success:failure:` method.
+
+```objective-c
+[self.networkManager fetchRequestTokenWithPath:@"/oauth/request_token"
+                                        method:@"POST"
+                                   callbackURL:[NSURL URLWithString:@"bdboauth://request"]
+                                         scope:nil
+                                       success:^(BDBOAuthToken *requestToken) {
+                                           NSString *authURL = [NSString stringWithFormat:@"https://api.twitter.com/oauth/authorize?oauth_token=%@", requestToken.token];
+                                           [[UIApplication sharedApplication] openURL:[NSURL URLWithString:authURL]];
+                                       }
+                                       failure:^(NSError *error) {
+                                           NSLog(@"Error: %@", error.localizedDescription);
+                                       }];
+``` 
+
+When calling `fetchRequestTokenWithPath:method:callbackURL:scope:success:failure:`, you must provide a unique callback URL whose scheme corresponds to a URL type you've added to your project target. This allows the OAuth provider to return the user to your app after the user has authorized it. For example, if I add a URL type to my project with the scheme `bdboauth`, my application would then respond to all URL requests that begin with `bdboauth:`. If I pass `bdboauth://request` as the callback URL, the OAuth provider would call that URL and my application would resume.
 
 ![URL Types Screenshot](https://dl.dropboxusercontent.com/u/6225/GitHub/BDBOAuth1Manager/urltypes.png)
 

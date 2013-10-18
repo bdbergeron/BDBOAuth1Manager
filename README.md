@@ -64,7 +64,7 @@ If you're targeting either iOS 6 or OS X 10.8, you must use `BDBOAuth1RequestOpe
 
 ## Authentication Flow
 
-The first step in performing the OAuth handshake is requesting an OAuth request token for your application. This can be done with the `fetchRequestTokenWithPath:method:callbackURL:scope:success:failure:` method.
+The first step in performing the OAuth handshake is getting an OAuth request token for your application. This can be done with the `fetchRequestTokenWithPath:method:callbackURL:scope:success:failure:` method.
 
 ```objective-c
 [self.networkManager fetchRequestTokenWithPath:@"/oauth/request_token"

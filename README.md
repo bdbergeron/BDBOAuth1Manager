@@ -62,6 +62,36 @@ If you're targeting either iOS 6 or OS X 10.8, you must use `BDBOAuth1RequestOpe
 - (BOOL)removeAccessToken;
 ```
 
+## Authentication
+
+When calling `fetchRequestTokenWithPath:method:callbackURL:scope:success:failure:`, you must provide a unique callback URL whose scheme corresponds to a URL type you've added to your project target. This allows the OAuth provider to return the user to your app after the user has authorized it. For example, if I add a URL type to my project with the scheme bdboauth, my application would then respond to all URL requests that begin with bdboauth:. If I pass `bdboauth://request` as the callback URL, the OAuth provider would call that URL and my application would resume.
+
+![URL Types Screenshot](https://dl.dropboxusercontent.com/u/6225/GitHub/BDBOAuth1Manager/urltypes.png)
+
+In order to respond to that URL being called, you must implement the `-application:openURL:sourceApplication:annotation` method within your application delegate. You can do something like this:
+
+```objective-c
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    if ([url.scheme isEqualToString:@"bdboauth"])
+    {
+        if ([url.host isEqualToString:@"request"])
+        {
+            NSDictionary *parameters = [url dictionaryFromQueryString];
+            if (parameters[@"oauth_token"] && parameters[@"oauth_verifier"])
+                [self.networkManager fetchAccessTokenWithPath:@"/oauth/access_token"
+                                                       method:@"POST"
+                                                 requestToken:[BDBOAuthToken tokenWithQueryString:url.query]
+                                                      success:^(BDBOAuthToken *accessToken) {
+                                                          [self.networkManager.requestSerializer saveAccessToken:accessToken];
+                                                      }];
+        }
+        return YES;
+    }
+    return NO;
+}
+```
+
 ## Credits
 
 BDBOAuth1Manager was created by [Bradley David Bergeron](http://www.bradbergeron.com) and influenced by [AFOAuth1Client](https://github.com/AFNetworking/AFOAuth1Client). Both [AFNetworking](https://github.com/AFNetworking/AFNetworking) and [AFOAuth1Client](https://github.com/AFNetworking/AFOAuth1Client) are the awesome work of [Mattt Thompson](https://github.com/mattt).

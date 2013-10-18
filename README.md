@@ -64,6 +64,8 @@ If you're targeting either iOS 6 or OS X 10.8, you must use `BDBOAuth1RequestOpe
 
 ## Authentication Flow
 
+### Request Token
+
 The first step in performing the OAuth handshake is requesting an OAuth request token for your application. This can be done with the `fetchRequestTokenWithPath:method:callbackURL:scope:success:failure:` method.
 
 ```objective-c
@@ -80,11 +82,14 @@ The first step in performing the OAuth handshake is requesting an OAuth request 
                                        }];
 ``` 
 
+### Creating a URL Type for OAuth Callbacks
 When calling `fetchRequestTokenWithPath:method:callbackURL:scope:success:failure:`, you must provide a unique callback URL whose scheme corresponds to a URL type you've added to your project target. This allows the OAuth provider to return the user to your app after the user has authorized it. For example, if I add a URL type to my project with the scheme `bdboauth`, my application would then respond to all URL requests that begin with `bdboauth:`. If I pass `bdboauth://request` as the callback URL, the OAuth provider would call that URL and my application would resume.
 
 ![URL Types Screenshot](https://dl.dropboxusercontent.com/u/6225/GitHub/BDBOAuth1Manager/urltypes.png)
 
-In order to respond to that URL being called, you must implement the `-application:openURL:sourceApplication:annotation` method within your application delegate. You can do something like this:
+### Responding to OAuth Callbacks
+
+In order to respond to your application's URL scheme being called, you must implement the `-application:openURL:sourceApplication:annotation` method within your application delegate. You can do something like this:
 
 ```objective-c
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation

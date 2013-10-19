@@ -14,6 +14,11 @@
 
 + (instancetype)dictionaryFromQueryString:(NSString *)queryString
 {
+    return [[NSDictionary alloc] initWithQueryString:queryString];
+}
+
+- (id)initWithQueryString:(NSString *)queryString
+{
     NSArray *components = [queryString componentsSeparatedByString:@"&"];
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     for (NSString *component in components)
@@ -24,7 +29,7 @@
     return dictionary;
 }
 
-- (NSString *)queryStringFromDictionary
+- (NSString *)queryStringRepresentation
 {
     NSMutableArray *paramArray = [NSMutableArray array];
     [self enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {

@@ -12,7 +12,6 @@
 		E881AEA9181058B300DC3E48 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = E881AEA0181058B300DC3E48 /* NSData+Base64.m */; };
 		E881AEAA181058B300DC3E48 /* NSDictionary+BDBOAuth1Manager.m in Sources */ = {isa = PBXBuildFile; fileRef = E881AEA2181058B300DC3E48 /* NSDictionary+BDBOAuth1Manager.m */; };
 		E881AEAB181058B300DC3E48 /* NSString+BDBOAuth1Manager.m in Sources */ = {isa = PBXBuildFile; fileRef = E881AEA4181058B300DC3E48 /* NSString+BDBOAuth1Manager.m */; };
-		E881AEAC181058B300DC3E48 /* NSURL+BDBOAuth1Manager.m in Sources */ = {isa = PBXBuildFile; fileRef = E881AEA6181058B300DC3E48 /* NSURL+BDBOAuth1Manager.m */; };
 		E881AEB11810597400DC3E48 /* BDBOAuth1SessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E881AEB01810597400DC3E48 /* BDBOAuth1SessionManager.m */; };
 		E8D8E0BF180884DD00CDCB7D /* TweetsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D8E0BE180884DD00CDCB7D /* TweetsViewController.m */; };
 		E8E54BE5180C6BFE00010143 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E54BD3180C6BFE00010143 /* AFHTTPRequestOperation.m */; };
@@ -52,8 +51,6 @@
 		E881AEA2181058B300DC3E48 /* NSDictionary+BDBOAuth1Manager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+BDBOAuth1Manager.m"; sourceTree = "<group>"; };
 		E881AEA3181058B300DC3E48 /* NSString+BDBOAuth1Manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+BDBOAuth1Manager.h"; sourceTree = "<group>"; };
 		E881AEA4181058B300DC3E48 /* NSString+BDBOAuth1Manager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+BDBOAuth1Manager.m"; sourceTree = "<group>"; };
-		E881AEA5181058B300DC3E48 /* NSURL+BDBOAuth1Manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+BDBOAuth1Manager.h"; sourceTree = "<group>"; };
-		E881AEA6181058B300DC3E48 /* NSURL+BDBOAuth1Manager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+BDBOAuth1Manager.m"; sourceTree = "<group>"; };
 		E881AEAF1810597400DC3E48 /* BDBOAuth1SessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDBOAuth1SessionManager.h; sourceTree = "<group>"; };
 		E881AEB01810597400DC3E48 /* BDBOAuth1SessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDBOAuth1SessionManager.m; sourceTree = "<group>"; };
 		E8D8E0BD180884DD00CDCB7D /* TweetsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetsViewController.h; sourceTree = "<group>"; };
@@ -150,8 +147,6 @@
 				E881AEA2181058B300DC3E48 /* NSDictionary+BDBOAuth1Manager.m */,
 				E881AEA3181058B300DC3E48 /* NSString+BDBOAuth1Manager.h */,
 				E881AEA4181058B300DC3E48 /* NSString+BDBOAuth1Manager.m */,
-				E881AEA5181058B300DC3E48 /* NSURL+BDBOAuth1Manager.h */,
-				E881AEA6181058B300DC3E48 /* NSURL+BDBOAuth1Manager.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -371,7 +366,6 @@
 				E8E54C11180C6C0700010143 /* UIProgressView+AFNetworking.m in Sources */,
 				E8F3763C1808769B00C40148 /* main.m in Sources */,
 				E881AEAB181058B300DC3E48 /* NSString+BDBOAuth1Manager.m in Sources */,
-				E881AEAC181058B300DC3E48 /* NSURL+BDBOAuth1Manager.m in Sources */,
 				E8E54C0B180C6C0700010143 /* UIAlertView+AFNetworking.m in Sources */,
 				E8E54BF3180C6BFE00010143 /* AFURLResponseSerialization.m in Sources */,
 				E8E54C0D180C6C0700010143 /* UIButton+AFNetworking.m in Sources */,

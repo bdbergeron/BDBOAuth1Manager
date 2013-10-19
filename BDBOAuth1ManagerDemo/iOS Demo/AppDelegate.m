@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "TweetsViewController.h"
 
-#import "NSURL+BDBOAuth1Manager.h"
+#import "NSDictionary+BDBOAuth1Manager.h"
 
 
 #pragma mark -
@@ -17,7 +17,7 @@
 
 @property (nonatomic) TweetsViewController *tweetsVC;
 
-#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
+#if defined(__IPHONE_7_0) && defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
 @property (nonatomic, readwrite) BDBOAuth1SessionManager *networkManager;
 #else
 @property (nonatomic, readwrite) BDBOAuth1RequestOperationManager *networkManager;
@@ -38,16 +38,15 @@ static AppDelegate *_sharedDelegate = nil;
     if (self)
     {
         self.tweetsVC = [[TweetsViewController alloc] initWithNibName:nil bundle:nil];
-        
-#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
-        self.networkManager = [[BDBOAuth1SessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://api.twitter.com/1.1/"]
-                                                                   consumerKey:@"wrou647dSAp3OinHmsVKYw"
-                                                                consumerSecret:@"Y1H5mOBxHMIDkW6KMeiJAd4G0VFTSA2GdVKq5SEdB4"];
 
+        NSURL *twitterAPI = [NSURL URLWithString:@"https://api.twitter.com/1.1/"];
+        NSString *consumerKey = @"wrou647dSAp3OinHmsVKYw";
+        NSString *consumerSecret =@"Y1H5mOBxHMIDkW6KMeiJAd4G0VFTSA2GdVKq5SEdB4";
+        
+#if defined(__IPHONE_7_0) && defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+        self.networkManager = [[BDBOAuth1SessionManager alloc] initWithBaseURL:twitterAPI consumerKey:consumerKey consumerSecret:consumerSecret];
 #else
-        self.networkManager = [[BDBOAuth1RequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://api.twitter.com/1.1/"]
-                                                                            consumerKey:@"wrou647dSAp3OinHmsVKYw"
-                                                                         consumerSecret:@"Y1H5mOBxHMIDkW6KMeiJAd4G0VFTSA2GdVKq5SEdB4"];
+        self.networkManager = [[BDBOAuth1RequestOperationManager alloc] initWithBaseURL:twitterAPI consumerKey:consumerKey consumerSecret:consumerSecret];
 #endif
 
         _sharedDelegate = self;
@@ -110,7 +109,7 @@ static AppDelegate *_sharedDelegate = nil;
     {
         if ([url.host isEqualToString:@"request"])
         {
-            NSDictionary *parameters = [url dictionaryFromQueryString];
+            NSDictionary *parameters = [NSDictionary dictionaryFromQueryString:url.query];
             if (parameters[@"oauth_token"] && parameters[@"oauth_verifier"])
                 [self.networkManager fetchAccessTokenWithPath:@"/oauth/access_token"
                                                        method:@"POST"

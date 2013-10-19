@@ -19,7 +19,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
+#if defined(__IPHONE_7_0) && defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
 @property (nonatomic, readonly) BDBOAuth1SessionManager *networkManager;
 #else
 @property (nonatomic, readonly) BDBOAuth1RequestOperationManager *networkManager;

@@ -12,7 +12,6 @@
 #import "NSData+Base64.h"
 #import "NSDictionary+BDBOAuth1Manager.h"
 #import "NSString+BDBOAuth1Manager.h"
-#import "NSURL+BDBOAuth1Manager.h"
 
 
 #pragma mark -
@@ -288,7 +287,7 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
     [mutableParameters addEntriesFromDictionary:mutableAuthorizationParameters];
     mutableAuthorizationParameters[@"oauth_signature"] = [self OAuthSignatureForMethod:method URLString:URLString parameters:mutableParameters];
 
-    NSArray *sortedComponents = [[[mutableAuthorizationParameters queryStringFromDictionary] componentsSeparatedByString:@"&"] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    NSArray *sortedComponents = [[[mutableAuthorizationParameters queryStringRepresentation] componentsSeparatedByString:@"&"] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     NSMutableArray *mutableComponents = [NSMutableArray array];
     for (NSString *component in sortedComponents)
     {

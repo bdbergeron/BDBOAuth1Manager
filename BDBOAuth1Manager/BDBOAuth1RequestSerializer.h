@@ -10,7 +10,7 @@
 
 #pragma mark -
 @interface BDBOAuthToken : NSObject
-<NSCoding>
+<NSCoding, NSCopying>
 
 @property (nonatomic, copy, readonly) NSString *token;
 @property (nonatomic, copy, readonly) NSString *secret;

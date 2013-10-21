@@ -92,27 +92,27 @@
 }
 
 #pragma mark NSCoding
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
     self = [super init];
     if (self)
     {
-        self.token      = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(token))];
-        self.secret     = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(secret))];
-        self.expiration = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(expiration))];
-        self.verifier   = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(verifier))];
-        self.userInfo   = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(userInfo))];
+        self.token      = [decoder decodeObjectForKey:NSStringFromSelector(@selector(token))];
+        self.secret     = [decoder decodeObjectForKey:NSStringFromSelector(@selector(secret))];
+        self.verifier   = [decoder decodeObjectForKey:NSStringFromSelector(@selector(verifier))];
+        self.expiration = [decoder decodeObjectForKey:NSStringFromSelector(@selector(expiration))];
+        self.userInfo   = [decoder decodeObjectForKey:NSStringFromSelector(@selector(userInfo))];
     }
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
+- (void)encodeWithCoder:(NSCoder *)coder
 {
-    [aCoder encodeObject:self.token forKey:NSStringFromSelector(@selector(token))];
-    [aCoder encodeObject:self.secret forKey:NSStringFromSelector(@selector(secret))];
-    [aCoder encodeObject:self.expiration forKey:NSStringFromSelector(@selector(expiration))];
-    [aCoder encodeObject:self.verifier forKey:NSStringFromSelector(@selector(verifier))];
-    [aCoder encodeObject:self.userInfo forKey:NSStringFromSelector(@selector(userInfo))];
+    [coder encodeObject:self.token forKey:NSStringFromSelector(@selector(token))];
+    [coder encodeObject:self.secret forKey:NSStringFromSelector(@selector(secret))];
+    [coder encodeObject:self.verifier forKey:NSStringFromSelector(@selector(verifier))];
+    [coder encodeObject:self.expiration forKey:NSStringFromSelector(@selector(expiration))];
+    [coder encodeObject:self.userInfo forKey:NSStringFromSelector(@selector(userInfo))];
 }
 
 #pragma mark NSCopying

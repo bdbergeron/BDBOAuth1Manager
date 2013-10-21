@@ -52,6 +52,7 @@
                                                                               style:UIBarButtonItemStylePlain
                                                                              target:self
                                                                              action:@selector(logInOut)];
+
     self.tweets = [NSMutableArray array];
 }
 

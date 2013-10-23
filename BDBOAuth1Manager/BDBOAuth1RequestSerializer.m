@@ -88,7 +88,7 @@
 #pragma mark Properties
 - (BOOL)isExpired
 {
-    return [self.expiration compare:[NSDate date]] == NSOrderedDescending;
+    return [self.expiration compare:[NSDate date]] == NSOrderedAscending;
 }
 
 #pragma mark NSCoding
@@ -226,9 +226,9 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
     parameters[@"oauth_signature_method"] = @"HMAC-SHA1";
 
     CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
-    CFStringRef uuidString = CFUUIDCreateString(kCFAllocatorDefault, uuid);
+    CFUUIDBytes uuidBytes = CFUUIDGetUUIDBytes(uuid);
     CFRelease(uuid);
-    parameters[@"oauth_nonce"] = (__bridge id)(uuidString);
+    parameters[@"oauth_nonce"] = [[NSData dataWithBytes:&uuidBytes length:sizeof(uuidBytes)] base64EncodedString];
 
     return parameters;
 }
@@ -318,10 +318,10 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
 
     NSMutableURLRequest *request = [super requestWithMethod:method URLString:URLString parameters:mutableParameters];
 
-    // Only use parameters in the HTTP POST request body (with a content-type of `application/x-www-form-urlencoded`).
+    // Only use parameters in the request entity body (with a content-type of `application/x-www-form-urlencoded`).
     // See RFC 5849, Section 3.4.1.3.1 http://tools.ietf.org/html/rfc5849#section-3.4
     NSDictionary *authorizationParameters = parameters;
-    if ([method isEqualToString:@"POST"])
+    if (![method isEqualToString:@"GET"] || ![method isEqualToString:@"HEAD"] || ![method isEqualToString:@"DELETE"])
         if (![[request valueForHTTPHeaderField:@"Content-Type"] hasPrefix:@"application/x-www-form-urlencoded"])
             authorizationParameters = nil;
 

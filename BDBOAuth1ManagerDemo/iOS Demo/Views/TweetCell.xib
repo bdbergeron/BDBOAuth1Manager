@@ -14,15 +14,11 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="71"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rLl-Qa-kyy">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rLl-Qa-kyy">
                         <rect key="frame" x="8" y="8" width="56" height="56"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="56" id="Dyy-rx-O6T"/>
-                            <constraint firstAttribute="width" constant="56" id="TQf-7i-iHf"/>
-                        </constraints>
                     </imageView>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="lorem ipsum" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumScaleFactor="0.75000000000000022" preferredMaxLayoutWidth="233" translatesAutoresizingMaskIntoConstraints="NO" id="oco-C5-Bba">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="lorem ipsum" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumScaleFactor="0.75000000000000022" preferredMaxLayoutWidth="233" translatesAutoresizingMaskIntoConstraints="NO" id="oco-C5-Bba">
                         <rect key="frame" x="79" y="8" width="233" height="56"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
@@ -30,18 +26,6 @@
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
-                <constraints>
-                    <constraint firstAttribute="bottom" secondItem="rLl-Qa-kyy" secondAttribute="bottom" constant="7" id="Aof-Ck-1Oa"/>
-                    <constraint firstItem="rLl-Qa-kyy" firstAttribute="leading" secondItem="zkm-LR-x1L" secondAttribute="leading" constant="8" id="M3G-6r-YdG"/>
-                    <constraint firstItem="oco-C5-Bba" firstAttribute="leading" secondItem="rLl-Qa-kyy" secondAttribute="trailing" constant="15" id="Wde-lW-i4t"/>
-                    <constraint firstAttribute="trailing" secondItem="oco-C5-Bba" secondAttribute="trailing" constant="8" id="Xqx-L1-Pt5"/>
-                    <constraint firstItem="oco-C5-Bba" firstAttribute="top" relation="greaterThanOrEqual" secondItem="zkm-LR-x1L" secondAttribute="top" constant="8" id="aCb-g8-TPF"/>
-                    <constraint firstItem="oco-C5-Bba" firstAttribute="leading" secondItem="rLl-Qa-kyy" secondAttribute="trailing" constant="15" id="fb6-hm-bAz"/>
-                    <constraint firstItem="oco-C5-Bba" firstAttribute="top" secondItem="zkm-LR-x1L" secondAttribute="top" constant="8" id="h0g-cq-yZv"/>
-                    <constraint firstItem="rLl-Qa-kyy" firstAttribute="top" secondItem="zkm-LR-x1L" secondAttribute="top" constant="8" id="ss0-xL-mLJ"/>
-                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="oco-C5-Bba" secondAttribute="trailing" constant="8" id="x1I-mZ-6QX"/>
-                    <constraint firstAttribute="bottom" secondItem="oco-C5-Bba" secondAttribute="bottom" constant="7" id="yrA-nw-QgD"/>
-                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="tweetLabel" destination="oco-C5-Bba" id="4c1-5d-bfP"/>

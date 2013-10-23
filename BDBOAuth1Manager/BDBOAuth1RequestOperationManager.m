@@ -77,26 +77,38 @@
                          success:(void (^)(BDBOAuthToken *accessToken))success
                          failure:(void (^)(NSError *error))failure
 {
-    AFHTTPResponseSerializer *defaultSerializer = self.responseSerializer;
-    self.responseSerializer = [AFHTTPResponseSerializer serializer];
+    if (requestToken.token && requestToken.verifier)
+    {
+        AFHTTPResponseSerializer *defaultSerializer = self.responseSerializer;
+        self.responseSerializer = [AFHTTPResponseSerializer serializer];
 
-    NSMutableDictionary *parameters = [[self.requestSerializer OAuthParameters] mutableCopy];
-    parameters[@"oauth_token"]    = requestToken.token;
-    parameters[@"oauth_verifier"] = requestToken.verifier;
+        NSMutableDictionary *parameters = [[self.requestSerializer OAuthParameters] mutableCopy];
+        parameters[@"oauth_token"]    = requestToken.token;
+        parameters[@"oauth_verifier"] = requestToken.verifier;
 
-    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:[[NSURL URLWithString:accessPath relativeToURL:self.baseURL] absoluteString] parameters:parameters];
+        NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:[[NSURL URLWithString:accessPath relativeToURL:self.baseURL] absoluteString] parameters:parameters];
 
-    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        self.responseSerializer = defaultSerializer;
-        if (success)
-            success([BDBOAuthToken tokenWithQueryString:operation.responseString]);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        self.responseSerializer = defaultSerializer;
-        if (failure)
-            failure(error);
-    }];
+        AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            self.responseSerializer = defaultSerializer;
+            if (success)
+                success([BDBOAuthToken tokenWithQueryString:operation.responseString]);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            self.responseSerializer = defaultSerializer;
+            if (failure)
+                failure(error);
+        }];
 
-    [self.operationQueue addOperation:operation];
+        [self.operationQueue addOperation:operation];
+    }
+    else
+    {
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:NSLocalizedStringFromTable(@"Bad OAuth response received from the server.", @"AFNetworking", nil)
+                                                             forKey:NSLocalizedFailureReasonErrorKey];
+        NSError *error = [[NSError alloc] initWithDomain:AFNetworkingErrorDomain
+                                                    code:NSURLErrorBadServerResponse
+                                                userInfo:userInfo];
+        failure(error);
+    }
 }
 
 @end

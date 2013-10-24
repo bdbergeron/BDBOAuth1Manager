@@ -50,18 +50,19 @@
     AFHTTPResponseSerializer *defaultSerializer = self.responseSerializer;
     self.responseSerializer = [AFHTTPResponseSerializer serializer];
 
-    NSMutableDictionary *parameters = [[self.requestSerializer OAuthParameters] mutableCopy];
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"oauth_callback"] = [callbackURL absoluteString];
     if (scope && !self.requestSerializer.accessToken)
         parameters[@"scope"] = scope;
 
-    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:[[NSURL URLWithString:requestPath relativeToURL:self.baseURL] absoluteString] parameters:parameters];
-    [request setHTTPBody:nil];
+    NSString *URLString = [[NSURL URLWithString:requestPath relativeToURL:self.baseURL] absoluteString];
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:URLString parameters:parameters];
 
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
         self.responseSerializer = defaultSerializer;
+        self.requestSerializer.requestToken = [BDBOAuthToken tokenWithQueryString:operation.responseString];
         if (success)
-            success([BDBOAuthToken tokenWithQueryString:operation.responseString]);
+            success(self.requestSerializer.requestToken);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         self.responseSerializer = defaultSerializer;
         if (failure)
@@ -82,18 +83,22 @@
         AFHTTPResponseSerializer *defaultSerializer = self.responseSerializer;
         self.responseSerializer = [AFHTTPResponseSerializer serializer];
 
-        NSMutableDictionary *parameters = [[self.requestSerializer OAuthParameters] mutableCopy];
+        NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
         parameters[@"oauth_token"]    = requestToken.token;
         parameters[@"oauth_verifier"] = requestToken.verifier;
 
-        NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:[[NSURL URLWithString:accessPath relativeToURL:self.baseURL] absoluteString] parameters:parameters];
+        NSString *URLString = [[NSURL URLWithString:accessPath relativeToURL:self.baseURL] absoluteString];
+        NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:URLString parameters:parameters];
 
         AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
             self.responseSerializer = defaultSerializer;
+            self.requestSerializer.requestToken = nil;
+            [self.requestSerializer saveAccessToken:[BDBOAuthToken tokenWithQueryString:operation.responseString]];
             if (success)
                 success([BDBOAuthToken tokenWithQueryString:operation.responseString]);
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             self.responseSerializer = defaultSerializer;
+            self.requestSerializer.requestToken = nil;
             if (failure)
                 failure(error);
         }];
@@ -102,11 +107,9 @@
     }
     else
     {
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:NSLocalizedStringFromTable(@"Bad OAuth response received from the server.", @"AFNetworking", nil)
-                                                             forKey:NSLocalizedFailureReasonErrorKey];
         NSError *error = [[NSError alloc] initWithDomain:AFNetworkingErrorDomain
                                                     code:NSURLErrorBadServerResponse
-                                                userInfo:userInfo];
+                                                userInfo:@{NSLocalizedFailureReasonErrorKey:@"Invalid OAuth response received from server."}];
         failure(error);
     }
 }

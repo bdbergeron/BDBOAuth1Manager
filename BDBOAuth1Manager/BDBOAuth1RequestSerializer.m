@@ -241,8 +241,10 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
     NSString *secret = @"";
     if (self.accessToken)
         secret = self.accessToken.secret;
+    else if (self.requestToken)
+        secret = self.requestToken.secret;
 
-    NSString *secretString = [self.consumerSecret stringByAppendingFormat:@"&%@", secret];
+    NSString *secretString = [[self.consumerSecret URLEncode] stringByAppendingFormat:@"&%@", [secret URLEncode]];
     NSData *secretData = [secretString dataUsingEncoding:NSUTF8StringEncoding];
 
     /**
@@ -255,8 +257,10 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
      * 5. Percent encode the query string and append it to the output string.
      */
     NSString *requestMethod = [[request HTTPMethod] uppercaseString];
-    NSString *requestURL    = [[request.URL.absoluteString componentsSeparatedByString:@"?"][0] URLEncode];
-    NSString *queryString   = [[[[request.URL.query componentsSeparatedByString:@"&"] sortedArrayUsingSelector:@selector(compare:)] componentsJoinedByString:@"&"] URLEncode];
+    NSString *requestURL    = [[[[request URL] absoluteString] componentsSeparatedByString:@"?"][0] URLEncode];
+
+    NSArray *sortedQueryString = [[[[request URL] query] componentsSeparatedByString:@"&"] sortedArrayUsingSelector:@selector(compare:)];
+    NSString *queryString   = [[sortedQueryString componentsJoinedByString:@"&"] URLEncode];
 
     NSString *requestString = [NSString stringWithFormat:@"%@&%@&%@", requestMethod, requestURL, queryString];
     NSData *requestData = [requestString dataUsingEncoding:NSUTF8StringEncoding];
@@ -321,7 +325,7 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
     // Only use parameters in the request entity body (with a content-type of `application/x-www-form-urlencoded`).
     // See RFC 5849, Section 3.4.1.3.1 http://tools.ietf.org/html/rfc5849#section-3.4
     NSDictionary *authorizationParameters = parameters;
-    if (![method isEqualToString:@"GET"] || ![method isEqualToString:@"HEAD"] || ![method isEqualToString:@"DELETE"])
+    if (![method isEqualToString:@"GET"] && ![method isEqualToString:@"HEAD"] && ![method isEqualToString:@"DELETE"])
         if (![[request valueForHTTPHeaderField:@"Content-Type"] hasPrefix:@"application/x-www-form-urlencoded"])
             authorizationParameters = nil;
 
@@ -340,10 +344,10 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
 
     NSMutableURLRequest *request = [super multipartFormRequestWithMethod:method URLString:URLString parameters:mutableParameters constructingBodyWithBlock:block];
 
-    // Only use parameters in the HTTP POST request body (with a content-type of `application/x-www-form-urlencoded`).
+    // Only use parameters in the request entity body (with a content-type of `application/x-www-form-urlencoded`).
     // See RFC 5849, Section 3.4.1.3.1 http://tools.ietf.org/html/rfc5849#section-3.4
     NSDictionary *authorizationParameters = parameters;
-    if ([method isEqualToString:@"POST"])
+    if (![method isEqualToString:@"GET"] && ![method isEqualToString:@"HEAD"] && ![method isEqualToString:@"DELETE"])
         if (![[request valueForHTTPHeaderField:@"Content-Type"] hasPrefix:@"application/x-www-form-urlencoded"])
             authorizationParameters = nil;
 

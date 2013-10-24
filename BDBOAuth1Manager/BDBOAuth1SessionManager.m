@@ -5,6 +5,7 @@
 //  Copyright (c) 2013 Bradley David Bergeron. All rights reserved.
 //
 
+#import "AFURLConnectionOperation.h"
 #import "BDBOAuth1SessionManager.h"
 
 #if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
@@ -56,11 +57,13 @@
     if (scope && !self.requestSerializer.accessToken)
         parameters[@"scope"] = scope;
 
-    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:[[NSURL URLWithString:requestPath relativeToURL:self.baseURL] absoluteString] parameters:parameters];
-    [request setHTTPBody:nil];
+    NSString *URLString = [[NSURL URLWithString:requestPath relativeToURL:self.baseURL] absoluteString];
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:URLString parameters:parameters];
 
     NSURLSessionDataTask *task = [self dataTaskWithRequest:request completionHandler:^(NSURLResponse * __unused response, id responseObject, NSError *error) {
         self.responseSerializer = defaultSerializer;
+        self.requestSerializer.requestToken = nil;
+        [self.requestSerializer saveAccessToken:[BDBOAuthToken tokenWithQueryString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]]];
         if (error && failure)
             failure(error);
         else if (success)
@@ -76,24 +79,37 @@
                          success:(void (^)(BDBOAuthToken *accessToken))success
                          failure:(void (^)(NSError *error))failure
 {
-    AFHTTPResponseSerializer *defaultSerializer = self.responseSerializer;
-    self.responseSerializer = [AFHTTPResponseSerializer serializer];
+    if (requestToken.token && requestToken.verifier)
+    {
+        AFHTTPResponseSerializer *defaultSerializer = self.responseSerializer;
+        self.responseSerializer = [AFHTTPResponseSerializer serializer];
 
-    NSMutableDictionary *parameters = [[self.requestSerializer OAuthParameters] mutableCopy];
-    parameters[@"oauth_token"]    = requestToken.token;
-    parameters[@"oauth_verifier"] = requestToken.verifier;
+        NSMutableDictionary *parameters = [[self.requestSerializer OAuthParameters] mutableCopy];
+        parameters[@"oauth_token"]    = requestToken.token;
+        parameters[@"oauth_verifier"] = requestToken.verifier;
 
-    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:[[NSURL URLWithString:accessPath relativeToURL:self.baseURL] absoluteString] parameters:parameters];
+        NSString *URLString = [[NSURL URLWithString:accessPath relativeToURL:self.baseURL] absoluteString];
+        NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:URLString parameters:parameters];
 
-    NSURLSessionDataTask *task = [self dataTaskWithRequest:request completionHandler:^(NSURLResponse * __unused response, id responseObject, NSError *error) {
-        self.responseSerializer = defaultSerializer;
-        if (error && failure)
-            failure(error);
-        else if (success)
-            success([BDBOAuthToken tokenWithQueryString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]]);
-    }];
+        NSURLSessionDataTask *task = [self dataTaskWithRequest:request completionHandler:^(NSURLResponse * __unused response, id responseObject, NSError *error) {
+            self.responseSerializer = defaultSerializer;
+            self.requestSerializer.requestToken = nil;
+            [self.requestSerializer saveAccessToken:[BDBOAuthToken tokenWithQueryString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]]];
+            if (error && failure)
+                failure(error);
+            else if (success)
+                success([BDBOAuthToken tokenWithQueryString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]]);
+        }];
 
-    [task resume];
+        [task resume];
+    }
+    else
+    {
+        NSError *error = [[NSError alloc] initWithDomain:AFNetworkingErrorDomain
+                                                    code:NSURLErrorBadServerResponse
+                                                userInfo:@{NSLocalizedFailureReasonErrorKey:@"Invalid OAuth response received from server."}];
+        failure(error);
+    }
 }
 
 @end

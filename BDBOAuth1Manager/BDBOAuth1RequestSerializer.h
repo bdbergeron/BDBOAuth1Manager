@@ -30,6 +30,7 @@
 #pragma mark -
 @interface BDBOAuth1RequestSerializer : AFHTTPRequestSerializer
 
+@property (nonatomic, copy) BDBOAuthToken *requestToken;
 @property (nonatomic, copy, readonly) BDBOAuthToken *accessToken;
 
 #pragma mark Initialization

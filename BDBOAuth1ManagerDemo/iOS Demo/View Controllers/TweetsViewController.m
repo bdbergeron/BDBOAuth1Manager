@@ -104,7 +104,7 @@
 
     NSString *timeline = @"statuses/home_timeline.json?count=100";
 
-#if defined(__IPHONE_7_0) && defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
     BDBOAuth1SessionManager *manager = [[AppDelegate sharedDelegate] networkManager];
     [manager GET:timeline
       parameters:nil

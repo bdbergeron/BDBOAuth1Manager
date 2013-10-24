@@ -17,7 +17,7 @@
 
 @property (nonatomic) TweetsViewController *tweetsVC;
 
-#if defined(__IPHONE_7_0) && defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
 @property (nonatomic, readwrite) BDBOAuth1SessionManager *networkManager;
 #else
 @property (nonatomic, readwrite) BDBOAuth1RequestOperationManager *networkManager;
@@ -39,14 +39,14 @@ static AppDelegate *_sharedDelegate = nil;
     {
         self.tweetsVC = [[TweetsViewController alloc] initWithNibName:nil bundle:nil];
 
-        NSURL *twitterAPI = [NSURL URLWithString:@"https://api.twitter.com/1.1/"];
+        NSURL *apiURL = [NSURL URLWithString:@"https://api.twitter.com/1.1/"];
         NSString *consumerKey = @"wrou647dSAp3OinHmsVKYw";
-        NSString *consumerSecret =@"Y1H5mOBxHMIDkW6KMeiJAd4G0VFTSA2GdVKq5SEdB4";
+        NSString *consumerSecret = @"Y1H5mOBxHMIDkW6KMeiJAd4G0VFTSA2GdVKq5SEdB4";
         
-#if defined(__IPHONE_7_0) && defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
-        self.networkManager = [[BDBOAuth1SessionManager alloc] initWithBaseURL:twitterAPI consumerKey:consumerKey consumerSecret:consumerSecret];
+#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+        self.networkManager = [[BDBOAuth1SessionManager alloc] initWithBaseURL:apiURL consumerKey:consumerKey consumerSecret:consumerSecret];
 #else
-        self.networkManager = [[BDBOAuth1RequestOperationManager alloc] initWithBaseURL:twitterAPI consumerKey:consumerKey consumerSecret:consumerSecret];
+        self.networkManager = [[BDBOAuth1RequestOperationManager alloc] initWithBaseURL:apiURL consumerKey:consumerKey consumerSecret:consumerSecret];
 #endif
 
         _sharedDelegate = self;
@@ -115,7 +115,6 @@ static AppDelegate *_sharedDelegate = nil;
                                                        method:@"POST"
                                                  requestToken:[BDBOAuthToken tokenWithQueryString:url.query]
                                                       success:^(BDBOAuthToken *accessToken) {
-                                                          [self.networkManager.requestSerializer saveAccessToken:accessToken];
                                                           [self.tweetsVC refreshFeed];
                                                           dispatch_async(dispatch_get_main_queue(), ^{
                                                               self.tweetsVC.navigationItem.rightBarButtonItem.title = @"Log Out";

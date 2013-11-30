@@ -88,7 +88,10 @@
 #pragma mark Properties
 - (BOOL)isExpired
 {
-    return [self.expiration compare:[NSDate date]] == NSOrderedAscending;
+    if (!self.expiration)
+        return NO;
+    else
+        return [self.expiration compare:[NSDate date]] == NSOrderedAscending;
 }
 
 #pragma mark NSCoding

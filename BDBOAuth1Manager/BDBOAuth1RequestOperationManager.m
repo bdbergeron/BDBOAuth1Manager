@@ -31,7 +31,7 @@
 #pragma mark Access Token
 - (BOOL)isAuthorized
 {
-    return self.requestSerializer.accessToken != nil;
+    return (self.requestSerializer.accessToken && !self.requestSerializer.accessToken.expired);
 }
 
 - (BOOL)deauthorize

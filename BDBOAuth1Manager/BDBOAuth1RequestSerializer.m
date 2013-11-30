@@ -34,12 +34,12 @@
 #pragma mark Initialization
 + (instancetype)tokenWithToken:(NSString *)token secret:(NSString *)secret expiration:(NSDate *)expiration
 {
-    return [[BDBOAuthToken alloc] initWithToken:token secret:secret expiration:expiration];
+    return [[[self class] alloc] initWithToken:token secret:secret expiration:expiration];
 }
 
 + (instancetype)tokenWithQueryString:(NSString *)queryString
 {
-    return [[BDBOAuthToken alloc] initWithQueryString:queryString];
+    return [[[self class] alloc] initWithQueryString:queryString];
 }
 
 - (id)initWithToken:(NSString *)token secret:(NSString *)secret expiration:(NSDate *)expiration
@@ -47,9 +47,9 @@
     self = [super init];
     if (self)
     {
-        self.token = token;
-        self.secret = secret;
-        self.expiration = expiration;
+        _token = token;
+        _secret = secret;
+        _expiration = expiration;
     }
     return self;
 }
@@ -75,12 +75,12 @@
     self = [self initWithToken:token secret:secret expiration:expiration];
     if (self)
     {
-        self.verifier = verifier;
+        _verifier = verifier;
 
         NSMutableDictionary *mutableUserInfo = [attributes mutableCopy];
         [mutableUserInfo removeObjectsForKeys:@[@"oauth_token", @"oauth_token_secret", @"oauth_verifier", @"oauth_token_duration"]];
         if (mutableUserInfo.count > 0)
-            self.userInfo = [NSDictionary dictionaryWithDictionary:mutableUserInfo];
+            _userInfo = [NSDictionary dictionaryWithDictionary:mutableUserInfo];
     }
     return self;
 }
@@ -97,11 +97,11 @@
     self = [super init];
     if (self)
     {
-        self.token      = [decoder decodeObjectForKey:NSStringFromSelector(@selector(token))];
-        self.secret     = [decoder decodeObjectForKey:NSStringFromSelector(@selector(secret))];
-        self.verifier   = [decoder decodeObjectForKey:NSStringFromSelector(@selector(verifier))];
-        self.expiration = [decoder decodeObjectForKey:NSStringFromSelector(@selector(expiration))];
-        self.userInfo   = [decoder decodeObjectForKey:NSStringFromSelector(@selector(userInfo))];
+        _token      = [decoder decodeObjectForKey:NSStringFromSelector(@selector(token))];
+        _secret     = [decoder decodeObjectForKey:NSStringFromSelector(@selector(secret))];
+        _verifier   = [decoder decodeObjectForKey:NSStringFromSelector(@selector(verifier))];
+        _expiration = [decoder decodeObjectForKey:NSStringFromSelector(@selector(expiration))];
+        _userInfo   = [decoder decodeObjectForKey:NSStringFromSelector(@selector(userInfo))];
     }
     return self;
 }
@@ -154,9 +154,9 @@
     self = [super init];
     if (self)
     {
-        self.service = service;
-        self.consumerKey = key;
-        self.consumerSecret = secret;
+        _service = service;
+        _consumerKey = key;
+        _consumerSecret = secret;
     }
     return self;
 }

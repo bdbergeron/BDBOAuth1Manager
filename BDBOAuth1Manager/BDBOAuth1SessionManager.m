@@ -62,12 +62,12 @@
 
     NSURLSessionDataTask *task = [self dataTaskWithRequest:request completionHandler:^(NSURLResponse * __unused response, id responseObject, NSError *error) {
         self.responseSerializer = defaultSerializer;
-        self.requestSerializer.requestToken = nil;
-        [self.requestSerializer saveAccessToken:[BDBOAuthToken tokenWithQueryString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]]];
+        BDBOAuthToken *requestToken = [BDBOAuthToken tokenWithQueryString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]];
+        self.requestSerializer.requestToken = requestToken;
         if (error && failure)
             failure(error);
         else if (success)
-            success([BDBOAuthToken tokenWithQueryString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]]);
+            success(requestToken);
     }];
 
     [task resume];
@@ -94,11 +94,16 @@
         NSURLSessionDataTask *task = [self dataTaskWithRequest:request completionHandler:^(NSURLResponse * __unused response, id responseObject, NSError *error) {
             self.responseSerializer = defaultSerializer;
             self.requestSerializer.requestToken = nil;
-            [self.requestSerializer saveAccessToken:[BDBOAuthToken tokenWithQueryString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]]];
-            if (error && failure)
-                failure(error);
-            else if (success)
-                success([BDBOAuthToken tokenWithQueryString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]]);
+            if (!error)
+            {
+                BDBOAuthToken *accessToken = [BDBOAuthToken tokenWithQueryString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]];
+                [self.requestSerializer saveAccessToken:accessToken];
+                if (success)
+                    success(accessToken);
+            }
+            else
+                if (failure)
+                    failure(error);
         }];
 
         [task resume];

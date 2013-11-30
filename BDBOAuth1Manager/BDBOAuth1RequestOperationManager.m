@@ -23,7 +23,7 @@
     self = [super initWithBaseURL:url];
     if (self)
     {
-        self.requestSerializer  = [BDBOAuth1RequestSerializer serializerForService:url.host withConsumerKey:key consumerSecret:secret];
+        self.requestSerializer = [BDBOAuth1RequestSerializer serializerForService:url.host withConsumerKey:key consumerSecret:secret];
     }
     return self;
 }
@@ -60,9 +60,10 @@
 
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
         self.responseSerializer = defaultSerializer;
-        self.requestSerializer.requestToken = [BDBOAuthToken tokenWithQueryString:operation.responseString];
+        BDBOAuthToken *requestToken = [BDBOAuthToken tokenWithQueryString:operation.responseString];
+        self.requestSerializer.requestToken = requestToken;
         if (success)
-            success(self.requestSerializer.requestToken);
+            success(requestToken);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         self.responseSerializer = defaultSerializer;
         if (failure)
@@ -93,9 +94,10 @@
         AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
             self.responseSerializer = defaultSerializer;
             self.requestSerializer.requestToken = nil;
-            [self.requestSerializer saveAccessToken:[BDBOAuthToken tokenWithQueryString:operation.responseString]];
+            BDBOAuthToken *accessToken = [BDBOAuthToken tokenWithQueryString:operation.responseString];
+            [self.requestSerializer saveAccessToken:accessToken];
             if (success)
-                success([BDBOAuthToken tokenWithQueryString:operation.responseString]);
+                success(accessToken);
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             self.responseSerializer = defaultSerializer;
             self.requestSerializer.requestToken = nil;

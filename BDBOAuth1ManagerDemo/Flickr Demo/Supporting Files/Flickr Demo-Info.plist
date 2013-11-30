@@ -8,8 +8,12 @@
 	<string>${PRODUCT_NAME}</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleIcons</key>
+	<dict/>
+	<key>CFBundleIcons~ipad</key>
+	<dict/>
 	<key>CFBundleIdentifier</key>
-	<string>com.bradbergeron.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>com.bradbergeron.bdboauth.flickr</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -26,10 +30,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.bradbergeron.bdboauth</string>
+			<string>com.bradbergeron.bdboauth.flickr</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>bdboauth</string>
+				<string>bdbflickr</string>
 			</array>
 		</dict>
 	</array>

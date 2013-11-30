@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "TweetsViewController.h"
+#import "PhotosViewController.h"
 
 #import "NSDictionary+BDBOAuth1Manager.h"
 
@@ -15,7 +15,9 @@
 #pragma mark -
 @interface AppDelegate ()
 
-@property (nonatomic) TweetsViewController *tweetsVC;
+@property (nonatomic) PhotosViewController *photosVC;
+
+@property (nonatomic, copy, readwrite) NSString *apiKey;
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
 @property (nonatomic, readwrite) BDBOAuth1SessionManager *networkManager;
@@ -37,19 +39,19 @@ static AppDelegate *_sharedDelegate = nil;
     self = [super init];
     if (self)
     {
-        self.tweetsVC = [[TweetsViewController alloc] initWithNibName:nil bundle:nil];
+        _apiKey = @"06f28faf9b97104e367ca32103eab53b";
 
-        NSURL *apiURL = [NSURL URLWithString:@"https://api.twitter.com/1.1/"];
-        NSString *consumerKey = @"wrou647dSAp3OinHmsVKYw";
-        NSString *consumerSecret = @"Y1H5mOBxHMIDkW6KMeiJAd4G0VFTSA2GdVKq5SEdB4";
-        
+        NSURL *apiURL = [NSURL URLWithString:@"http://api.flickr.com/services/"];
+        NSString *consumerSecret = @"fa85fa7972dcea82";
+
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
-        self.networkManager = [[BDBOAuth1SessionManager alloc] initWithBaseURL:apiURL consumerKey:consumerKey consumerSecret:consumerSecret];
+        _networkManager = [[BDBOAuth1SessionManager alloc] initWithBaseURL:apiURL consumerKey:_apiKey consumerSecret:consumerSecret];
 #else
-        self.networkManager = [[BDBOAuth1RequestOperationManager alloc] initWithBaseURL:apiURL consumerKey:consumerKey consumerSecret:consumerSecret];
+        _networkManager = [[BDBOAuth1RequestOperationManager alloc] initWithBaseURL:apiURL consumerKey:_apiKey consumerSecret:consumerSecret];
 #endif
 
         _sharedDelegate = self;
+        _photosVC = [PhotosViewController new];
     }
     return self;
 }
@@ -62,12 +64,12 @@ static AppDelegate *_sharedDelegate = nil;
 #pragma mark OAuth Authorization
 - (void)authorize
 {
-    [self.networkManager fetchRequestTokenWithPath:@"/oauth/request_token"
+    [self.networkManager fetchRequestTokenWithPath:@"oauth/request_token"
                                             method:@"POST"
-                                       callbackURL:[NSURL URLWithString:@"bdboauth://request"]
+                                       callbackURL:[NSURL URLWithString:@"bdbflickr://request"]
                                              scope:nil
                                            success:^(BDBOAuthToken *requestToken) {
-                                               NSString *authURL = [NSString stringWithFormat:@"https://api.twitter.com/oauth/authorize?oauth_token=%@", requestToken.token];
+                                               NSString *authURL = [NSString stringWithFormat:@"http://www.flickr.com/services/oauth/authorize?oauth_token=%@", requestToken.token];
                                                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:authURL]];
                                            }
                                            failure:^(NSError *error) {
@@ -94,7 +96,7 @@ static AppDelegate *_sharedDelegate = nil;
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
-    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:self.tweetsVC];
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:self.photosVC];
     [self.window makeKeyAndVisible];
 
     if (!self.networkManager.isAuthorized)
@@ -105,19 +107,19 @@ static AppDelegate *_sharedDelegate = nil;
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    if ([url.scheme isEqualToString:@"bdboauth"])
+    if ([url.scheme isEqualToString:@"bdbflickr"])
     {
         if ([url.host isEqualToString:@"request"])
         {
             NSDictionary *parameters = [NSDictionary dictionaryFromQueryString:url.query];
             if (parameters[@"oauth_token"] && parameters[@"oauth_verifier"])
-                [self.networkManager fetchAccessTokenWithPath:@"/oauth/access_token"
+                [self.networkManager fetchAccessTokenWithPath:@"oauth/access_token"
                                                        method:@"POST"
                                                  requestToken:[BDBOAuthToken tokenWithQueryString:url.query]
                                                       success:^(BDBOAuthToken *accessToken) {
-                                                          [self.tweetsVC refreshFeed];
+                                                          [self.photosVC loadImages];
                                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                                              self.tweetsVC.navigationItem.rightBarButtonItem.title = @"Log Out";
+                                                              self.photosVC.navigationItem.rightBarButtonItem.title = @"Log Out";
                                                           });
                                                       }
                                                       failure:^(NSError *error) {

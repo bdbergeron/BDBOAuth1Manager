@@ -19,7 +19,7 @@
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7)
         self.userImage.layer.cornerRadius = self.userImage.frame.size.width / 2.0;
     else
-        self.userImage.layer.cornerRadius = 8.0;
+        self.userImage.layer.cornerRadius = 5.0;
     self.userImage.layer.rasterizationScale = [[UIScreen mainScreen] scale];
     self.userImage.layer.shouldRasterize = YES;
     self.userImage.clipsToBounds = YES;

@@ -69,8 +69,19 @@
     NSString *verifier = attributes[@"oauth_verifier"];
 
     NSDate *expiration = nil;
-    if (attributes[@"oauth_token_duration"])
-        expiration = [NSDate dateWithTimeIntervalSinceNow:[attributes[@"oauth_token_duration"] doubleValue]];
+    
+    NSString *tokenDurationKey = @"oauth_token_duration";
+    if (attributes[tokenDurationKey] == nil) // only check for other keys if default key is not found
+    {
+        if(attributes[@"oauth_expires_in"])
+        {
+            tokenDurationKey = @"oauth_expires_in";
+        }
+    }
+    
+    if (attributes[tokenDurationKey])
+        expiration = [NSDate dateWithTimeIntervalSinceNow:[attributes[tokenDurationKey] doubleValue]];
+    
 
     self = [self initWithToken:token secret:secret expiration:expiration];
     if (self)
@@ -78,7 +89,7 @@
         _verifier = verifier;
 
         NSMutableDictionary *mutableUserInfo = [attributes mutableCopy];
-        [mutableUserInfo removeObjectsForKeys:@[@"oauth_token", @"oauth_token_secret", @"oauth_verifier", @"oauth_token_duration"]];
+        [mutableUserInfo removeObjectsForKeys:@[@"oauth_token", @"oauth_token_secret", @"oauth_verifier", tokenDurationKey]];
         if (mutableUserInfo.count > 0)
             _userInfo = [NSDictionary dictionaryWithDictionary:mutableUserInfo];
     }

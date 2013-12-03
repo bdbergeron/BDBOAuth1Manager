@@ -62,12 +62,15 @@
 
     NSURLSessionDataTask *task = [self dataTaskWithRequest:request completionHandler:^(NSURLResponse * __unused response, id responseObject, NSError *error) {
         self.responseSerializer = defaultSerializer;
-        BDBOAuthToken *requestToken = [BDBOAuthToken tokenWithQueryString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]];
-        self.requestSerializer.requestToken = requestToken;
-        if (error && failure)
+        
+        if (error && failure) {
             failure(error);
-        else if (success)
+        } else if (success) {
+            BDBOAuthToken *requestToken = [BDBOAuthToken tokenWithQueryString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]];
+            self.requestSerializer.requestToken = requestToken;
+
             success(requestToken);
+        }
     }];
 
     [task resume];

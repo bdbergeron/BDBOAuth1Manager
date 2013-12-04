@@ -5,7 +5,8 @@
 //  Copyright (c) 2013 Bradley David Bergeron. All rights reserved.
 //
 
-#import "AFHTTPRequestOperationManager.h"
+#import <AFNetworking/AFHTTPRequestOperationManager.h>
+
 #import "BDBOAuth1RequestSerializer.h"
 
 

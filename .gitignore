@@ -1,2 +1,5 @@
 .DS_Store
 xcuserdata
+/BDBOAuth1ManagerDemo/Pods/
+
+/BDBOAuth1ManagerDemo/Podfile.lock

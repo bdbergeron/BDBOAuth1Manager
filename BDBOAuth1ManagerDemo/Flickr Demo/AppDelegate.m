@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 Bradley David Bergeron. All rights reserved.
 //
 
+#import <BDBOAuth1Manager/NSDictionary+BDBOAuth1Manager.h>
+
 #import "AppDelegate.h"
 #import "PhotosViewController.h"
-
-#import "NSDictionary+BDBOAuth1Manager.h"
 
 
 #pragma mark -

@@ -6,11 +6,11 @@
 //  Copyright (c) 2013 Bradley David Bergeron. All rights reserved.
 //
 
+#import <UIKit+AFNetworking.h>
+
 #import "AppDelegate.h"
 #import "TweetCell.h"
 #import "TweetsViewController.h"
-
-#import "UIImageView+AFNetworking.h"
 
 
 #pragma mark -

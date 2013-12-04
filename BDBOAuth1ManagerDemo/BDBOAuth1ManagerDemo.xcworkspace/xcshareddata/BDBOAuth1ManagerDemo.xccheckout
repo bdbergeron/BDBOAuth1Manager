@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>141A175C-2F5D-4BC1-9CD3-94AB9B2369F1</string>
+	<key>IDESourceControlProjectName</key>
+	<string>BDBOAuth1ManagerDemo</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>8AE09A11-4360-46DC-8411-917458551A2F</key>
+		<string>ssh://github.com/bdbergeron/BDBOAuth1Manager.git</string>
+		<key>92D27996-B502-4ABB-A1D7-0BBDE7260457</key>
+		<string>https://github.com/AFNetworking/AFNetworking.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>BDBOAuth1ManagerDemo/BDBOAuth1ManagerDemo.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>8AE09A11-4360-46DC-8411-917458551A2F</key>
+		<string>../..</string>
+		<key>92D27996-B502-4ABB-A1D7-0BBDE7260457</key>
+		<string>../../AFNetworking</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/bdbergeron/BDBOAuth1Manager.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>8AE09A11-4360-46DC-8411-917458551A2F</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>92D27996-B502-4ABB-A1D7-0BBDE7260457</string>
+			<key>IDESourceControlWCCName</key>
+			<string>AFNetworking</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>8AE09A11-4360-46DC-8411-917458551A2F</string>
+			<key>IDESourceControlWCCName</key>
+			<string>BDBOAuth1Manager</string>
+		</dict>
+	</array>
+</dict>
+</plist>

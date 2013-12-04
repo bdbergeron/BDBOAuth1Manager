@@ -6,10 +6,10 @@
 //
 
 #import <CommonCrypto/CommonHMAC.h>
+#import <NSData+Base64/NSData+Base64.h>
 
 #import "BDBOAuth1RequestSerializer.h"
 
-#import "NSData+Base64.h"
 #import "NSDictionary+BDBOAuth1Manager.h"
 #import "NSString+BDBOAuth1Manager.h"
 

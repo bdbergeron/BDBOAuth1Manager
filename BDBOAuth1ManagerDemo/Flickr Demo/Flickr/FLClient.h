@@ -6,11 +6,10 @@
 //  Copyright (c) 2013 Bradley David Bergeron. All rights reserved.
 //
 
+#import <BDBOAuth1Manager/BDBOAuth1RequestOperationManager.h>
+#import <BDBOAuth1Manager/BDBOAuth1SessionManager.h>
 #import <Foundation/Foundation.h>
 
-#import "AFNetworking.h"
-#import "BDBOAuth1SessionManager.h"
-#import "BDBOAuth1RequestOperationManager.h"
 #import "FLPhotoset.h"
 #import "FLPhoto.h"
 

@@ -5,7 +5,7 @@
 //  Copyright (c) 2013 Bradley David Bergeron. All rights reserved.
 //
 
-#import "AFURLRequestSerialization.h"
+#import <AFNetworking/AFURLRequestSerialization.h>
 
 
 #pragma mark -

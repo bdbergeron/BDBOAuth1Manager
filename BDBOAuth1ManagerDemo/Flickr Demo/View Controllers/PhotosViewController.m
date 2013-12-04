@@ -77,6 +77,12 @@
     [self.collectionView registerNib:self.photoAlbumHeaderNib
           forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                  withReuseIdentifier:@"PhotoAlbumHeaderView"];
+
+    NSString *logInOutString = ([[[AppDelegate sharedDelegate] networkManager] isAuthorized]) ? @"Log Out" : @"Log In";
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:logInOutString
+                                                                              style:UIBarButtonItemStylePlain
+                                                                             target:self
+                                                                             action:@selector(logInOut)];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -107,6 +113,7 @@
     if (buttonIndex == actionSheet.destructiveButtonIndex)
     {
         self.photosets = [NSMutableSet set];
+        self.sortedPhotosets = [NSArray array];
         [self.collectionView reloadData];
         [[AppDelegate sharedDelegate] deauthorizeWithCompletion:^{
             dispatch_async(dispatch_get_main_queue(), ^{

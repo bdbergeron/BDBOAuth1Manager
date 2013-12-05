@@ -5,8 +5,7 @@
 //  Copyright (c) 2013 Bradley David Bergeron. All rights reserved.
 //
 
-#import <AFNetworking/AFURLConnectionOperation.h>
-
+#import "AFURLConnectionOperation.h"
 #import "BDBOAuth1SessionManager.h"
 
 #if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)

@@ -27,15 +27,13 @@
 #pragma mark -
 @implementation TweetsViewController
 
-- (void)loadView
-{
-    [super loadView];
-    self.title = @"Tweets";
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    self.title = @"Tweets";
+
+    self.tableView.rowHeight = 72.0;
 
     UINib *tableCellNib = [UINib nibWithNibName:@"TweetCell" bundle:nil];
     [self.tableView registerNib:tableCellNib forCellReuseIdentifier:@"TweetCell"];

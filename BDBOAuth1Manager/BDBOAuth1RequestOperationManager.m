@@ -160,4 +160,39 @@
     [self.operationQueue addOperation:operation];
 }
 
+- (void)fetchAccessTokenWithPathUsingXAuth:(NSString *)accessPath
+                          method:(NSString *)method
+                        username:(NSString *)username
+                        password:(NSString *)password
+                         success:(void (^)(BDBOAuthToken *accessToken))success
+                         failure:(void (^)(NSError *error))failure
+{
+    AFHTTPResponseSerializer *defaultSerializer = self.responseSerializer;
+    self.responseSerializer = [AFHTTPResponseSerializer serializer];
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    parameters[@"x_auth_username"] = username;
+    parameters[@"x_auth_password"] = password;
+    parameters[@"x_auth_mode"]     = @"client_auth";
+    
+    NSString *URLString = [[NSURL URLWithString:accessPath relativeToURL:self.baseURL] absoluteString];
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:URLString parameters:parameters];
+    
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        self.responseSerializer = defaultSerializer;
+        self.requestSerializer.requestToken = nil;
+        BDBOAuthToken *accessToken = [BDBOAuthToken tokenWithQueryString:operation.responseString];
+        [self.requestSerializer saveAccessToken:accessToken];
+        if (success)
+            success(accessToken);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        self.responseSerializer = defaultSerializer;
+        self.requestSerializer.requestToken = nil;
+        if (failure)
+            failure(error);
+    }];
+    
+    [self.operationQueue addOperation:operation];
+}
+
 @end

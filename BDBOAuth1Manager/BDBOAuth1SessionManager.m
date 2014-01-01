@@ -45,7 +45,19 @@
     if (self) {
         self.requestSerializer  = [BDBOAuth1RequestSerializer serializerForService:baseURL.host
                                                                    withConsumerKey:consumerKey
-                                                                    consumerSecret:consumerSecret];
+                                                                    consumerSecret:consumerSecret
+                                                                    realm:nil];
+    }
+
+    return self;
+}
+
+- (instancetype)initWithBaseURLAndRealm:(NSURL *)url consumerKey:(NSString *)key consumerSecret:(NSString *)secret realm:(NSString *)realm
+{
+    self = [super initWithBaseURL:url];
+    if (self)
+    {
+        self.requestSerializer  = [BDBOAuth1RequestSerializer serializerForServiceAndRealm:url.host withConsumerKey:key consumerSecret:secret realm:realm];
     }
 
     return self;

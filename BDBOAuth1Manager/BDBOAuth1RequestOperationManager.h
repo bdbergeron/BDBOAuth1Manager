@@ -53,6 +53,10 @@
                     consumerKey:(NSString *)consumerKey
                  consumerSecret:(NSString *)consumerSecret;
 
+- (instancetype)initWithBaseURLAndRealm:(NSURL *)baseURL
+                            consumerKey:(NSString *)consumerKey
+                            consumerSecret:(NSString *)consumerSecret
+                                     realm:(NSString *)realm;
 
 /**
  *  ---------------------------------------------------------------------------------------

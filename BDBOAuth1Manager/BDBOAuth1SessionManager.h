@@ -55,6 +55,7 @@
                  consumerSecret:(NSString *)consumerSecret;
 
 
+- (instancetype)initWithBaseURLAndRealm:(NSURL *)url consumerKey:(NSString *)key consumerSecret:(NSString *)secret realm:(NSString *)realm;
 /**
  *  ---------------------------------------------------------------------------------------
  * @name Authorization Status

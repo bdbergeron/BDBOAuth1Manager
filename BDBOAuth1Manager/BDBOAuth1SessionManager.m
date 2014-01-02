@@ -183,9 +183,9 @@
     self.responseSerializer = [AFHTTPResponseSerializer serializer];
     
     NSMutableDictionary *parameters = [[self.requestSerializer OAuthParameters] mutableCopy];
-    parameters[@"x_auth_username"] = username;
-    parameters[@"x_auth_password"] = password;
-    parameters[@"x_auth_mode"]     = @"client_auth";
+    parameters[@"xauth_username"] = username;
+    parameters[@"xauth_password"] = password;
+    parameters[@"xauth_mode"]     = @"client_auth";
     
     NSString *URLString = [[NSURL URLWithString:accessPath relativeToURL:self.baseURL] absoluteString];
     NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:URLString parameters:parameters];

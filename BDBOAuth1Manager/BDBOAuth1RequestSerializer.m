@@ -1,9 +1,24 @@
 //
 //  BDBOAuth1RequestSerializer.m
 //
-//  Created by Bradley Bergeron on 11/10/2013.
-//  Copyright (c) 2013 Bradley David Bergeron. All rights reserved.
+//  Copyright (c) 2014 Bradley David Bergeron
 //
+//  Permission is hereby granted, free of charge, to any person obtaining a copy of
+//  this software and associated documentation files (the "Software"), to deal in
+//  the Software without restriction, including without limitation the rights to
+//  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+//  the Software, and to permit persons to whom the Software is furnished to do so,
+//  subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in all
+//  copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+//  FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+//  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+//  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+//  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import <CommonCrypto/CommonHMAC.h>
 
@@ -137,8 +152,14 @@
 @property (nonatomic, copy) NSString *consumerKey;
 @property (nonatomic, copy) NSString *consumerSecret;
 
-- (NSString *)OAuthSignatureForMethod:(NSString *)method URLString:(NSString *)URLString parameters:(NSDictionary *)parameters;
-- (NSString *)OAuthAuthorizationHeaderForMethod:(NSString *)method URLString:(NSString *)URLString parameters:(NSDictionary *)parameters;
+- (NSString *)OAuthSignatureForMethod:(NSString *)method
+                            URLString:(NSString *)URLString
+                           parameters:(NSDictionary *)parameters
+                                error:(NSError *__autoreleasing *)error;
+- (NSString *)OAuthAuthorizationHeaderForMethod:(NSString *)method
+                                      URLString:(NSString *)URLString
+                                     parameters:(NSDictionary *)parameters
+                                          error:(NSError *__autoreleasing *)error;
 
 @end
 
@@ -236,9 +257,13 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
     return parameters;
 }
 
-- (NSString *)OAuthSignatureForMethod:(NSString *)method URLString:(NSString *)URLString parameters:(NSDictionary *)parameters
+- (NSString *)OAuthSignatureForMethod:(NSString *)method
+                            URLString:(NSString *)URLString
+                           parameters:(NSDictionary *)parameters
+                                error:(NSError *__autoreleasing *)error
 {
-    NSMutableURLRequest *request = [super requestWithMethod:@"GET" URLString:URLString parameters:parameters];
+    NSMutableURLRequest *request = [super requestWithMethod:@"GET" URLString:URLString parameters:parameters error:error];
+
     [request setHTTPMethod:method];
 
     NSString *secret = @"";
@@ -277,8 +302,10 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
     return [[NSData dataWithBytes:digest length:CC_SHA1_DIGEST_LENGTH] base64EncodedString];
 }
 
-#pragma mark Authorization Headers
-- (NSString *)OAuthAuthorizationHeaderForMethod:(NSString *)method URLString:(NSString *)URLString parameters:(NSDictionary *)parameters
+- (NSString *)OAuthAuthorizationHeaderForMethod:(NSString *)method
+                                      URLString:(NSString *)URLString
+                                     parameters:(NSDictionary *)parameters
+                                          error:(NSError *__autoreleasing *)error
 {
     NSMutableDictionary *mutableParameters;
     if (parameters)
@@ -301,7 +328,7 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
     }];
 
     [mutableParameters addEntriesFromDictionary:mutableAuthorizationParameters];
-    mutableAuthorizationParameters[@"oauth_signature"] = [self OAuthSignatureForMethod:method URLString:URLString parameters:mutableParameters];
+    mutableAuthorizationParameters[@"oauth_signature"] = [self OAuthSignatureForMethod:method URLString:URLString parameters:mutableParameters error:error];
 
     NSArray *sortedComponents = [[[mutableAuthorizationParameters queryStringRepresentation] componentsSeparatedByString:@"&"] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     NSMutableArray *mutableComponents = [NSMutableArray array];
@@ -316,14 +343,20 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
 }
 
 #pragma mark URL Requests
-- (NSMutableURLRequest *)requestWithMethod:(NSString *)method URLString:(NSString *)URLString parameters:(NSDictionary *)parameters
+- (NSMutableURLRequest *)requestWithMethod:(NSString *)method
+                                 URLString:(NSString *)URLString
+                                parameters:(NSDictionary *)parameters
+                                     error:(NSError *__autoreleasing *)error
 {
     NSMutableDictionary *mutableParameters = [parameters mutableCopy];
     for (NSString *key in parameters)
         if ([key hasPrefix:@"oauth_"])
             [mutableParameters removeObjectForKey:key];
 
-    NSMutableURLRequest *request = [super requestWithMethod:method URLString:URLString parameters:mutableParameters];
+    NSMutableURLRequest *request = [super requestWithMethod:method
+                                                  URLString:URLString
+                                                 parameters:mutableParameters
+                                                      error:error];
 
     // Only use parameters in the request entity body (with a content-type of `application/x-www-form-urlencoded`).
     // See RFC 5849, Section 3.4.1.3.1 http://tools.ietf.org/html/rfc5849#section-3.4
@@ -332,20 +365,28 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
         if (![[request valueForHTTPHeaderField:@"Content-Type"] hasPrefix:@"application/x-www-form-urlencoded"])
             authorizationParameters = nil;
 
-    [request setValue:[self OAuthAuthorizationHeaderForMethod:method URLString:URLString parameters:authorizationParameters] forHTTPHeaderField:@"Authorization"];
+    [request setValue:[self OAuthAuthorizationHeaderForMethod:method URLString:URLString parameters:authorizationParameters error:error] forHTTPHeaderField:@"Authorization"];
     [request setHTTPShouldHandleCookies:NO];
 
     return request;
 }
 
-- (NSMutableURLRequest *)multipartFormRequestWithMethod:(NSString *)method URLString:(NSString *)URLString parameters:(NSDictionary *)parameters constructingBodyWithBlock:(void (^)(id<AFMultipartFormData>))block
+- (NSMutableURLRequest *)multipartFormRequestWithMethod:(NSString *)method
+                                              URLString:(NSString *)URLString
+                                             parameters:(NSDictionary *)parameters
+                              constructingBodyWithBlock:(void (^)(id<AFMultipartFormData>))block
+                                                  error:(NSError *__autoreleasing *)error
 {
     NSMutableDictionary *mutableParameters = [parameters mutableCopy];
     for (NSString *key in parameters)
         if ([key hasPrefix:@"oauth_"])
             [mutableParameters removeObjectForKey:key];
 
-    NSMutableURLRequest *request = [super multipartFormRequestWithMethod:method URLString:URLString parameters:mutableParameters constructingBodyWithBlock:block];
+    NSMutableURLRequest *request = [super multipartFormRequestWithMethod:method
+                                                               URLString:URLString
+                                                              parameters:mutableParameters
+                                               constructingBodyWithBlock:block
+                                                                   error:error];
 
     // Only use parameters in the request entity body (with a content-type of `application/x-www-form-urlencoded`).
     // See RFC 5849, Section 3.4.1.3.1 http://tools.ietf.org/html/rfc5849#section-3.4
@@ -354,7 +395,7 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
         if (![[request valueForHTTPHeaderField:@"Content-Type"] hasPrefix:@"application/x-www-form-urlencoded"])
             authorizationParameters = nil;
 
-    [request setValue:[self OAuthAuthorizationHeaderForMethod:method URLString:URLString parameters:authorizationParameters] forHTTPHeaderField:@"Authorization"];
+    [request setValue:[self OAuthAuthorizationHeaderForMethod:method URLString:URLString parameters:authorizationParameters error:error] forHTTPHeaderField:@"Authorization"];
     [request setHTTPShouldHandleCookies:NO];
 
     return request;

@@ -62,6 +62,8 @@
                           success:(void (^)(BDBOAuthToken *requestToken))success
                           failure:(void (^)(NSError *error))failure
 {
+    self.requestSerializer.requestToken = nil;
+
     AFHTTPResponseSerializer *defaultSerializer = self.responseSerializer;
     self.responseSerializer = [AFHTTPResponseSerializer serializer];
 
@@ -138,7 +140,7 @@
     }
     else
     {
-        NSError *error = [[NSError alloc] initWithDomain:AFNetworkingErrorDomain
+        NSError *error = [[NSError alloc] initWithDomain:BDBOAuth1ErrorDomain
                                                     code:NSURLErrorBadServerResponse
                                                 userInfo:@{NSLocalizedFailureReasonErrorKey:@"Invalid OAuth response received from server."}];
         failure(error);

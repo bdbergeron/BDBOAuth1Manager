@@ -23,6 +23,9 @@
 #import "AFURLRequestSerialization.h"
 
 
+FOUNDATION_EXPORT NSString * const BDBOAuth1ErrorDomain;
+
+
 #pragma mark -
 @interface BDBOAuthToken : NSObject
 <NSCoding, NSCopying>

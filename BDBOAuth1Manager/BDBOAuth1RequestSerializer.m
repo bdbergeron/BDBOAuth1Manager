@@ -29,6 +29,9 @@
 #import "NSString+BDBOAuth1Manager.h"
 
 
+NSString * const BDBOAuth1ErrorDomain = @"BDBOAuth1ErrorDomain";
+
+
 #pragma mark -
 @interface BDBOAuthToken ()
 

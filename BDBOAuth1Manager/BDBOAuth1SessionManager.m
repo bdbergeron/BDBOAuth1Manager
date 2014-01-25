@@ -70,7 +70,8 @@
     self.responseSerializer = [AFHTTPResponseSerializer serializer];
 
     NSMutableDictionary *parameters = [[self.requestSerializer OAuthParameters] mutableCopy];
-    parameters[@"oauth_callback"] = [callbackURL absoluteString];
+    if (callbackURL)
+        parameters[@"oauth_callback"] = [callbackURL absoluteString];
     if (scope && !self.requestSerializer.accessToken)
         parameters[@"scope"] = scope;
 

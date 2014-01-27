@@ -4,7 +4,7 @@ BDBOAuth1Manager is an AFNetworking 2.0-compatible replacement for AFOAuth1Clien
 
 ## Usage
 
-BDBOAuth1Manager consists of three core classes: `BDBOAuth1RequestSerializer`, `BDBOAuth1RequestOperationManger`, and `BDBOAuth1SessionManager`. Below I will provide a quick overview of each, but to really see how the three classes work together, take a look at the demo app. It's a simple Twitter client, but it shows how to get started using BDBOAuth1Manager in your projects.
+BDBOAuth1Manager consists of three core classes: `BDBOAuth1RequestSerializer`, `BDBOAuth1RequestOperationManger`, and `BDBOAuth1SessionManager`. Below I will provide a quick overview of each, but to really see how the three classes work together, take a look at the included demo apps. One is a simple Twitter client and the other a simple Flickr photo gallery, but they show how to get started using BDBOAuth1Manager in your projects.
 
 ### BDBOAuth1RequestOperationManger
 
@@ -15,7 +15,9 @@ BDBOAuth1Manager consists of three core classes: `BDBOAuth1RequestSerializer`, `
 @property (nonatomic, assign, readonly, getter = isAuthorized) BOOL authorized;
 
 #pragma mark Initialization
-- (instancetype)initWithBaseURL:(NSURL *)url consumerKey:(NSString *)key consumerSecret:(NSString *)secret;
+- (instancetype)initWithBaseURL:(NSURL *)url
+                    consumerKey:(NSString *)key
+                 consumerSecret:(NSString *)secret;
 
 #pragma mark Deauthorize
 - (BOOL)deauthorize;
@@ -51,8 +53,12 @@ If you're targeting either iOS 6 or OS X 10.8, you must use `BDBOAuth1RequestOpe
 @property (nonatomic, copy, readonly) BDBOAuthToken *accessToken;
 
 #pragma mark Initialization
-+ (instancetype)serializerForService:(NSString *)service withConsumerKey:(NSString *)key consumerSecret:(NSString *)secret;
-- (id)initWithService:(NSString *)service consumerKey:(NSString *)key consumerSecret:(NSString *)secret;
++ (instancetype)serializerForService:(NSString *)service
+                     withConsumerKey:(NSString *)key
+                      consumerSecret:(NSString *)secret;
+- (id)initWithService:(NSString *)service
+          consumerKey:(NSString *)key
+       consumerSecret:(NSString *)secret;
 
 #pragma mark OAuth
 - (NSDictionary *)OAuthParameters;
@@ -91,7 +97,10 @@ When calling `fetchRequestTokenWithPath:method:callbackURL:scope:success:failure
 In order to respond to your application's URL scheme being called, you must implement the `-application:openURL:sourceApplication:annotation` method within your application delegate. You can do something like this:
 
 ```objective-c
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
 {
     if ([url.scheme isEqualToString:@"bdboauth"])
     {

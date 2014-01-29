@@ -22,7 +22,17 @@
 
 #import <CommonCrypto/CommonHMAC.h>
 
+#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
+
+#define USE_NS_DATA_BASE64_ENCODING
+#define BASE64_OPTIONS NSDataBase64EncodingEndLineWithCarriageReturn | NSDataBase64EncodingEndLineWithLineFeed
+
+#endif
+
+#ifndef USE_NS_DATA_BASE64_ENCODING
 #import "Base64.h"
+#endif
+
 #import "BDBOAuth1RequestSerializer.h"
 
 #import "NSDictionary+BDBOAuth1Manager.h"
@@ -255,8 +265,13 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
     CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
     CFUUIDBytes uuidBytes = CFUUIDGetUUIDBytes(uuid);
     CFRelease(uuid);
+    
+#ifdef USE_NS_DATA_BASE64_ENCODING
+    parameters[@"oauth_nonce"] = [[NSData dataWithBytes:&uuidBytes length:sizeof(uuidBytes)] base64EncodedStringWithOptions:BASE64_OPTIONS];
+#else
     parameters[@"oauth_nonce"] = [[NSData dataWithBytes:&uuidBytes length:sizeof(uuidBytes)] base64EncodedString];
-
+#endif
+                                  
     return parameters;
 }
 
@@ -302,7 +317,11 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
     CCHmacUpdate(&context, [requestData bytes], [requestData length]);
     CCHmacFinal(&context, digest);
 
+#ifdef USE_NS_DATA_BASE64_ENCODING
+    return [[NSData dataWithBytes:digest length:CC_SHA1_DIGEST_LENGTH] base64EncodedStringWithOptions:BASE64_OPTIONS];
+#else
     return [[NSData dataWithBytes:digest length:CC_SHA1_DIGEST_LENGTH] base64EncodedString];
+#endif
 }
 
 - (NSString *)OAuthAuthorizationHeaderForMethod:(NSString *)method

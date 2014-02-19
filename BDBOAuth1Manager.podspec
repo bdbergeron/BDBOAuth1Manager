@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name      = 'BDBOAuth1Manager'
-  s.version   = '1.1.0'
+  s.version   = '1.1.1'
   s.license   = 'MIT'
   s.summary   = 'AFNetworking 2.0-compatible replacement for AFOAuth1Client.'
   s.homepage  = 'https://github.com/bdbergeron/BDBOAuth1Manager'

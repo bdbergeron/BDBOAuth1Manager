@@ -25,7 +25,6 @@
 #import "AppDelegate.h"
 #import "TweetsViewController.h"
 
-
 #pragma mark -
 @interface AppDelegate ()
 
@@ -39,18 +38,16 @@
 
 @end
 
-
 #pragma mark -
 @implementation AppDelegate
 
-static AppDelegate *_sharedDelegate = nil;
+static AppDelegate * _sharedDelegate = nil;
 
 #pragma mark Initialization
-- (id)init
-{
+- (id)init {
     self = [super init];
-    if (self)
-    {
+
+    if (self) {
         self.tweetsVC = [[TweetsViewController alloc] initWithNibName:nil bundle:nil];
 
         NSURL *apiURL = [NSURL URLWithString:@"https://api.twitter.com/1.1/"];
@@ -65,17 +62,16 @@ static AppDelegate *_sharedDelegate = nil;
 
         _sharedDelegate = self;
     }
+
     return self;
 }
 
-+ (instancetype)sharedDelegate
-{
++ (instancetype)sharedDelegate {
     return _sharedDelegate;
 }
 
 #pragma mark OAuth Authorization
-- (void)authorize
-{
+- (void)authorize {
     [self.networkManager fetchRequestTokenWithPath:@"/oauth/request_token"
                                             method:@"POST"
                                        callbackURL:[NSURL URLWithString:@"bdbtwitter://request"]
@@ -96,35 +92,34 @@ static AppDelegate *_sharedDelegate = nil;
                                            }];
 }
 
-- (void)deauthorizeWithCompletion:(void (^)(void))completion
-{
+- (void)deauthorizeWithCompletion:(void (^)(void))completion {
     [self.networkManager deauthorize];
-    if (completion)
+
+    if (completion) {
         completion();
+    }
 }
 
 #pragma mark Application Lifecyle
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:self.tweetsVC];
     [self.window makeKeyAndVisible];
 
-    if (!self.networkManager.isAuthorized)
+    if (!self.networkManager.isAuthorized) {
         [self authorize];
+    }
 
     return YES;
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-    if ([url.scheme isEqualToString:@"bdbtwitter"])
-    {
-        if ([url.host isEqualToString:@"request"])
-        {
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    if ([url.scheme isEqualToString:@"bdbtwitter"]) {
+        if ([url.host isEqualToString:@"request"]) {
             NSDictionary *parameters = [NSDictionary dictionaryFromQueryString:url.query];
-            if (parameters[@"oauth_token"] && parameters[@"oauth_verifier"])
+
+            if (parameters[@"oauth_token"] && parameters[@"oauth_verifier"]) {
                 [self.networkManager fetchAccessTokenWithPath:@"/oauth/access_token"
                                                        method:@"POST"
                                                  requestToken:[BDBOAuthToken tokenWithQueryString:url.query]
@@ -144,9 +139,12 @@ static AppDelegate *_sharedDelegate = nil;
                                                                                 otherButtonTitles:nil] show];
                                                           });
                                                       }];
+            }
         }
+
         return YES;
     }
+    
     return NO;
 }
 

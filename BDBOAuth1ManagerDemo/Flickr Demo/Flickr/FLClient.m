@@ -25,7 +25,6 @@
 
 static NSString * const kFLClientErrorDomain = @"com.bradbergeron.bdboauth.flickr.error";
 
-
 #pragma mark -
 @interface FLClient ()
 
@@ -41,65 +40,60 @@ static NSString * const kFLClientErrorDomain = @"com.bradbergeron.bdboauth.flick
 
 @end
 
-
 #pragma mark -
 @implementation FLClient
 
-static FLClient *_sharedClient = nil;
+static FLClient * _sharedClient = nil;
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
-+ (instancetype)clientWithAPIKey:(NSString *)apiKey networkManager:(BDBOAuth1SessionManager *)manager
-{
++ (instancetype)clientWithAPIKey:(NSString *)apiKey networkManager:(BDBOAuth1SessionManager *)manager {
     return [[[self class] alloc] initWithAPIKey:apiKey networkManager:manager];
 }
 
-- (id)initWithAPIKey:(NSString *)apiKey networkManager:(BDBOAuth1SessionManager *)manager
-{
+- (id)initWithAPIKey:(NSString *)apiKey networkManager:(BDBOAuth1SessionManager *)manager {
     self = [super init];
-    if (self)
-    {
+
+    if (self) {
         _apiKey = apiKey;
         _networkManager = manager;
         _sharedClient = self;
     }
+
     return self;
 }
 
 #else
-+ (instancetype)clientWithAPIKey:(NSString *)apiKey networkManager:(BDBOAuth1RequestOperationManager *)manager
-{
++ (instancetype)clientWithAPIKey:(NSString *)apiKey networkManager:(BDBOAuth1RequestOperationManager *)manager {
     return [[[self class] alloc] initWithAPIKey:apiKey networkManager:manager];
 }
 
-- (id)initWithAPIKey:(NSString *)apiKey networkManager:(BDBOAuth1RequestOperationManager *)manager
-{
+- (id)initWithAPIKey:(NSString *)apiKey networkManager:(BDBOAuth1RequestOperationManager *)manager {
     self = [super init];
-    if (self)
-    {
+
+    if (self) {
         _apiKey = apiKey;
         _networkManager = manager;
         _sharedClient = self;
     }
+
     return self;
 }
 
 #endif
 
-+ (instancetype)sharedClient
-{
++ (instancetype)sharedClient {
     NSAssert(_sharedClient, @"FLClient not initialized. Use [FLClient clientWithAPIKey:].");
+
     return _sharedClient;
 }
 
-- (NSDictionary *)defaultRequestParameters
-{
+- (NSDictionary *)defaultRequestParameters {
     return @{@"api_key":        self.apiKey,
              @"format":         @"json",
              @"nojsoncallback": @(1)};
 }
 
-- (void)getPhotosetsWithCompletion:(void (^)(NSSet *, NSError *))completion
-{
+- (void)getPhotosetsWithCompletion:(void (^)(NSSet *, NSError *))completion {
     NSAssert(self.apiKey, @"API key not set.");
 
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:[self defaultRequestParameters]];
@@ -107,30 +101,25 @@ static FLClient *_sharedClient = nil;
 
     #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
     [self.networkManager GET:@"rest" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
-        if ([responseObject isKindOfClass:[NSDictionary class]])
-        {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
             NSDictionary *response = responseObject;
-            if ([response[@"stat"] isEqualToString:@"ok"])
-            {
+
+            if ([response[@"stat"] isEqualToString:@"ok"]) {
                 response = response[@"photosets"];
                 NSMutableSet *photosets = [NSMutableSet set];
-                for (NSDictionary *setInfo in response[@"photoset"])
-                {
+
+                for (NSDictionary *setInfo in response[@"photoset"]) {
                     FLPhotoset *set = [[FLPhotoset alloc] initWithDictionary:setInfo];
                     [photosets addObject:set];
                 }
                 completion(photosets, nil);
-            }
-            else
-            {
+            } else {
                 NSError *error = [NSError errorWithDomain:kFLClientErrorDomain
                                                      code:1100
                                                  userInfo:@{NSLocalizedDescriptionKey:response[@"message"]}];
                 completion(nil, error);
             }
-        }
-        else
-        {
+        } else {
             NSError *error = [NSError errorWithDomain:kFLClientErrorDomain
                                                  code:1000
                                              userInfo:@{NSLocalizedDescriptionKey:@"Unexpected response received from Flickr API."}];
@@ -142,30 +131,25 @@ static FLClient *_sharedClient = nil;
 
     #else
     [self.networkManager GET:@"rest" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        if ([responseObject isKindOfClass:[NSDictionary class]])
-        {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
             NSDictionary *response = responseObject;
-            if ([response[@"stat"] isEqualToString:@"ok"])
-            {
+
+            if ([response[@"stat"] isEqualToString:@"ok"]) {
                 response = response[@"photosets"];
                 NSMutableSet *photosets = [NSMutableSet set];
-                for (NSDictionary *setInfo in response[@"photoset"])
-                {
+
+                for (NSDictionary *setInfo in response[@"photoset"]) {
                     FLPhotoset *set = [[FLPhotoset alloc] initWithDictionary:setInfo];
                     [photosets addObject:set];
                 }
                 completion(photosets, nil);
-            }
-            else
-            {
+            } else {
                 NSError *error = [NSError errorWithDomain:kFLClientErrorDomain
                                                      code:1100
                                                  userInfo:@{NSLocalizedDescriptionKey:response[@"message"]}];
                 completion(nil, error);
             }
-        }
-        else
-        {
+        } else {
             NSError *error = [NSError errorWithDomain:kFLClientErrorDomain
                                                  code:1000
                                              userInfo:@{NSLocalizedDescriptionKey:@"Unexpected response received from Flickr API."}];
@@ -178,8 +162,7 @@ static FLClient *_sharedClient = nil;
     #endif
 }
 
-- (void)getPhotosInPhotoset:(FLPhotoset *)photoset completion:(void (^)(NSArray *, NSError *))completion
-{
+- (void)getPhotosInPhotoset:(FLPhotoset *)photoset completion:(void (^)(NSArray *, NSError *))completion {
     NSAssert(self.apiKey, @"API key not set.");
 
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:[self defaultRequestParameters]];
@@ -189,30 +172,25 @@ static FLClient *_sharedClient = nil;
 
     #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
     [self.networkManager GET:@"rest" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
-        if ([responseObject isKindOfClass:[NSDictionary class]])
-        {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
             NSDictionary *response = responseObject;
-            if ([response[@"stat"] isEqualToString:@"ok"])
-            {
+
+            if ([response[@"stat"] isEqualToString:@"ok"]) {
                 response = response[@"photoset"];
                 NSMutableArray *photos = [NSMutableArray array];
-                for (NSDictionary *photoInfo in response[@"photo"])
-                {
+
+                for (NSDictionary *photoInfo in response[@"photo"]) {
                     FLPhoto *photo = [[FLPhoto alloc] initWithDictionary:photoInfo];
                     [photos addObject:photo];
                 }
                 completion(photos, nil);
-            }
-            else
-            {
+            } else {
                 NSError *error = [NSError errorWithDomain:kFLClientErrorDomain
                                                      code:1100
                                                  userInfo:@{NSLocalizedDescriptionKey:response[@"message"]}];
                 completion(nil, error);
             }
-        }
-        else
-        {
+        } else {
             NSError *error = [NSError errorWithDomain:kFLClientErrorDomain
                                                  code:1000
                                              userInfo:@{NSLocalizedDescriptionKey:@"Unexpected response received from Flickr API."}];
@@ -224,30 +202,25 @@ static FLClient *_sharedClient = nil;
 
     #else
     [self.networkManager GET:@"rest" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        if ([responseObject isKindOfClass:[NSDictionary class]])
-        {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
             NSDictionary *response = responseObject;
-            if ([response[@"stat"] isEqualToString:@"ok"])
-            {
+
+            if ([response[@"stat"] isEqualToString:@"ok"]) {
                 response = response[@"photoset"];
                 NSMutableArray *photos = [NSMutableArray array];
-                for (NSDictionary *photoInfo in response[@"photo"])
-                {
+
+                for (NSDictionary *photoInfo in response[@"photo"]) {
                     FLPhoto *photo = [[FLPhoto alloc] initWithDictionary:photoInfo];
                     [photos addObject:photo];
                 }
                 completion(photos, nil);
-            }
-            else
-            {
+            } else {
                 NSError *error = [NSError errorWithDomain:kFLClientErrorDomain
                                                      code:1100
                                                  userInfo:@{NSLocalizedDescriptionKey:response[@"message"]}];
                 completion(nil, error);
             }
-        }
-        else
-        {
+        } else {
             NSError *error = [NSError errorWithDomain:kFLClientErrorDomain
                                                  code:1000
                                              userInfo:@{NSLocalizedDescriptionKey:@"Unexpected response received from Flickr API."}];

@@ -22,7 +22,6 @@
 
 #import <UIKit/UIKit.h>
 
-
 #pragma mark -
 @interface PhotosViewController : UICollectionViewController
 <UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate, UIActionSheetDelegate>

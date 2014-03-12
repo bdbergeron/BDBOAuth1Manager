@@ -22,15 +22,13 @@
 
 #import "FLPhotoset.h"
 
-
 #pragma mark -
 @implementation FLPhotoset
 
-- (id)initWithDictionary:(NSDictionary *)photosetInfo
-{
+- (id)initWithDictionary:(NSDictionary *)photosetInfo {
     self = [super init];
-    if (self)
-    {
+
+    if (self) {
         _setId   = photosetInfo[@"id"];
         _primary = photosetInfo[@"primary"];
         _secret  = photosetInfo[@"secret"];
@@ -43,14 +41,15 @@
         _title = [photosetInfo[@"title"][@"_content"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         _description = [photosetInfo[@"description"][@"_content"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     }
+
     return self;
 }
 
 #pragma mark Equivalency
-- (BOOL)isEqualToPhotoset:(FLPhotoset *)album
-{
-    if (!album)
+- (BOOL)isEqualToPhotoset:(FLPhotoset *)album {
+    if (!album) {
         return NO;
+    }
 
     BOOL haveEqualTitles = (!self.title && !album.title) || [self.title isEqualToString:album.title];
     BOOL haveSamePhotos = (!self.photos && !album.photos) || [self.photos isEqualToArray:album.photos];
@@ -58,14 +57,16 @@
     return haveEqualTitles && haveSamePhotos;
 }
 
-- (BOOL)isEqual:(id)object
-{
-    if (object == self)
+- (BOOL)isEqual:(id)object {
+    if (object == self) {
         return YES;
-    if (![object isKindOfClass:[FLPhotoset class]])
+    }
+
+    if (![object isKindOfClass:[FLPhotoset class]]) {
         return NO;
-    else
+    } else {
         return [self isEqualToPhotoset:(FLPhotoset *)object];
+    }
 }
 
 @end

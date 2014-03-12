@@ -24,15 +24,13 @@
 
 #import "PhotoAlbumCell.h"
 
-
 #pragma mark -
 @implementation PhotoAlbumCell
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    if (self)
-    {
+
+    if (self) {
         self.contentView.clipsToBounds = YES;
 
         self.activityIndicator = [[UIActivityIndicatorView alloc] init];
@@ -45,11 +43,11 @@
         self.imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [self.contentView addSubview:self.imageView];
     }
+
     return self;
 }
 
-- (void)prepareForReuse
-{
+- (void)prepareForReuse {
     self.imageView.image = nil;
 }
 

@@ -25,7 +25,6 @@
 #import "AppDelegate.h"
 #import "PhotosViewController.h"
 
-
 #pragma mark -
 @interface AppDelegate ()
 
@@ -41,18 +40,16 @@
 
 @end
 
-
 #pragma mark -
 @implementation AppDelegate
 
-static AppDelegate *_sharedDelegate = nil;
+static AppDelegate * _sharedDelegate = nil;
 
 #pragma mark Initialization
-- (id)init
-{
+- (id)init {
     self = [super init];
-    if (self)
-    {
+
+    if (self) {
         _apiKey = @"06f28faf9b97104e367ca32103eab53b";
 
         NSURL *apiURL = [NSURL URLWithString:@"http://api.flickr.com/services/"];
@@ -67,17 +64,16 @@ static AppDelegate *_sharedDelegate = nil;
         _sharedDelegate = self;
         _photosVC = [PhotosViewController new];
     }
+
     return self;
 }
 
-+ (instancetype)sharedDelegate
-{
++ (instancetype)sharedDelegate {
     return _sharedDelegate;
 }
 
 #pragma mark OAuth Authorization
-- (void)authorize
-{
+- (void)authorize {
     [self.networkManager fetchRequestTokenWithPath:@"oauth/request_token"
                                             method:@"POST"
                                        callbackURL:[NSURL URLWithString:@"bdbflickr://request"]
@@ -98,35 +94,34 @@ static AppDelegate *_sharedDelegate = nil;
                                            }];
 }
 
-- (void)deauthorizeWithCompletion:(void (^)(void))completion
-{
+- (void)deauthorizeWithCompletion:(void (^)(void))completion {
     [self.networkManager deauthorize];
-    if (completion)
+
+    if (completion) {
         completion();
+    }
 }
 
 #pragma mark Application Lifecyle
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:self.photosVC];
     [self.window makeKeyAndVisible];
 
-    if (!self.networkManager.isAuthorized)
+    if (!self.networkManager.isAuthorized) {
         [self authorize];
+    }
 
     return YES;
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-    if ([url.scheme isEqualToString:@"bdbflickr"])
-    {
-        if ([url.host isEqualToString:@"request"])
-        {
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    if ([url.scheme isEqualToString:@"bdbflickr"]) {
+        if ([url.host isEqualToString:@"request"]) {
             NSDictionary *parameters = [NSDictionary dictionaryFromQueryString:url.query];
-            if (parameters[@"oauth_token"] && parameters[@"oauth_verifier"])
+
+            if (parameters[@"oauth_token"] && parameters[@"oauth_verifier"]) {
                 [self.networkManager fetchAccessTokenWithPath:@"oauth/access_token"
                                                        method:@"POST"
                                                  requestToken:[BDBOAuthToken tokenWithQueryString:url.query]
@@ -146,9 +141,12 @@ static AppDelegate *_sharedDelegate = nil;
                                                                                 otherButtonTitles:nil] show];
                                                           });
                                                       }];
+            }
         }
+
         return YES;
     }
+
     return NO;
 }
 

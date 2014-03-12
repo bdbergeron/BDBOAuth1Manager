@@ -24,7 +24,6 @@
 
 #import "PhotoAlbumHeaderView.h"
 
-
 #pragma mark -
 @implementation PhotoAlbumHeaderView
 

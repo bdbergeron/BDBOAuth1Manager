@@ -29,7 +29,6 @@
 
 #import "UIImageView+AFNetworking.h"
 
-
 #pragma mark -
 @interface PhotosViewController ()
 
@@ -47,18 +46,16 @@
 
 @end
 
-
 #pragma mark -
 @implementation PhotosViewController
 
-- (id)init
-{
+- (id)init {
     PhotoAlbumLayout *photosLayout = [[PhotoAlbumLayout alloc] init];
     photosLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
 
     self = [super initWithCollectionViewLayout:photosLayout];
-    if (self)
-    {
+
+    if (self) {
         self.collectionView.backgroundColor = [UIColor whiteColor];
         self.collectionView.alwaysBounceVertical = YES;
 
@@ -70,16 +67,17 @@
         [_refreshControl addTarget:self action:@selector(loadImages) forControlEvents:UIControlEventValueChanged];
         [self.collectionView addSubview:_refreshControl];
 
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7)
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
             self.edgesForExtendedLayout = UIRectEdgeNone;
+        }
 
         [FLClient clientWithAPIKey:[[AppDelegate sharedDelegate] apiKey] networkManager:[[AppDelegate sharedDelegate] networkManager]];
     }
+
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 
     self.title = @"Photos";
@@ -99,18 +97,17 @@
                                                                              action:@selector(logInOut)];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
-    if ([[[AppDelegate sharedDelegate] networkManager] isAuthorized])
+    if ([[[AppDelegate sharedDelegate] networkManager] isAuthorized]) {
         [self loadImages];
+    }
 }
 
 #pragma mark Authorization
-- (void)logInOut
-{
-    if ([[[AppDelegate sharedDelegate] networkManager] isAuthorized])
+- (void)logInOut {
+    if ([[[AppDelegate sharedDelegate] networkManager] isAuthorized]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [[[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?"
                                          delegate:self
@@ -118,14 +115,13 @@
                            destructiveButtonTitle:@"Log Out"
                                 otherButtonTitles:nil] showInView:self.view];
         });
-    else
+    } else {
         [[AppDelegate sharedDelegate] authorize];
+    }
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == actionSheet.destructiveButtonIndex)
-    {
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == actionSheet.destructiveButtonIndex) {
         self.photosets = [NSMutableSet set];
         self.sortedPhotosets = [NSArray array];
         [self.collectionView reloadData];
@@ -138,24 +134,22 @@
 }
 
 #pragma mark Load Images
-- (void)loadImages
-{
-    if (!self.refreshControl.isRefreshing)
+- (void)loadImages {
+    if (!self.refreshControl.isRefreshing) {
         [self.refreshControl beginRefreshing];
+    }
     [self loadPhotosets];
 }
 
-- (void)loadPhotosets
-{
+- (void)loadPhotosets {
     [[FLClient sharedClient] getPhotosetsWithCompletion:^(NSSet *photosets, NSError *error) {
-        if (!error)
-        {
+        if (!error) {
             self.photosets = photosets;
-            for (FLPhotoset *photoset in photosets)
+
+            for (FLPhotoset *photoset in photosets) {
                 [self loadPhotosInSet:photoset];
-        }
-        else
-        {
+            }
+        } else {
             NSLog(@"Error: %@", error.localizedDescription);
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[[UIAlertView alloc] initWithTitle:@"Error"
@@ -168,15 +162,11 @@
     }];
 }
 
-- (void)loadPhotosInSet:(FLPhotoset *)photoset
-{
+- (void)loadPhotosInSet:(FLPhotoset *)photoset {
     [[FLClient sharedClient] getPhotosInPhotoset:photoset completion:^(NSArray *photos, NSError *error) {
-        if (!error)
-        {
+        if (!error) {
             photoset.photos = photos;
-        }
-        else
-        {
+        } else {
             NSLog(@"Error: %@", error.localizedDescription);
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[[UIAlertView alloc] initWithTitle:@"Error"
@@ -190,8 +180,7 @@
     }];
 }
 
-- (void)sortPhotosets
-{
+- (void)sortPhotosets {
     self.sortedPhotosets = [self.photosets.allObjects sortedArrayUsingComparator:^NSComparisonResult(FLPhotoset *set1, FLPhotoset *set2) {
         return [set1.dateCreated compare:set2.dateCreated];
     }];
@@ -202,21 +191,19 @@
 }
 
 #pragma mark CollectionView DataSource
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return self.sortedPhotosets.count;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView
-     numberOfItemsInSection:(NSInteger)section
-{
+     numberOfItemsInSection:(NSInteger)section {
     FLPhotoset *photoset =  self.sortedPhotosets[section];
+
     return photoset.photos.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
-                  cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
+                  cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     PhotoAlbumCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PhotoAlbumCell"
                                                                      forIndexPath:indexPath];
 
@@ -242,8 +229,7 @@
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
            viewForSupplementaryElementOfKind:(NSString *)kind
-                                 atIndexPath:(NSIndexPath *)indexPath
-{
+                                 atIndexPath:(NSIndexPath *)indexPath {
     FLPhotoset *photosetForCell = self.sortedPhotosets[indexPath.section];
 
     PhotoAlbumHeaderView *headerView =
@@ -260,8 +246,7 @@
 #pragma mark CollectionView Layout Delegate
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
-  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat padding = [self collectionView:collectionView
                                     layout:collectionViewLayout
   minimumInteritemSpacingForSectionAtIndex:indexPath.section];
@@ -274,29 +259,25 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
-referenceSizeForHeaderInSection:(NSInteger)section
-{
+referenceSizeForHeaderInSection:(NSInteger)section {
     return self.photoAlbumHeader.bounds.size;
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
                         layout:(UICollectionViewLayout *)collectionViewLayout
-        insetForSectionAtIndex:(NSInteger)section
-{
+        insetForSectionAtIndex:(NSInteger)section {
     return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView
                    layout:(UICollectionViewLayout *)collectionViewLayout
-minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
-{
+minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
     return 3.0;
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView
                    layout:(UICollectionViewLayout *)collectionViewLayout
-minimumLineSpacingForSectionAtIndex:(NSInteger)section
-{
+minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return [self collectionView:collectionView layout:collectionViewLayout minimumInteritemSpacingForSectionAtIndex:section];
 }
 

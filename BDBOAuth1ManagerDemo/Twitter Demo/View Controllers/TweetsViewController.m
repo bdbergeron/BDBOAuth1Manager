@@ -26,7 +26,6 @@
 #import "TweetCell.h"
 #import "TweetsViewController.h"
 
-
 #pragma mark -
 @interface TweetsViewController ()
 
@@ -37,12 +36,10 @@
 
 @end
 
-
 #pragma mark -
 @implementation TweetsViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 
     self.title = @"Tweets";
@@ -56,8 +53,9 @@
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(refreshFeed) forControlEvents:UIControlEventValueChanged];
 
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7)
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
         self.tableView.separatorInset = UIEdgeInsetsZero;
+    }
 
     NSString *logInOutString = ([[[AppDelegate sharedDelegate] networkManager] isAuthorized]) ? @"Log Out" : @"Log In";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:logInOutString
@@ -68,18 +66,17 @@
     self.tweets = [NSMutableArray array];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
-    if ([[[AppDelegate sharedDelegate] networkManager] isAuthorized])
+    if ([[[AppDelegate sharedDelegate] networkManager] isAuthorized]) {
         [self refreshFeed];
+    }
 }
 
 #pragma mark Authorization
-- (void)logInOut
-{
-    if ([[[AppDelegate sharedDelegate] networkManager] isAuthorized])
+- (void)logInOut {
+    if ([[[AppDelegate sharedDelegate] networkManager] isAuthorized]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [[[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?"
                                          delegate:self
@@ -87,14 +84,13 @@
                            destructiveButtonTitle:@"Log Out"
                                 otherButtonTitles:nil] showInView:self.view];
         });
-    else
+    } else {
         [[AppDelegate sharedDelegate] authorize];
+    }
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == actionSheet.destructiveButtonIndex)
-    {
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == actionSheet.destructiveButtonIndex) {
         self.tweets = [NSMutableArray array];
         [self.tableView reloadData];
         [[AppDelegate sharedDelegate] deauthorizeWithCompletion:^{
@@ -106,11 +102,10 @@
 }
 
 #pragma mark Load Tweets
-- (void)refreshFeed
-{
-    if (![[[AppDelegate sharedDelegate] networkManager] isAuthorized])
-    {
+- (void)refreshFeed {
+    if (![[[AppDelegate sharedDelegate] networkManager] isAuthorized]) {
         [self didLoadTweetsWithError:nil];
+
         return;
     }
 
@@ -141,32 +136,31 @@
 #endif
 }
 
-- (void)didLoadTweetsWithError:(NSError *)error
-{
+- (void)didLoadTweetsWithError:(NSError *)error {
     [self.refreshControl endRefreshing];
 
-    if (!error)
+    if (!error) {
         [self.tableView reloadData];
-    else
+    } else {
         NSLog(@"Error: %@", error);
+    }
 }
 
 #pragma mark TableView Data Source
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.tweets.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell" forIndexPath:indexPath];
-    if (!cell)
+
+    if (!cell) {
         cell = [[TweetCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TweetCell"];
+    }
 
     NSDictionary *tweet = self.tweets[indexPath.row];
     cell.tweetLabel.text = tweet[@"text"];
@@ -175,8 +169,7 @@
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return self.tweetCell.frame.size.height;
 }
 

@@ -22,7 +22,6 @@
 
 #import <UIKit/UIKit.h>
 
-
 #pragma mark -
 @interface PhotoAlbumLayout : UICollectionViewFlowLayout
 

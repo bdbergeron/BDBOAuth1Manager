@@ -22,7 +22,6 @@
 
 #import <Foundation/Foundation.h>
 
-
 #pragma mark -
 @interface FLPhotoset : NSObject
 

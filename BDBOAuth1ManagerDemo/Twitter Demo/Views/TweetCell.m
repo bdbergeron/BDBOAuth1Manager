@@ -22,18 +22,18 @@
 
 #import "TweetCell.h"
 
-
 #pragma mark -
 @implementation TweetCell
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib {
     self.userImage.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
     self.userImage.layer.masksToBounds = YES;
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7)
+
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
         self.userImage.layer.cornerRadius = self.userImage.frame.size.width / 2.0;
-    else
+    } else {
         self.userImage.layer.cornerRadius = 5.0;
+    }
     self.userImage.layer.rasterizationScale = [[UIScreen mainScreen] scale];
     self.userImage.layer.shouldRasterize = YES;
     self.userImage.clipsToBounds = YES;
@@ -41,8 +41,7 @@
     [self prepareForReuse];
 }
 
-- (void)prepareForReuse
-{
+- (void)prepareForReuse {
     self.tweetLabel.text = nil;
     self.userImage.image = nil;
 }

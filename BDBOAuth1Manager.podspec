@@ -13,7 +13,6 @@ Pod::Spec.new do |s|
 
   s.source_files = 'BDBOAuth1Manager/Categories/*.{h,m}', 'BDBOAuth1Manager/*.{h,m}'
 
-  s.dependency 'AFNetworking/NSURLConnection', '~> 2.1.0'
-  s.dependency 'AFNetworking/NSURLSession', '~> 2.1.0'
-  s.dependency 'Base64nl', '~> 1.1'
+  s.dependency 'AFNetworking/NSURLConnection', '~> 2.2.0'
+  s.dependency 'AFNetworking/NSURLSession', '~> 2.2.0'
 end

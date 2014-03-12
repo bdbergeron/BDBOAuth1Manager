@@ -20,10 +20,10 @@
 //  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import <BDBOAuth1Manager/NSDictionary+BDBOAuth1Manager.h>
-
 #import "AppDelegate.h"
 #import "TweetsViewController.h"
+
+#import "NSDictionary+BDBOAuth1Manager.h"
 
 #pragma mark -
 @interface AppDelegate ()

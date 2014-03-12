@@ -20,10 +20,10 @@
 //  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import <BDBOAuth1Manager/BDBOAuth1RequestOperationManager.h>
-#import <BDBOAuth1Manager/BDBOAuth1SessionManager.h>
 #import <Foundation/Foundation.h>
 
+#import "BDBOAuth1RequestOperationManager.h"
+#import "BDBOAuth1SessionManager.h"
 #import "FLPhotoset.h"
 #import "FLPhoto.h"
 

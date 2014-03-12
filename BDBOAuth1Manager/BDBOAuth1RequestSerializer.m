@@ -22,12 +22,6 @@
 
 #import <CommonCrypto/CommonHMAC.h>
 
-#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
-    #define USE_NATIVE_BASE64_SUPPORT
-#else
-    #import "Base64.h"
-#endif
-
 #import "BDBOAuth1RequestSerializer.h"
 
 #import "NSDictionary+BDBOAuth1Manager.h"
@@ -261,10 +255,10 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
     CFUUIDBytes uuidBytes = CFUUIDGetUUIDBytes(uuid);
     CFRelease(uuid);
     
-#ifdef USE_NATIVE_BASE64_SUPPORT
+#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
     parameters[@"oauth_nonce"] = [[NSData dataWithBytes:&uuidBytes length:sizeof(uuidBytes)] base64EncodedStringWithOptions:0];
 #else
-    parameters[@"oauth_nonce"] = [[NSData dataWithBytes:&uuidBytes length:sizeof(uuidBytes)] base64EncodedString];
+    parameters[@"oauth_nonce"] = [[NSData dataWithBytes:&uuidBytes length:sizeof(uuidBytes)] base64Encoding];
 #endif
                                   
     return parameters;
@@ -312,10 +306,10 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
     CCHmacUpdate(&context, [requestData bytes], [requestData length]);
     CCHmacFinal(&context, digest);
 
-#ifdef USE_NATIVE_BASE64_SUPPORT
+#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
     return [[NSData dataWithBytes:digest length:CC_SHA1_DIGEST_LENGTH] base64EncodedStringWithOptions:0];
 #else
-    return [[NSData dataWithBytes:digest length:CC_SHA1_DIGEST_LENGTH] base64EncodedString];
+    return [[NSData dataWithBytes:digest length:CC_SHA1_DIGEST_LENGTH] base64Encoding];
 #endif
 }
 

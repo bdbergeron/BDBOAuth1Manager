@@ -25,6 +25,13 @@
 
 FOUNDATION_EXPORT NSString * const BDBOAuth1ErrorDomain;
 
+FOUNDATION_EXPORT NSString * const BDBOAuth1OAuthTokenParameter;
+FOUNDATION_EXPORT NSString * const BDBOAuth1OAuthTokenSecretParameter;
+FOUNDATION_EXPORT NSString * const BDBOAuth1OAuthVerifierParameter;
+FOUNDATION_EXPORT NSString * const BDBOAuth1OAuthTokenDurationParameter;
+FOUNDATION_EXPORT NSString * const BDBOAuth1OAuthSignatureParameter;
+FOUNDATION_EXPORT NSString * const BDBOAuth1OAuthCallbackParameter;
+
 
 #pragma mark -
 @interface BDBOAuthToken : NSObject

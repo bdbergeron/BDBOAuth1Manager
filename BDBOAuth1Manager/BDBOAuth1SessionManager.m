@@ -70,7 +70,7 @@
     self.responseSerializer = [AFHTTPResponseSerializer serializer];
 
     NSMutableDictionary *parameters = [[self.requestSerializer OAuthParameters] mutableCopy];
-    parameters[@"oauth_callback"] = [callbackURL absoluteString];
+    parameters[BDBOAuth1OAuthCallbackParameter] = [callbackURL absoluteString];
     if (scope && !self.requestSerializer.accessToken)
         parameters[@"scope"] = scope;
 
@@ -113,8 +113,8 @@
         self.responseSerializer = [AFHTTPResponseSerializer serializer];
 
         NSMutableDictionary *parameters = [[self.requestSerializer OAuthParameters] mutableCopy];
-        parameters[@"oauth_token"]    = requestToken.token;
-        parameters[@"oauth_verifier"] = requestToken.verifier;
+        parameters[BDBOAuth1OAuthTokenParameter]    = requestToken.token;
+        parameters[BDBOAuth1OAuthVerifierParameter] = requestToken.verifier;
 
         NSString *URLString = [[NSURL URLWithString:accessPath relativeToURL:self.baseURL] absoluteString];
         NSError *error;

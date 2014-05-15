@@ -121,7 +121,7 @@ static AppDelegate * _sharedDelegate = nil;
         if ([url.host isEqualToString:@"request"]) {
             NSDictionary *parameters = [NSDictionary dictionaryFromQueryString:url.query];
 
-            if (parameters[@"oauth_token"] && parameters[@"oauth_verifier"]) {
+            if (parameters[BDBOAuth1OAuthTokenParameter] && parameters[BDBOAuth1OAuthVerifierParameter]) {
                 [self.networkManager fetchAccessTokenWithPath:@"oauth/access_token"
                                                        method:@"POST"
                                                  requestToken:[BDBOAuthToken tokenWithQueryString:url.query]

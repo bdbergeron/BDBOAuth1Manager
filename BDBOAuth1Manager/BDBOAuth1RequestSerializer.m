@@ -329,8 +329,9 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
     if (self.consumerKey && self.consumerSecret)
     {
         [mutableAuthorizationParameters addEntriesFromDictionary:[self OAuthParameters]];
-        if (self.accessToken)
-            mutableAuthorizationParameters[@"oauth_token"] = self.accessToken.token;
+        NSString *token = self.accessToken.token;
+        if (token)
+            mutableAuthorizationParameters[@"oauth_token"] = token;
     }
 
     [mutableParameters enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {

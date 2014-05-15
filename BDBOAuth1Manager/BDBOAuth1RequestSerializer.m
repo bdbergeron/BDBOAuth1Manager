@@ -360,8 +360,10 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
     {
         [mutableAuthorizationParameters addEntriesFromDictionary:[self OAuthParameters]];
 
-        if (self.accessToken.token)
-            mutableAuthorizationParameters[BDBOAuth1OAuthTokenParameter] = self.accessToken.token;
+        NSString *token = self.accessToken.token;
+        
+        if (token)
+            mutableAuthorizationParameters[BDBOAuth1OAuthTokenParameter] = token;
     }
 
     [mutableParameters enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {

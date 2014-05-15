@@ -52,7 +52,7 @@ static AppDelegate * _sharedDelegate = nil;
     if (self) {
         _apiKey = @"06f28faf9b97104e367ca32103eab53b";
 
-        NSURL *apiURL = [NSURL URLWithString:@"http://api.flickr.com/services/"];
+        NSURL *apiURL = [NSURL URLWithString:@"https://api.flickr.com/services/"];
         NSString *consumerSecret = @"fa85fa7972dcea82";
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000

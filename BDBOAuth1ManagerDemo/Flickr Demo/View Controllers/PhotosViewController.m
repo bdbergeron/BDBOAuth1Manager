@@ -125,6 +125,7 @@
         self.photosets = [NSMutableSet set];
         self.sortedPhotosets = [NSArray array];
         [self.collectionView reloadData];
+
         [[AppDelegate sharedDelegate] deauthorizeWithCompletion:^{
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.navigationItem.rightBarButtonItem.title = @"Log In";
@@ -138,6 +139,7 @@
     if (!self.refreshControl.isRefreshing) {
         [self.refreshControl beginRefreshing];
     }
+
     [self loadPhotosets];
 }
 
@@ -145,6 +147,7 @@
     [[FLClient sharedClient] getPhotosetsWithCompletion:^(NSSet *photosets, NSError *error) {
         if (!error) {
             self.photosets = photosets;
+            self.numberOfSetsLoading = photosets.count;
 
             for (FLPhotoset *photoset in photosets) {
                 [self loadPhotosInSet:photoset];
@@ -164,6 +167,8 @@
 
 - (void)loadPhotosInSet:(FLPhotoset *)photoset {
     [[FLClient sharedClient] getPhotosInPhotoset:photoset completion:^(NSArray *photos, NSError *error) {
+        self.numberOfSetsLoading--;
+
         if (!error) {
             photoset.photos = photos;
         } else {
@@ -176,7 +181,10 @@
                                   otherButtonTitles:nil] show];
             });
         }
-        [self sortPhotosets];
+
+        if (self.numberOfSetsLoading == 0) {
+            [self sortPhotosets];
+        }
     }];
 }
 
@@ -187,6 +195,7 @@
 
     [self.collectionView reloadData];
     self.collectionView.scrollEnabled = YES;
+
     [self.refreshControl endRefreshing];
 }
 
@@ -238,7 +247,7 @@
                                               forIndexPath:indexPath];
 
     headerView.albumTitleLabel.text = photosetForCell.title;
-    headerView.photoCountLabel.text = [NSString stringWithFormat:@"%i photos", photosetForCell.photos.count];
+    headerView.photoCountLabel.text = [NSString stringWithFormat:@"%lu photos", (unsigned long)photosetForCell.photos.count];
 
     return headerView;
 }

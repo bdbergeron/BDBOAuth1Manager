@@ -7,20 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		23F23C34BAB74D44B407D0F7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 325C62C555FD4AB7884ED515 /* libPods.a */; };
-		E091246AB7CA4146B61AC43B /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 325C62C555FD4AB7884ED515 /* libPods.a */; };
 		E8284C8518464EF900B3C6AA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E8284C6918464ED900B3C6AA /* AppDelegate.m */; };
 		E8284C8F18464EF900B3C6AA /* PhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8284C7418464ED900B3C6AA /* PhotosViewController.m */; };
 		E8284C9F18464EF900B3C6AA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E8284C7118464ED900B3C6AA /* main.m */; };
-		E8284CA218464EF900B3C6AA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8AF5F1F182552F900FAD1AA /* UIKit.framework */; };
-		E8284CA318464EF900B3C6AA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8AF5F1D182552F300FAD1AA /* Foundation.framework */; };
 		E8284CA618464EF900B3C6AA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E8284C6D18464ED900B3C6AA /* InfoPlist.strings */; };
 		E8284CB01846500000B3C6AA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E8F376351808769B00C40148 /* InfoPlist.strings */; };
+		E86A44DF19244C4400700A9C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E86A44DE19244C4400700A9C /* libPods.a */; };
+		E86A44E219244C9900700A9C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E86A44DE19244C4400700A9C /* libPods.a */; };
 		E88595A2184A289300BD7AEC /* Twitter.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E88595A1184A289300BD7AEC /* Twitter.xcassets */; };
 		E88595A5184A28B700BD7AEC /* Flickr.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E88595A4184A28B700BD7AEC /* Flickr.xcassets */; };
 		E88595A8184A751500BD7AEC /* FLClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E88595A7184A751500BD7AEC /* FLClient.m */; };
-		E8AF5F1E182552F300FAD1AA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8AF5F1D182552F300FAD1AA /* Foundation.framework */; };
-		E8AF5F20182552F900FAD1AA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8AF5F1F182552F900FAD1AA /* UIKit.framework */; };
 		E8D8E0BF180884DD00CDCB7D /* TweetsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D8E0BE180884DD00CDCB7D /* TweetsViewController.m */; };
 		E8E54C1C180C823400010143 /* TweetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8E54C1B180C823400010143 /* TweetCell.xib */; };
 		E8E54C20180C830A00010143 /* TweetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E54C1F180C830A00010143 /* TweetCell.m */; };
@@ -36,7 +32,6 @@
 
 /* Begin PBXFileReference section */
 		108EC6D2758D4F83A7E4EC02 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
-		325C62C555FD4AB7884ED515 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8284C6818464ED900B3C6AA /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E8284C6918464ED900B3C6AA /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		E8284C6E18464ED900B3C6AA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -46,12 +41,11 @@
 		E8284C7318464ED900B3C6AA /* PhotosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotosViewController.h; sourceTree = "<group>"; };
 		E8284C7418464ED900B3C6AA /* PhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosViewController.m; sourceTree = "<group>"; };
 		E8284CAE18464EF900B3C6AA /* Flickr Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flickr Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E86A44DE19244C4400700A9C /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		E88595A1184A289300BD7AEC /* Twitter.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Twitter.xcassets; sourceTree = "<group>"; };
 		E88595A4184A28B700BD7AEC /* Flickr.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Flickr.xcassets; sourceTree = "<group>"; };
 		E88595A6184A751500BD7AEC /* FLClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLClient.h; sourceTree = "<group>"; };
 		E88595A7184A751500BD7AEC /* FLClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLClient.m; sourceTree = "<group>"; };
-		E8AF5F1D182552F300FAD1AA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		E8AF5F1F182552F900FAD1AA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E8D8E0BD180884DD00CDCB7D /* TweetsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetsViewController.h; sourceTree = "<group>"; };
 		E8D8E0BE180884DD00CDCB7D /* TweetsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetsViewController.m; sourceTree = "<group>"; };
 		E8E54C1B180C823400010143 /* TweetCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TweetCell.xib; sourceTree = "<group>"; };
@@ -82,9 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E8284CA218464EF900B3C6AA /* UIKit.framework in Frameworks */,
-				E8284CA318464EF900B3C6AA /* Foundation.framework in Frameworks */,
-				23F23C34BAB74D44B407D0F7 /* libPods.a in Frameworks */,
+				E86A44E219244C9900700A9C /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,9 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E8AF5F20182552F900FAD1AA /* UIKit.framework in Frameworks */,
-				E8AF5F1E182552F300FAD1AA /* Foundation.framework in Frameworks */,
-				E091246AB7CA4146B61AC43B /* libPods.a in Frameworks */,
+				E86A44DF19244C4400700A9C /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -189,9 +179,9 @@
 			children = (
 				E8284C6718464ED900B3C6AA /* Flickr Demo */,
 				E8F375CE1808743300C40148 /* Twitter Demo */,
-				E8F375C71808743300C40148 /* Frameworks */,
 				E8F375C61808743300C40148 /* Products */,
 				108EC6D2758D4F83A7E4EC02 /* Pods.xcconfig */,
+				E86A44DE19244C4400700A9C /* libPods.a */,
 			);
 			sourceTree = "<group>";
 		};
@@ -202,16 +192,6 @@
 				E8284CAE18464EF900B3C6AA /* Flickr Demo.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		E8F375C71808743300C40148 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				E8AF5F1F182552F900FAD1AA /* UIKit.framework */,
-				E8AF5F1D182552F300FAD1AA /* Foundation.framework */,
-				325C62C555FD4AB7884ED515 /* libPods.a */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		E8F375CE1808743300C40148 /* Twitter Demo */ = {

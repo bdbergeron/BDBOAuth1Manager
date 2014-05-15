@@ -283,7 +283,7 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
 #if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
     parameters[BDBOAuth1SignatureNonceParameter] = [[NSData dataWithBytes:&uuidBytes length:sizeof(uuidBytes)] base64EncodedStringWithOptions:0];
 #else
-    parameters[BDBOAuth1OAuthNonceParameter] = [[NSData dataWithBytes:&uuidBytes length:sizeof(uuidBytes)] base64Encoding];
+    parameters[BDBOAuth1SignatureNonceParameter] = [[NSData dataWithBytes:&uuidBytes length:sizeof(uuidBytes)] base64Encoding];
 #endif
                                   
     return parameters;

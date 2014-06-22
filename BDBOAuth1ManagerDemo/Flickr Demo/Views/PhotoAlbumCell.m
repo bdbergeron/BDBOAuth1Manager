@@ -33,12 +33,12 @@
     if (self) {
         self.contentView.clipsToBounds = YES;
 
-        self.activityIndicator = [[UIActivityIndicatorView alloc] init];
+        _activityIndicator = [UIActivityIndicatorView new];
         self.activityIndicator.center = self.contentView.center;
         self.activityIndicator.hidesWhenStopped = YES;
         [self.contentView addSubview:self.activityIndicator];
 
-        self.imageView = [[UIImageView alloc] initWithFrame:self.bounds];
+        _imageView = [[UIImageView alloc] initWithFrame:self.bounds];
         self.imageView.contentMode = UIViewContentModeScaleAspectFill;
         self.imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [self.contentView addSubview:self.imageView];

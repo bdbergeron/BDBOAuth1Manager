@@ -29,21 +29,23 @@
     self = [super init];
 
     if (self) {
-        _photoId = photoInfo[@"id"];
-        _secret  = photoInfo[@"secret"];
+        _photoId = [photoInfo[@"id"] copy];
+        _secret  = [photoInfo[@"secret"] copy];
 
-        _title = [photoInfo[@"title"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+
+        _title = [[photoInfo[@"title"] copy] stringByTrimmingCharactersInSet:whitespace];
 
         if (photoInfo[@"description"]) {
-            _description = [photoInfo[@"description"][@"_content"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            _description = [[photoInfo[@"description"][@"_content"] copy] stringByTrimmingCharactersInSet:whitespace];
         }
 
         if (photoInfo[@"url_t"]) {
-            _thumbnailURL = [NSURL URLWithString:photoInfo[@"url_t"]];
+            _thumbnailURL = [[NSURL URLWithString:photoInfo[@"url_t"]] copy];
         }
 
         if (photoInfo[@"url_o"]) {
-            _originalURL = [NSURL URLWithString:photoInfo[@"url_o"]];
+            _originalURL = [[NSURL URLWithString:photoInfo[@"url_o"]] copy];
         }
     }
 
@@ -51,17 +53,6 @@
 }
 
 #pragma mark Equality
-- (BOOL)isEqualToPhoto:(FLPhoto *)photo {
-    if (!photo) {
-        return NO;
-    }
-
-    BOOL haveEqualIds = (!self.photoId && !photo.photoId) || [self.photoId isEqualToString:photo.photoId];
-    BOOL haveEqualSecrets  = (!self.secret && !photo.secret) || [self.secret isEqualToString:photo.secret];
-
-    return haveEqualIds && haveEqualSecrets;
-}
-
 - (BOOL)isEqual:(id)object {
     if (object == self) {
         return YES;
@@ -74,8 +65,29 @@
     }
 }
 
+- (BOOL)isEqualToPhoto:(FLPhoto *)photo {
+    if (!photo) {
+        return NO;
+    }
+
+    BOOL equalId = (!self.photoId && !photo.photoId) || [self.photoId isEqualToString:photo.photoId];
+    BOOL equalSecret  = (!self.secret && !photo.secret) || [self.secret isEqualToString:photo.secret];
+
+    BOOL equalTitle = (!self.title && !photo.title) || [self.title isEqualToString:photo.title];
+    BOOL equalDescription = (!self.description && !photo.description) || [self.description isEqualToString:photo.description];
+
+    BOOL equalThumbnailURL = (!self.thumbnailURL && !photo.thumbnailURL) || [self.thumbnailURL isEqual:photo.thumbnailURL];
+    BOOL equalOriginalURL = (!self.originalURL && !photo.originalURL) || [self.originalURL isEqual:photo.originalURL];
+
+    return (equalId && equalSecret
+            && equalTitle && equalDescription
+            && equalThumbnailURL && equalOriginalURL);
+}
+
 - (NSUInteger)hash {
-    return self.photoId.hash ^ self.secret.hash;
+    return (self.photoId.hash ^ self.secret.hash
+            ^ self.title.hash ^ self.description.hash
+            ^ self.thumbnailURL.hash ^ self.originalURL.hash);
 }
 
 @end

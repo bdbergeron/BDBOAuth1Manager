@@ -30,10 +30,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.bradbergeron.bdboauth.flickr</string>
+			<string>com.bradbergeron.bdbflclientdemo</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>bdbflickr</string>
+				<string>bdbflclient</string>
 			</array>
 		</dict>
 	</array>

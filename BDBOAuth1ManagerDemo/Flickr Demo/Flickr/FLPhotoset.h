@@ -25,18 +25,20 @@
 #pragma mark -
 @interface FLPhotoset : NSObject
 
-@property (nonatomic, copy) NSString *setId;
-@property (nonatomic, copy) NSString *primary;
-@property (nonatomic, copy) NSString *secret;
+@property (nonatomic, copy, readonly) NSString *setId;
+@property (nonatomic, copy, readonly) NSString *primary;
+@property (nonatomic, copy, readonly) NSString *secret;
+
+@property (nonatomic, copy, readonly) NSString *title;
+@property (nonatomic, copy, readonly) NSString *description;
+
+@property (nonatomic, readonly) NSDate *dateCreated;
+@property (nonatomic, readonly) NSDate *dateUpdated;
 
 @property (nonatomic) NSArray *photos;
 
-@property (nonatomic) NSDate *dateCreated;
-@property (nonatomic) NSDate *dateUpdated;
-
-@property (nonatomic, copy) NSString *title;
-@property (nonatomic, copy) NSString *description;
-
 - (id)initWithDictionary:(NSDictionary *)photosetInfo;
+
+- (BOOL)isEqualToPhotoset:(FLPhotoset *)photoset;
 
 @end

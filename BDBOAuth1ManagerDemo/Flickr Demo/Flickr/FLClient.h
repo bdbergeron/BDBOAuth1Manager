@@ -27,19 +27,33 @@
 #import "FLPhotoset.h"
 #import "FLPhoto.h"
 
+
+FOUNDATION_EXPORT NSString * const FLClientErrorDomain;
+
+FOUNDATION_EXPORT NSString * const FLClientDidLogInNotification;
+FOUNDATION_EXPORT NSString * const FLClientDidLogOutNotification;
+
+
 #pragma mark -
 @interface FLClient : NSObject
 
-#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
-+ (instancetype)clientWithAPIKey:(NSString *)apiKey networkManager:(BDBOAuth1SessionManager *)manager;
-- (id)initWithAPIKey:(NSString *)apiKey networkManager:(BDBOAuth1SessionManager *)manager;
-#else
-+ (instancetype)clientWithAPIKey:(NSString *)apiKey networkManager:(BDBOAuth1RequestOperationManager *)manager;
-- (id)initWithAPIKey:(NSString *)apiKey networkManager:(BDBOAuth1RequestOperationManager *)manager;
-#endif
+@property (nonatomic, assign, readonly, getter = isAuthorized) BOOL authorized;
+
+#pragma mark Initialization
++ (instancetype)createWithAPIKey:(NSString *)apiKey secret:(NSString *)secret;
 + (instancetype)sharedClient;
 
+#pragma mark Authorization
+- (BOOL)isAuthorized;
++ (BOOL)isAuthorizationCallbackURL:(NSURL *)url;
+- (void)authorize;
+- (BOOL)handleAuthorizationCallbackURL:(NSURL *)url;
+- (void)deauthorize;
+
+#pragma mark Photosets
 - (void)getPhotosetsWithCompletion:(void (^)(NSSet *photosets, NSError *error))completion;
+
+#pragma mark Photos
 - (void)getPhotosInPhotoset:(FLPhotoset *)photoset completion:(void (^)(NSArray *photos, NSError *error))completion;
 
 @end

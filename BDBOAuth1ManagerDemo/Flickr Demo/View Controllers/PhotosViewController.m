@@ -27,7 +27,13 @@
 #import "PhotoAlbumLayout.h"
 #import "PhotosViewController.h"
 
-#import "UIImageView+AFNetworking.h"
+#import "AFNetworking/UIImageView+AFNetworking.h"
+#import "BBlock/UIKit+BBlock.h"
+
+
+static NSString * const kPhotoAlbumHeaderViewReuseIdentifier = @"PhotoAlbumHeaderView";
+static NSString * const kPhotoAlbumPhotoCellReuseIdentifier  = @"PhotoAlbumCell";
+
 
 #pragma mark -
 @interface PhotosViewController ()
@@ -50,7 +56,7 @@
 @implementation PhotosViewController
 
 - (id)init {
-    PhotoAlbumLayout *photosLayout = [[PhotoAlbumLayout alloc] init];
+    PhotoAlbumLayout *photosLayout = [PhotoAlbumLayout new];
     photosLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
 
     self = [super initWithCollectionViewLayout:photosLayout];
@@ -71,7 +77,19 @@
             self.edgesForExtendedLayout = UIRectEdgeNone;
         }
 
-        [FLClient clientWithAPIKey:[[AppDelegate sharedDelegate] apiKey] networkManager:[[AppDelegate sharedDelegate] networkManager]];
+        [[NSNotificationCenter defaultCenter] addObserverForName:FLClientDidLogInNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+            [self loadImages];
+
+            [self.navigationItem.rightBarButtonItem setTitle:NSLocalizedString(@"Log Out", nil)];
+        }];
+
+        [[NSNotificationCenter defaultCenter] addObserverForName:FLClientDidLogOutNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+            self.photosets = [NSMutableSet set];
+            self.sortedPhotosets = [NSArray array];
+            [self.collectionView reloadData];
+
+            [self.navigationItem.rightBarButtonItem setTitle:NSLocalizedString(@"Log In", nil)];
+        }];
     }
 
     return self;
@@ -80,17 +98,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title = @"Photos";
+    self.title = NSLocalizedString(@"Photos", nil);
 
-    self.photoAlbumHeaderNib = [UINib nibWithNibName:@"PhotoAlbumHeaderView" bundle:[NSBundle mainBundle]];
+    self.photoAlbumHeaderNib = [UINib nibWithNibName:kPhotoAlbumHeaderViewReuseIdentifier bundle:[NSBundle mainBundle]];
     self.photoAlbumHeader = [self.photoAlbumHeaderNib instantiateWithOwner:nil options:nil][0];
-
-    [self.collectionView registerClass:[PhotoAlbumCell class] forCellWithReuseIdentifier:@"PhotoAlbumCell"];
     [self.collectionView registerNib:self.photoAlbumHeaderNib
           forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
-                 withReuseIdentifier:@"PhotoAlbumHeaderView"];
+                 withReuseIdentifier:kPhotoAlbumHeaderViewReuseIdentifier];
 
-    NSString *logInOutString = ([[[AppDelegate sharedDelegate] networkManager] isAuthorized]) ? @"Log Out" : @"Log In";
+    [self.collectionView registerClass:[PhotoAlbumCell class] forCellWithReuseIdentifier:kPhotoAlbumPhotoCellReuseIdentifier];
+
+    NSString *logInOutString = ([[FLClient sharedClient] isAuthorized]) ?
+        NSLocalizedString(@"Log Out", nil) : NSLocalizedString(@"Log In", nil);
+
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:logInOutString
                                                                               style:UIBarButtonItemStylePlain
                                                                              target:self
@@ -100,43 +120,59 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
-    if ([[[AppDelegate sharedDelegate] networkManager] isAuthorized]) {
+    if ([[FLClient sharedClient] isAuthorized]) {
         [self loadImages];
     }
 }
 
-#pragma mark Authorization
-- (void)logInOut {
-    if ([[[AppDelegate sharedDelegate] networkManager] isAuthorized]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?"
-                                         delegate:self
-                                cancelButtonTitle:@"Cancel"
-                           destructiveButtonTitle:@"Log Out"
-                                otherButtonTitles:nil] showInView:self.view];
-        });
-    } else {
-        [[AppDelegate sharedDelegate] authorize];
-    }
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == actionSheet.destructiveButtonIndex) {
-        self.photosets = [NSMutableSet set];
-        self.sortedPhotosets = [NSArray array];
-        [self.collectionView reloadData];
-
-        [[AppDelegate sharedDelegate] deauthorizeWithCompletion:^{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                self.navigationItem.rightBarButtonItem.title = @"Log In";
-            });
-        }];
+#pragma mark Authorization
+- (void)logInOut {
+    if ([[FLClient sharedClient] isAuthorized]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to log out?", nil)
+                                cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                           destructiveButtonTitle:NSLocalizedString(@"Log Out", nil)
+                                 otherButtonTitle:nil
+                                  completionBlock:^(NSInteger buttonIndex, UIActionSheet *actionSheet) {
+                                      if (buttonIndex == actionSheet.destructiveButtonIndex) {
+                                          [[FLClient sharedClient] deauthorize];
+                                      }
+                                  }]
+             showInView:self.view];
+        });
+    } else {
+        [[FLClient sharedClient] authorize];
     }
 }
 
 #pragma mark Load Images
 - (void)loadImages {
+    if (![[FLClient sharedClient] isAuthorized]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Not Logged In", nil)
+                                        message:NSLocalizedString(@"You have to log in before you can view your photos!", nil)
+                              cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                               otherButtonTitle:NSLocalizedString(@"Log In", nil)
+                                completionBlock:^(NSInteger buttonIndex, UIAlertView *alertView) {
+                                    if (buttonIndex == alertView.cancelButtonIndex + 1) {
+                                        [[FLClient sharedClient] authorize];
+                                    }
+                                }]
+             show];
+        });
+
+        [self.refreshControl endRefreshing];
+
+        return;
+    }
+
     if (!self.refreshControl.isRefreshing) {
+        [self.collectionView setContentOffset:CGPointMake(0, self.collectionView.contentOffset.y - self.refreshControl.frame.size.height)
+                                     animated:NO];
         [self.refreshControl beginRefreshing];
     }
 
@@ -154,11 +190,12 @@
             }
         } else {
             NSLog(@"Error: %@", error.localizedDescription);
+
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[[UIAlertView alloc] initWithTitle:@"Error"
+                [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
                                             message:error.localizedDescription
                                            delegate:self
-                                  cancelButtonTitle:@"Dismiss"
+                                  cancelButtonTitle:NSLocalizedString(@"Dismiss", nil)
                                   otherButtonTitles:nil] show];
             });
         }
@@ -173,11 +210,12 @@
             photoset.photos = photos;
         } else {
             NSLog(@"Error: %@", error.localizedDescription);
+
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[[UIAlertView alloc] initWithTitle:@"Error"
+                [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
                                             message:error.localizedDescription
                                            delegate:self
-                                  cancelButtonTitle:@"Dismiss"
+                                  cancelButtonTitle:NSLocalizedString(@"Dismiss", nil)
                                   otherButtonTitles:nil] show];
             });
         }
@@ -213,7 +251,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    PhotoAlbumCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PhotoAlbumCell"
+    PhotoAlbumCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kPhotoAlbumPhotoCellReuseIdentifier
                                                                      forIndexPath:indexPath];
 
     FLPhotoset *photosetForCell = self.sortedPhotosets[indexPath.section];
@@ -230,6 +268,7 @@
                                        }
                                        failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                                            NSLog(@"Failed to load image for cell. %@", error.localizedDescription);
+
                                            [weakCell.activityIndicator stopAnimating];
                                        }];
 
@@ -243,11 +282,11 @@
 
     PhotoAlbumHeaderView *headerView =
     [collectionView dequeueReusableSupplementaryViewOfKind:kind
-                                       withReuseIdentifier:@"PhotoAlbumHeaderView"
+                                       withReuseIdentifier:kPhotoAlbumHeaderViewReuseIdentifier
                                               forIndexPath:indexPath];
 
     headerView.albumTitleLabel.text = photosetForCell.title;
-    headerView.photoCountLabel.text = [NSString stringWithFormat:@"%lu photos", (unsigned long)photosetForCell.photos.count];
+    headerView.photoCountLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%lu photos", nil), (unsigned long)photosetForCell.photos.count];
 
     return headerView;
 }

@@ -16,7 +16,7 @@
 		E86A44E219244C9900700A9C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E86A44DE19244C4400700A9C /* libPods.a */; };
 		E88595A2184A289300BD7AEC /* Twitter.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E88595A1184A289300BD7AEC /* Twitter.xcassets */; };
 		E88595A5184A28B700BD7AEC /* Flickr.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E88595A4184A28B700BD7AEC /* Flickr.xcassets */; };
-		E88595A8184A751500BD7AEC /* FLClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E88595A7184A751500BD7AEC /* FLClient.m */; };
+		E88595A8184A751500BD7AEC /* BDBFlickrClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E88595A7184A751500BD7AEC /* BDBFlickrClient.m */; };
 		E8D8E0BF180884DD00CDCB7D /* TweetsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D8E0BE180884DD00CDCB7D /* TweetsViewController.m */; };
 		E8E54C1C180C823400010143 /* TweetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8E54C1B180C823400010143 /* TweetCell.xib */; };
 		E8E54C20180C830A00010143 /* TweetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E54C1F180C830A00010143 /* TweetCell.m */; };
@@ -26,8 +26,8 @@
 		E8F616891846555D008D9DC5 /* PhotoAlbumHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F616841846555D008D9DC5 /* PhotoAlbumHeaderView.m */; };
 		E8F6168A1846555D008D9DC5 /* PhotoAlbumHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8F616851846555D008D9DC5 /* PhotoAlbumHeaderView.xib */; };
 		E8F6168B1846555D008D9DC5 /* PhotoAlbumLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F616871846555D008D9DC5 /* PhotoAlbumLayout.m */; };
-		E8F6169218496326008D9DC5 /* FLPhotoset.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F6169118496326008D9DC5 /* FLPhotoset.m */; };
-		E8F6169518496578008D9DC5 /* FLPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F6169418496578008D9DC5 /* FLPhoto.m */; };
+		E8F6169218496326008D9DC5 /* BDBFlickrPhotoset.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F6169118496326008D9DC5 /* BDBFlickrPhotoset.m */; };
+		E8F6169518496578008D9DC5 /* BDBFlickrPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F6169418496578008D9DC5 /* BDBFlickrPhoto.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,8 +44,8 @@
 		E86A44DE19244C4400700A9C /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		E88595A1184A289300BD7AEC /* Twitter.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Twitter.xcassets; sourceTree = "<group>"; };
 		E88595A4184A28B700BD7AEC /* Flickr.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Flickr.xcassets; sourceTree = "<group>"; };
-		E88595A6184A751500BD7AEC /* FLClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLClient.h; sourceTree = "<group>"; };
-		E88595A7184A751500BD7AEC /* FLClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLClient.m; sourceTree = "<group>"; };
+		E88595A6184A751500BD7AEC /* BDBFlickrClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDBFlickrClient.h; sourceTree = "<group>"; };
+		E88595A7184A751500BD7AEC /* BDBFlickrClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDBFlickrClient.m; sourceTree = "<group>"; };
 		E8D8E0BD180884DD00CDCB7D /* TweetsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetsViewController.h; sourceTree = "<group>"; };
 		E8D8E0BE180884DD00CDCB7D /* TweetsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetsViewController.m; sourceTree = "<group>"; };
 		E8E54C1B180C823400010143 /* TweetCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TweetCell.xib; sourceTree = "<group>"; };
@@ -65,10 +65,10 @@
 		E8F616851846555D008D9DC5 /* PhotoAlbumHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoAlbumHeaderView.xib; sourceTree = "<group>"; };
 		E8F616861846555D008D9DC5 /* PhotoAlbumLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoAlbumLayout.h; sourceTree = "<group>"; };
 		E8F616871846555D008D9DC5 /* PhotoAlbumLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoAlbumLayout.m; sourceTree = "<group>"; };
-		E8F6169018496326008D9DC5 /* FLPhotoset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLPhotoset.h; sourceTree = "<group>"; };
-		E8F6169118496326008D9DC5 /* FLPhotoset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLPhotoset.m; sourceTree = "<group>"; };
-		E8F6169318496578008D9DC5 /* FLPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLPhoto.h; sourceTree = "<group>"; };
-		E8F6169418496578008D9DC5 /* FLPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLPhoto.m; sourceTree = "<group>"; };
+		E8F6169018496326008D9DC5 /* BDBFlickrPhotoset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDBFlickrPhotoset.h; sourceTree = "<group>"; };
+		E8F6169118496326008D9DC5 /* BDBFlickrPhotoset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDBFlickrPhotoset.m; sourceTree = "<group>"; };
+		E8F6169318496578008D9DC5 /* BDBFlickrPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDBFlickrPhoto.h; sourceTree = "<group>"; };
+		E8F6169418496578008D9DC5 /* BDBFlickrPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDBFlickrPhoto.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,12 +221,12 @@
 		E8F6168F18496326008D9DC5 /* Flickr */ = {
 			isa = PBXGroup;
 			children = (
-				E88595A6184A751500BD7AEC /* FLClient.h */,
-				E88595A7184A751500BD7AEC /* FLClient.m */,
-				E8F6169018496326008D9DC5 /* FLPhotoset.h */,
-				E8F6169118496326008D9DC5 /* FLPhotoset.m */,
-				E8F6169318496578008D9DC5 /* FLPhoto.h */,
-				E8F6169418496578008D9DC5 /* FLPhoto.m */,
+				E88595A6184A751500BD7AEC /* BDBFlickrClient.h */,
+				E88595A7184A751500BD7AEC /* BDBFlickrClient.m */,
+				E8F6169018496326008D9DC5 /* BDBFlickrPhotoset.h */,
+				E8F6169118496326008D9DC5 /* BDBFlickrPhotoset.m */,
+				E8F6169318496578008D9DC5 /* BDBFlickrPhoto.h */,
+				E8F6169418496578008D9DC5 /* BDBFlickrPhoto.m */,
 			);
 			path = Flickr;
 			sourceTree = "<group>";
@@ -394,10 +394,10 @@
 				E8F6168B1846555D008D9DC5 /* PhotoAlbumLayout.m in Sources */,
 				E8284C8518464EF900B3C6AA /* AppDelegate.m in Sources */,
 				E8284C8F18464EF900B3C6AA /* PhotosViewController.m in Sources */,
-				E8F6169518496578008D9DC5 /* FLPhoto.m in Sources */,
+				E8F6169518496578008D9DC5 /* BDBFlickrPhoto.m in Sources */,
 				E8F616881846555D008D9DC5 /* PhotoAlbumCell.m in Sources */,
-				E8F6169218496326008D9DC5 /* FLPhotoset.m in Sources */,
-				E88595A8184A751500BD7AEC /* FLClient.m in Sources */,
+				E8F6169218496326008D9DC5 /* BDBFlickrPhotoset.m in Sources */,
+				E88595A8184A751500BD7AEC /* BDBFlickrClient.m in Sources */,
 				E8F616891846555D008D9DC5 /* PhotoAlbumHeaderView.m in Sources */,
 				E8284C9F18464EF900B3C6AA /* main.m in Sources */,
 			);

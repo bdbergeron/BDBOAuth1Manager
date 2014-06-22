@@ -21,16 +21,16 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "AppDelegate.h"
+#import "BDBFlickrClient.h"
 #import "PhotosViewController.h"
-#import "FLClient.h"
 
 #pragma mark -
 @implementation AppDelegate
 
 #pragma mark Application Lifecyle
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Configure FLClient
-    [FLClient createWithAPIKey:@"06f28faf9b97104e367ca32103eab53b" secret:@"fa85fa7972dcea82"];
+    // Configure BDBFlickrClient
+    [BDBFlickrClient createWithAPIKey:@"06f28faf9b97104e367ca32103eab53b" secret:@"fa85fa7972dcea82"];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
@@ -42,8 +42,8 @@
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    if ([FLClient isAuthorizationCallbackURL:url]) {
-        return [[FLClient sharedClient] handleAuthorizationCallbackURL:url];
+    if ([BDBFlickrClient isAuthorizationCallbackURL:url]) {
+        return [[BDBFlickrClient sharedClient] handleAuthorizationCallbackURL:url];
     }
 
     return NO;

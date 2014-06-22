@@ -1,5 +1,5 @@
 //
-//  FLPhoto.m
+//  BDBFlickrPhoto.m
 //
 //  Copyright (c) 2014 Bradley David Bergeron
 //
@@ -20,10 +20,10 @@
 //  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "FLPhoto.h"
+#import "BDBFlickrPhoto.h"
 
 #pragma mark -
-@implementation FLPhoto
+@implementation BDBFlickrPhoto
 
 - (id)initWithDictionary:(NSDictionary *)photoInfo {
     self = [super init];
@@ -58,14 +58,14 @@
         return YES;
     }
 
-    if (![object isKindOfClass:[FLPhoto class]]) {
+    if (![object isKindOfClass:[BDBFlickrPhoto class]]) {
         return NO;
     } else {
-        return [self isEqualToPhoto:(FLPhoto *)object];
+        return [self isEqualToPhoto:(BDBFlickrPhoto *)object];
     }
 }
 
-- (BOOL)isEqualToPhoto:(FLPhoto *)photo {
+- (BOOL)isEqualToPhoto:(BDBFlickrPhoto *)photo {
     if (!photo) {
         return NO;
     }

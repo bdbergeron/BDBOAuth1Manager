@@ -1,5 +1,5 @@
 //
-//  FLClient.h
+//  BDBFlickrClient.h
 //
 //  Copyright (c) 2014 Bradley David Bergeron
 //
@@ -22,20 +22,18 @@
 
 @import Foundation;
 
-#import "BDBOAuth1RequestOperationManager.h"
-#import "BDBOAuth1SessionManager.h"
-#import "FLPhotoset.h"
-#import "FLPhoto.h"
+#import "BDBFlickrPhotoset.h"
+#import "BDBFlickrPhoto.h"
 
 
-FOUNDATION_EXPORT NSString * const FLClientErrorDomain;
+FOUNDATION_EXPORT NSString * const BDBFlickrClientErrorDomain;
 
-FOUNDATION_EXPORT NSString * const FLClientDidLogInNotification;
-FOUNDATION_EXPORT NSString * const FLClientDidLogOutNotification;
+FOUNDATION_EXPORT NSString * const BDBFlickrClientDidLogInNotification;
+FOUNDATION_EXPORT NSString * const BDBFlickrClientDidLogOutNotification;
 
 
 #pragma mark -
-@interface FLClient : NSObject
+@interface BDBFlickrClient : NSObject
 
 @property (nonatomic, assign, readonly, getter = isAuthorized) BOOL authorized;
 
@@ -54,6 +52,6 @@ FOUNDATION_EXPORT NSString * const FLClientDidLogOutNotification;
 - (void)getPhotosetsWithCompletion:(void (^)(NSSet *photosets, NSError *error))completion;
 
 #pragma mark Photos
-- (void)getPhotosInPhotoset:(FLPhotoset *)photoset completion:(void (^)(NSArray *photos, NSError *error))completion;
+- (void)getPhotosInPhotoset:(BDBFlickrPhotoset *)photoset completion:(void (^)(NSArray *photos, NSError *error))completion;
 
 @end

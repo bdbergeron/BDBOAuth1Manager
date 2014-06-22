@@ -1,5 +1,5 @@
 //
-//  FLClient.m
+//  BDBFlickrClient.m
 //
 //  Copyright (c) 2014 Bradley David Bergeron
 //
@@ -20,28 +20,30 @@
 //  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "FLClient.h"
+#import "BDBFlickrClient.h"
+#import "BDBOAuth1RequestOperationManager.h"
+#import "BDBOAuth1SessionManager.h"
 
 #import "NSDictionary+BDBOAuth1Manager.h"
 
 
 // Exported
-NSString * const FLClientErrorDomain = @"FLClientErrorDomain";
+NSString * const BDBFlickrClientErrorDomain = @"BDBFlickrClientErrorDomain";
 
-NSString * const FLClientDidLogInNotification  = @"FLClientDidLogInNotification";
-NSString * const FLClientDidLogOutNotification = @"FLClientDidLogOutNotification";
+NSString * const BDBFlickrClientDidLogInNotification  = @"BDBFlickrClientDidLogInNotification";
+NSString * const BDBFlickrClientDidLogOutNotification = @"BDBFlickrClientDidLogOutNotification";
 
 // Internal
-static NSString * const kFLClientAPIURL   = @"https://api.flickr.com/services/";
+static NSString * const kBDBFlickrClientAPIURL   = @"https://api.flickr.com/services/";
 
-static NSString * const kFLClientOAuthAuthorizeURL     = @"https://www.flickr.com/services/oauth/authorize";
-static NSString * const kFLClientOAuthCallbackURL      = @"bdbflclient://authorize";
-static NSString * const kFLClientOAuthRequestTokenPath = @"oauth/request_token";
-static NSString * const kFLClientOAuthAccessTokenPath  = @"oauth/access_token";
+static NSString * const kBDBFlickrClientOAuthAuthorizeURL     = @"https://www.flickr.com/services/oauth/authorize";
+static NSString * const kBDBFlickrClientOAuthCallbackURL      = @"bdbflickrclientdemo://authorize";
+static NSString * const kBDBFlickrClientOAuthRequestTokenPath = @"oauth/request_token";
+static NSString * const kBDBFlickrClientOAuthAccessTokenPath  = @"oauth/access_token";
 
 
 #pragma mark -
-@interface FLClient ()
+@interface BDBFlickrClient ()
 
 @property (nonatomic, copy) NSString *apiKey;
 
@@ -58,10 +60,10 @@ static NSString * const kFLClientOAuthAccessTokenPath  = @"oauth/access_token";
 @end
 
 #pragma mark -
-@implementation FLClient
+@implementation BDBFlickrClient
 
 #pragma mark Initialization
-static FLClient *_sharedClient = nil;
+static BDBFlickrClient *_sharedClient = nil;
 
 + (instancetype)createWithAPIKey:(NSString *)apiKey secret:(NSString *)secret {
     static dispatch_once_t onceToken;
@@ -78,7 +80,7 @@ static FLClient *_sharedClient = nil;
     if (self) {
         _apiKey = [apiKey copy];
 
-        NSURL *baseURL = [NSURL URLWithString:kFLClientAPIURL];
+        NSURL *baseURL = [NSURL URLWithString:kBDBFlickrClientAPIURL];
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
         _networkManager = [[BDBOAuth1SessionManager alloc] initWithBaseURL:baseURL consumerKey:apiKey consumerSecret:secret];
@@ -91,14 +93,14 @@ static FLClient *_sharedClient = nil;
 }
 
 + (instancetype)sharedClient {
-    NSAssert(_sharedClient, @"FLClient not initialized. [FLClient createWithAPIKey:secret:] must be called first.");
+    NSAssert(_sharedClient, @"BDBFlickrClient not initialized. [BDBFlickrClient createWithAPIKey:secret:] must be called first.");
 
     return _sharedClient;
 }
 
 #pragma mark Authorization
 + (BOOL)isAuthorizationCallbackURL:(NSURL *)url {
-    NSURL *callbackURL = [NSURL URLWithString:kFLClientOAuthCallbackURL];
+    NSURL *callbackURL = [NSURL URLWithString:kBDBFlickrClientOAuthCallbackURL];
 
     return _sharedClient && [url.scheme isEqualToString:callbackURL.scheme] && [url.host isEqualToString:callbackURL.host];
 }
@@ -108,13 +110,13 @@ static FLClient *_sharedClient = nil;
 }
 
 - (void)authorize {
-    [self.networkManager fetchRequestTokenWithPath:kFLClientOAuthRequestTokenPath
+    [self.networkManager fetchRequestTokenWithPath:kBDBFlickrClientOAuthRequestTokenPath
                                             method:@"POST"
-                                       callbackURL:[NSURL URLWithString:kFLClientOAuthCallbackURL]
+                                       callbackURL:[NSURL URLWithString:kBDBFlickrClientOAuthCallbackURL]
                                              scope:nil
                                            success:^(BDBOAuthToken *requestToken) {
                                                // Perform Authorization via MobileSafari
-                                               NSString *authURLString = [kFLClientOAuthAuthorizeURL stringByAppendingFormat:@"?oauth_token=%@", requestToken.token];
+                                               NSString *authURLString = [kBDBFlickrClientOAuthAuthorizeURL stringByAppendingFormat:@"?oauth_token=%@", requestToken.token];
 
                                                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:authURLString]];
                                            }
@@ -135,11 +137,11 @@ static FLClient *_sharedClient = nil;
     NSDictionary *parameters = [NSDictionary dictionaryFromQueryString:url.query];
 
     if (parameters[BDBOAuth1OAuthTokenParameter] && parameters[BDBOAuth1OAuthVerifierParameter]) {
-        [self.networkManager fetchAccessTokenWithPath:kFLClientOAuthAccessTokenPath
+        [self.networkManager fetchAccessTokenWithPath:kBDBFlickrClientOAuthAccessTokenPath
                                                method:@"POST"
                                          requestToken:[BDBOAuthToken tokenWithQueryString:url.query]
                                               success:^(BDBOAuthToken *accessToken) {
-                                                  [[NSNotificationCenter defaultCenter] postNotificationName:FLClientDidLogInNotification
+                                                  [[NSNotificationCenter defaultCenter] postNotificationName:BDBFlickrClientDidLogInNotification
                                                                                                       object:self
                                                                                                     userInfo:accessToken.userInfo];
                                               }
@@ -164,7 +166,7 @@ static FLClient *_sharedClient = nil;
 - (void)deauthorize {
     [self.networkManager deauthorize];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:FLClientDidLogOutNotification object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:BDBFlickrClientDidLogOutNotification object:self];
 }
 
 #pragma mark Helpers
@@ -198,7 +200,7 @@ static FLClient *_sharedClient = nil;
 
 - (void)parsePhotosetsFromAPIResponseObject:(id)responseObject completion:(void (^)(NSSet *, NSError *))completion {
     if (![responseObject isKindOfClass:[NSDictionary class]]) {
-        NSError *error = [NSError errorWithDomain:FLClientErrorDomain
+        NSError *error = [NSError errorWithDomain:BDBFlickrClientErrorDomain
                                              code:1000
                                          userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"Unexpected response received from Flickr API.", nil)}];
 
@@ -208,7 +210,7 @@ static FLClient *_sharedClient = nil;
     NSDictionary *response = responseObject;
 
     if (![response[@"stat"] isEqualToString:@"ok"]) {
-        NSError *error = [NSError errorWithDomain:FLClientErrorDomain
+        NSError *error = [NSError errorWithDomain:BDBFlickrClientErrorDomain
                                              code:1100
                                          userInfo:@{NSLocalizedDescriptionKey:response[@"message"]}];
 
@@ -219,7 +221,7 @@ static FLClient *_sharedClient = nil;
     NSMutableSet *photosets = [NSMutableSet set];
 
     for (NSDictionary *setInfo in response[@"photoset"]) {
-        FLPhotoset *set = [[FLPhotoset alloc] initWithDictionary:setInfo];
+        BDBFlickrPhotoset *set = [[BDBFlickrPhotoset alloc] initWithDictionary:setInfo];
         [photosets addObject:set];
     }
 
@@ -227,7 +229,7 @@ static FLClient *_sharedClient = nil;
 }
 
 #pragma mark Photos
-- (void)getPhotosInPhotoset:(FLPhotoset *)photoset completion:(void (^)(NSArray *, NSError *))completion {
+- (void)getPhotosInPhotoset:(BDBFlickrPhotoset *)photoset completion:(void (^)(NSArray *, NSError *))completion {
     NSAssert(self.apiKey, @"API key not set.");
 
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:[self defaultRequestParameters]];
@@ -254,7 +256,7 @@ static FLClient *_sharedClient = nil;
 
 - (void)parsePhotosFromAPIResponseObject:(id)responseObject completion:(void (^)(NSArray *, NSError *))completion {
     if (![responseObject isKindOfClass:[NSDictionary class]]) {
-        NSError *error = [NSError errorWithDomain:FLClientErrorDomain
+        NSError *error = [NSError errorWithDomain:BDBFlickrClientErrorDomain
                                              code:1000
                                          userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"Unexpected response received from Flickr API.", nil)}];
 
@@ -264,7 +266,7 @@ static FLClient *_sharedClient = nil;
     NSDictionary *response = responseObject;
 
     if (![response[@"stat"] isEqualToString:@"ok"]) {
-        NSError *error = [NSError errorWithDomain:FLClientErrorDomain
+        NSError *error = [NSError errorWithDomain:BDBFlickrClientErrorDomain
                                              code:1100
                                          userInfo:@{NSLocalizedDescriptionKey:response[@"message"]}];
 
@@ -275,7 +277,7 @@ static FLClient *_sharedClient = nil;
     NSMutableArray *photos = [NSMutableArray array];
 
     for (NSDictionary *photoInfo in response[@"photo"]) {
-        FLPhoto *photo = [[FLPhoto alloc] initWithDictionary:photoInfo];
+        BDBFlickrPhoto *photo = [[BDBFlickrPhoto alloc] initWithDictionary:photoInfo];
         [photos addObject:photo];
     }
 

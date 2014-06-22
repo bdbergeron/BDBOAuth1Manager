@@ -21,7 +21,7 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "AppDelegate.h"
-#import "FLClient.h"
+#import "BDBFlickrClient.h"
 #import "PhotoAlbumCell.h"
 #import "PhotoAlbumHeaderView.h"
 #import "PhotoAlbumLayout.h"
@@ -77,13 +77,13 @@ static NSString * const kPhotoAlbumPhotoCellReuseIdentifier  = @"PhotoAlbumCell"
             self.edgesForExtendedLayout = UIRectEdgeNone;
         }
 
-        [[NSNotificationCenter defaultCenter] addObserverForName:FLClientDidLogInNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        [[NSNotificationCenter defaultCenter] addObserverForName:BDBFlickrClientDidLogInNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
             [self loadImages];
 
             [self.navigationItem.rightBarButtonItem setTitle:NSLocalizedString(@"Log Out", nil)];
         }];
 
-        [[NSNotificationCenter defaultCenter] addObserverForName:FLClientDidLogOutNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        [[NSNotificationCenter defaultCenter] addObserverForName:BDBFlickrClientDidLogOutNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
             self.photosets = [NSMutableSet set];
             self.sortedPhotosets = [NSArray array];
             [self.collectionView reloadData];
@@ -108,7 +108,7 @@ static NSString * const kPhotoAlbumPhotoCellReuseIdentifier  = @"PhotoAlbumCell"
 
     [self.collectionView registerClass:[PhotoAlbumCell class] forCellWithReuseIdentifier:kPhotoAlbumPhotoCellReuseIdentifier];
 
-    NSString *logInOutString = ([[FLClient sharedClient] isAuthorized]) ?
+    NSString *logInOutString = ([[BDBFlickrClient sharedClient] isAuthorized]) ?
         NSLocalizedString(@"Log Out", nil) : NSLocalizedString(@"Log In", nil);
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:logInOutString
@@ -120,7 +120,7 @@ static NSString * const kPhotoAlbumPhotoCellReuseIdentifier  = @"PhotoAlbumCell"
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
-    if ([[FLClient sharedClient] isAuthorized]) {
+    if ([[BDBFlickrClient sharedClient] isAuthorized]) {
         [self loadImages];
     }
 }
@@ -131,7 +131,7 @@ static NSString * const kPhotoAlbumPhotoCellReuseIdentifier  = @"PhotoAlbumCell"
 
 #pragma mark Authorization
 - (void)logInOut {
-    if ([[FLClient sharedClient] isAuthorized]) {
+    if ([[BDBFlickrClient sharedClient] isAuthorized]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [[[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to log out?", nil)
                                 cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
@@ -139,19 +139,19 @@ static NSString * const kPhotoAlbumPhotoCellReuseIdentifier  = @"PhotoAlbumCell"
                                  otherButtonTitle:nil
                                   completionBlock:^(NSInteger buttonIndex, UIActionSheet *actionSheet) {
                                       if (buttonIndex == actionSheet.destructiveButtonIndex) {
-                                          [[FLClient sharedClient] deauthorize];
+                                          [[BDBFlickrClient sharedClient] deauthorize];
                                       }
                                   }]
              showInView:self.view];
         });
     } else {
-        [[FLClient sharedClient] authorize];
+        [[BDBFlickrClient sharedClient] authorize];
     }
 }
 
 #pragma mark Load Images
 - (void)loadImages {
-    if (![[FLClient sharedClient] isAuthorized]) {
+    if (![[BDBFlickrClient sharedClient] isAuthorized]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Not Logged In", nil)
                                         message:NSLocalizedString(@"You have to log in before you can view your photos!", nil)
@@ -159,7 +159,7 @@ static NSString * const kPhotoAlbumPhotoCellReuseIdentifier  = @"PhotoAlbumCell"
                                otherButtonTitle:NSLocalizedString(@"Log In", nil)
                                 completionBlock:^(NSInteger buttonIndex, UIAlertView *alertView) {
                                     if (buttonIndex == alertView.cancelButtonIndex + 1) {
-                                        [[FLClient sharedClient] authorize];
+                                        [[BDBFlickrClient sharedClient] authorize];
                                     }
                                 }]
              show];
@@ -180,12 +180,12 @@ static NSString * const kPhotoAlbumPhotoCellReuseIdentifier  = @"PhotoAlbumCell"
 }
 
 - (void)loadPhotosets {
-    [[FLClient sharedClient] getPhotosetsWithCompletion:^(NSSet *photosets, NSError *error) {
+    [[BDBFlickrClient sharedClient] getPhotosetsWithCompletion:^(NSSet *photosets, NSError *error) {
         if (!error) {
             self.photosets = photosets;
             self.numberOfSetsLoading = photosets.count;
 
-            for (FLPhotoset *photoset in photosets) {
+            for (BDBFlickrPhotoset *photoset in photosets) {
                 [self loadPhotosInSet:photoset];
             }
         } else {
@@ -202,8 +202,8 @@ static NSString * const kPhotoAlbumPhotoCellReuseIdentifier  = @"PhotoAlbumCell"
     }];
 }
 
-- (void)loadPhotosInSet:(FLPhotoset *)photoset {
-    [[FLClient sharedClient] getPhotosInPhotoset:photoset completion:^(NSArray *photos, NSError *error) {
+- (void)loadPhotosInSet:(BDBFlickrPhotoset *)photoset {
+    [[BDBFlickrClient sharedClient] getPhotosInPhotoset:photoset completion:^(NSArray *photos, NSError *error) {
         self.numberOfSetsLoading--;
 
         if (!error) {
@@ -227,7 +227,7 @@ static NSString * const kPhotoAlbumPhotoCellReuseIdentifier  = @"PhotoAlbumCell"
 }
 
 - (void)sortPhotosets {
-    self.sortedPhotosets = [self.photosets.allObjects sortedArrayUsingComparator:^NSComparisonResult(FLPhotoset *set1, FLPhotoset *set2) {
+    self.sortedPhotosets = [self.photosets.allObjects sortedArrayUsingComparator:^NSComparisonResult(BDBFlickrPhotoset *set1, BDBFlickrPhotoset *set2) {
         return [set1.dateCreated compare:set2.dateCreated];
     }];
 
@@ -244,7 +244,7 @@ static NSString * const kPhotoAlbumPhotoCellReuseIdentifier  = @"PhotoAlbumCell"
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section {
-    FLPhotoset *photoset =  self.sortedPhotosets[section];
+    BDBFlickrPhotoset *photoset =  self.sortedPhotosets[section];
 
     return photoset.photos.count;
 }
@@ -254,8 +254,8 @@ static NSString * const kPhotoAlbumPhotoCellReuseIdentifier  = @"PhotoAlbumCell"
     PhotoAlbumCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kPhotoAlbumPhotoCellReuseIdentifier
                                                                      forIndexPath:indexPath];
 
-    FLPhotoset *photosetForCell = self.sortedPhotosets[indexPath.section];
-    FLPhoto *photo = photosetForCell.photos[indexPath.row];
+    BDBFlickrPhotoset *photosetForCell = self.sortedPhotosets[indexPath.section];
+    BDBFlickrPhoto *photo = photosetForCell.photos[indexPath.row];
 
     [cell.activityIndicator startAnimating];
 
@@ -278,7 +278,7 @@ static NSString * const kPhotoAlbumPhotoCellReuseIdentifier  = @"PhotoAlbumCell"
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
            viewForSupplementaryElementOfKind:(NSString *)kind
                                  atIndexPath:(NSIndexPath *)indexPath {
-    FLPhotoset *photosetForCell = self.sortedPhotosets[indexPath.section];
+    BDBFlickrPhotoset *photosetForCell = self.sortedPhotosets[indexPath.section];
 
     PhotoAlbumHeaderView *headerView =
     [collectionView dequeueReusableSupplementaryViewOfKind:kind

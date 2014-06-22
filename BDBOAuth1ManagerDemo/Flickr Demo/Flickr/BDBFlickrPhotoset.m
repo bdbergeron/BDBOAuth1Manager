@@ -1,5 +1,5 @@
 //
-//  FLPhotoset.m
+//  BDBFlickrPhotoset.m
 //
 //  Copyright (c) 2014 Bradley David Bergeron
 //
@@ -20,10 +20,10 @@
 //  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "FLPhotoset.h"
+#import "BDBFlickrPhotoset.h"
 
 #pragma mark -
-@implementation FLPhotoset
+@implementation BDBFlickrPhotoset
 
 - (id)initWithDictionary:(NSDictionary *)photosetInfo {
     self = [super init];
@@ -53,14 +53,14 @@
         return YES;
     }
 
-    if (![object isKindOfClass:[FLPhotoset class]]) {
+    if (![object isKindOfClass:[BDBFlickrPhotoset class]]) {
         return NO;
     } else {
-        return [self isEqualToPhotoset:(FLPhotoset *)object];
+        return [self isEqualToPhotoset:(BDBFlickrPhotoset *)object];
     }
 }
 
-- (BOOL)isEqualToPhotoset:(FLPhotoset *)photoset {
+- (BOOL)isEqualToPhotoset:(BDBFlickrPhotoset *)photoset {
     if (!photoset) {
         return NO;
     }

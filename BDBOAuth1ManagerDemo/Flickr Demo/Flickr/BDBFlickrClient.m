@@ -37,7 +37,7 @@ NSString * const BDBFlickrClientDidLogOutNotification = @"BDBFlickrClientDidLogO
 static NSString * const kBDBFlickrClientAPIURL   = @"https://api.flickr.com/services/";
 
 static NSString * const kBDBFlickrClientOAuthAuthorizeURL     = @"https://www.flickr.com/services/oauth/authorize";
-static NSString * const kBDBFlickrClientOAuthCallbackURL      = @"bdbflickrclientdemo://authorize";
+static NSString * const kBDBFlickrClientOAuthCallbackURL      = @"bdboauth1demo-flickr://authorize";
 static NSString * const kBDBFlickrClientOAuthRequestTokenPath = @"oauth/request_token";
 static NSString * const kBDBFlickrClientOAuthAccessTokenPath  = @"oauth/access_token";
 

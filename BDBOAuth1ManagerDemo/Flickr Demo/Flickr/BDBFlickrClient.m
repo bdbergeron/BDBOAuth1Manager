@@ -29,6 +29,13 @@
 #import "NSDictionary+BDBOAuth1Manager.h"
 
 
+#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+#define USE_NSURLSESSION true
+#else
+#define USE_NSURLSESSION false
+#endif
+
+
 // Exported
 NSString * const BDBFlickrClientErrorDomain = @"BDBFlickrClientErrorDomain";
 
@@ -49,7 +56,7 @@ static NSString * const kBDBFlickrClientOAuthAccessTokenPath  = @"oauth/access_t
 
 @property (nonatomic, copy) NSString *apiKey;
 
-#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+#if USE_NSURLSESSION
 @property (nonatomic) BDBOAuth1SessionManager *networkManager;
 #else
 @property (nonatomic) BDBOAuth1RequestOperationManager *networkManager;
@@ -84,7 +91,7 @@ static BDBFlickrClient *_sharedClient = nil;
 
         NSURL *baseURL = [NSURL URLWithString:kBDBFlickrClientAPIURL];
 
-#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+#if USE_NSURLSESSION
         _networkManager = [[BDBOAuth1SessionManager alloc] initWithBaseURL:baseURL consumerKey:apiKey consumerSecret:secret];
 #else
         _networkManager = [[BDBOAuth1RequestOperationManager alloc] initWithBaseURL:baseURL consumerKey:apiKey consumerSecret:secret];
@@ -185,14 +192,16 @@ static BDBFlickrClient *_sharedClient = nil;
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:[self defaultRequestParameters]];
     params[@"method"] = @"flickr.photosets.getList";
 
-#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
-    [self.networkManager GET:@"rest" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+    static NSString *path = @"rest";
+
+#if USE_NSURLSESSION
+    [self.networkManager GET:path parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         [self parsePhotosetsFromAPIResponseObject:responseObject completion:completion];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         completion(nil, error);
     }];
 #else
-    [self.networkManager GET:@"rest" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.networkManager GET:path parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self parsePhotosetsFromAPIResponseObject:responseObject completion:completion];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         completion(nil, error);
@@ -239,9 +248,9 @@ static BDBFlickrClient *_sharedClient = nil;
     params[@"photoset_id"] = photoset.setId;
     params[@"extras"] = @"url_t, url_o";
 
-    NSString *path = @"rest";
+    static NSString *path = @"rest";
 
-#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+#if USE_NSURLSESSION
     [self.networkManager GET:path parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         [self parsePhotosFromAPIResponseObject:responseObject completion:completion];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {

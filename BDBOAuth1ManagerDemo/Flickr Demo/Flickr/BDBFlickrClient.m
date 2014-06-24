@@ -235,7 +235,7 @@ static BDBFlickrClient *_sharedClient = nil;
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:[self defaultRequestParameters]];
     params[@"method"] = @"flickr.photosets.getPhotos";
     params[@"photoset_id"] = photoset.setId;
-    params[@"extras"] = @"url_t, url_o, description";
+    params[@"extras"] = @"url_t, url_o";
 
     NSString *path = @"rest";
 

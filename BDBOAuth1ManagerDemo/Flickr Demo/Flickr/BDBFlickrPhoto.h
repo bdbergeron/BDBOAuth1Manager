@@ -26,10 +26,7 @@
 @interface BDBFlickrPhoto : NSObject
 
 @property (nonatomic, copy, readonly) NSString *photoId;
-@property (nonatomic, copy, readonly) NSString *secret;
-
 @property (nonatomic, copy, readonly) NSString *title;
-@property (nonatomic, copy, readonly) NSString *description;
 
 @property (nonatomic, readonly) NSURL *thumbnailURL;
 @property (nonatomic, readonly) NSURL *originalURL;

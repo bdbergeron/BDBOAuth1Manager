@@ -30,22 +30,14 @@
 
     if (self) {
         _photoId = [photoInfo[@"id"] copy];
-        _secret  = [photoInfo[@"secret"] copy];
-
-        NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-
-        _title = [[photoInfo[@"title"] copy] stringByTrimmingCharactersInSet:whitespace];
-
-        if (photoInfo[@"description"]) {
-            _description = [[photoInfo[@"description"][@"_content"] copy] stringByTrimmingCharactersInSet:whitespace];
-        }
+        _title   = [[photoInfo[@"title"] copy] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
         if (photoInfo[@"url_t"]) {
-            _thumbnailURL = [[NSURL URLWithString:photoInfo[@"url_t"]] copy];
+            _thumbnailURL = [NSURL URLWithString:photoInfo[@"url_t"]];
         }
 
         if (photoInfo[@"url_o"]) {
-            _originalURL = [[NSURL URLWithString:photoInfo[@"url_o"]] copy];
+            _originalURL = [NSURL URLWithString:photoInfo[@"url_o"]];
         }
     }
 
@@ -71,23 +63,16 @@
     }
 
     BOOL equalId = (!self.photoId && !photo.photoId) || [self.photoId isEqualToString:photo.photoId];
-    BOOL equalSecret  = (!self.secret && !photo.secret) || [self.secret isEqualToString:photo.secret];
-
     BOOL equalTitle = (!self.title && !photo.title) || [self.title isEqualToString:photo.title];
-    BOOL equalDescription = (!self.description && !photo.description) || [self.description isEqualToString:photo.description];
 
     BOOL equalThumbnailURL = (!self.thumbnailURL && !photo.thumbnailURL) || [self.thumbnailURL isEqual:photo.thumbnailURL];
     BOOL equalOriginalURL = (!self.originalURL && !photo.originalURL) || [self.originalURL isEqual:photo.originalURL];
 
-    return (equalId && equalSecret
-            && equalTitle && equalDescription
-            && equalThumbnailURL && equalOriginalURL);
+    return (equalId && equalTitle && equalThumbnailURL && equalOriginalURL);
 }
 
 - (NSUInteger)hash {
-    return (self.photoId.hash ^ self.secret.hash
-            ^ self.title.hash ^ self.description.hash
-            ^ self.thumbnailURL.hash ^ self.originalURL.hash);
+    return (self.photoId.hash ^ self.title.hash ^ self.thumbnailURL.hash ^ self.originalURL.hash);
 }
 
 @end

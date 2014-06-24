@@ -26,11 +26,7 @@
 @interface BDBFlickrPhotoset : NSObject
 
 @property (nonatomic, copy, readonly) NSString *setId;
-@property (nonatomic, copy, readonly) NSString *primary;
-@property (nonatomic, copy, readonly) NSString *secret;
-
 @property (nonatomic, copy, readonly) NSString *title;
-@property (nonatomic, copy, readonly) NSString *description;
 
 @property (nonatomic, readonly) NSDate *dateCreated;
 @property (nonatomic, readonly) NSDate *dateUpdated;

@@ -22,6 +22,8 @@
 
 #import "AppDelegate.h"
 #import "BDBFlickrClient.h"
+#import "BDBFlickrPhoto.h"
+#import "BDBFlickrPhotoset.h"
 #import "PhotoAlbumCell.h"
 #import "PhotoAlbumHeaderView.h"
 #import "PhotoAlbumLayout.h"

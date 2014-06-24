@@ -22,8 +22,7 @@
 
 @import Foundation;
 
-#import "BDBFlickrPhotoset.h"
-#import "BDBFlickrPhoto.h"
+@class BDBFlickrPhotoset;
 
 
 FOUNDATION_EXPORT NSString * const BDBFlickrClientErrorDomain;

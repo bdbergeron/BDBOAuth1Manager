@@ -21,6 +21,8 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "BDBFlickrClient.h"
+#import "BDBFlickrPhoto.h"
+#import "BDBFlickrPhotoset.h"
 #import "BDBOAuth1RequestOperationManager.h"
 #import "BDBOAuth1SessionManager.h"
 

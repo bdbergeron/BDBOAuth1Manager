@@ -43,10 +43,9 @@ static NSString * const kPhotoAlbumPhotoCellReuseIdentifier  = @"PhotoAlbumCell"
 @property (nonatomic) UINib *photoAlbumHeaderNib;
 @property (nonatomic) PhotoAlbumHeaderView *photoAlbumHeader;
 
-@property (nonatomic) NSInteger numberOfSetsLoading;
-
 @property (nonatomic) NSSet *photosets;
 @property (nonatomic) NSArray *sortedPhotosets;
+@property (nonatomic) NSInteger numberOfSetsLoading;
 
 - (void)logInOut;
 
@@ -62,33 +61,37 @@ static NSString * const kPhotoAlbumPhotoCellReuseIdentifier  = @"PhotoAlbumCell"
     self = [super initWithCollectionViewLayout:photosLayout];
 
     if (self) {
-        self.collectionView.backgroundColor = [UIColor whiteColor];
-        self.collectionView.alwaysBounceVertical = YES;
-
+        // Instantiate ivars
         _photosets       = [NSSet set];
         _sortedPhotosets = [NSArray array];
         _numberOfSetsLoading = 0;
 
-        _refreshControl = [[UIRefreshControl alloc] init];
+        _refreshControl = [UIRefreshControl new];
         [_refreshControl addTarget:self action:@selector(loadImages) forControlEvents:UIControlEventValueChanged];
         [self.collectionView addSubview:_refreshControl];
+
+        // Configure collection view
+        self.collectionView.backgroundColor = [UIColor whiteColor];
+        self.collectionView.alwaysBounceVertical = YES;
 
         if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
             self.edgesForExtendedLayout = UIRectEdgeNone;
         }
 
+        // Register for notifications
         [[NSNotificationCenter defaultCenter] addObserverForName:BDBFlickrClientDidLogInNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
             [self loadImages];
 
-            [self.navigationItem.rightBarButtonItem setTitle:NSLocalizedString(@"Log Out", nil)];
+            [self updateLogInOutButton];
         }];
 
         [[NSNotificationCenter defaultCenter] addObserverForName:BDBFlickrClientDidLogOutNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
             self.photosets = [NSMutableSet set];
             self.sortedPhotosets = [NSArray array];
+
             [self.collectionView reloadData];
 
-            [self.navigationItem.rightBarButtonItem setTitle:NSLocalizedString(@"Log In", nil)];
+            [self updateLogInOutButton];
         }];
     }
 
@@ -108,13 +111,7 @@ static NSString * const kPhotoAlbumPhotoCellReuseIdentifier  = @"PhotoAlbumCell"
 
     [self.collectionView registerClass:[PhotoAlbumCell class] forCellWithReuseIdentifier:kPhotoAlbumPhotoCellReuseIdentifier];
 
-    NSString *logInOutString = ([[BDBFlickrClient sharedClient] isAuthorized]) ?
-        NSLocalizedString(@"Log Out", nil) : NSLocalizedString(@"Log In", nil);
-
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:logInOutString
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:self
-                                                                             action:@selector(logInOut)];
+    [self updateLogInOutButton];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -146,6 +143,20 @@ static NSString * const kPhotoAlbumPhotoCellReuseIdentifier  = @"PhotoAlbumCell"
         });
     } else {
         [[BDBFlickrClient sharedClient] authorize];
+    }
+}
+
+- (void)updateLogInOutButton {
+    NSString *logInOutString = ([[BDBFlickrClient sharedClient] isAuthorized]) ?
+        NSLocalizedString(@"Log Out", nil) : NSLocalizedString(@"Log In", nil);
+
+    if (self.navigationItem.rightBarButtonItem) {
+        [self.navigationItem.rightBarButtonItem setTitle:logInOutString];
+    } else {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:logInOutString
+                                                                                  style:UIBarButtonItemStylePlain
+                                                                                 target:self
+                                                                                 action:@selector(logInOut)];
     }
 }
 
@@ -264,6 +275,7 @@ static NSString * const kPhotoAlbumPhotoCellReuseIdentifier  = @"PhotoAlbumCell"
                               placeholderImage:nil
                                        success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
                                            weakCell.imageView.image = image;
+
                                            [weakCell.activityIndicator stopAnimating];
                                        }
                                        failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
@@ -280,10 +292,9 @@ static NSString * const kPhotoAlbumPhotoCellReuseIdentifier  = @"PhotoAlbumCell"
                                  atIndexPath:(NSIndexPath *)indexPath {
     BDBFlickrPhotoset *photosetForCell = self.sortedPhotosets[indexPath.section];
 
-    PhotoAlbumHeaderView *headerView =
-    [collectionView dequeueReusableSupplementaryViewOfKind:kind
-                                       withReuseIdentifier:kPhotoAlbumHeaderViewReuseIdentifier
-                                              forIndexPath:indexPath];
+    PhotoAlbumHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                          withReuseIdentifier:kPhotoAlbumHeaderViewReuseIdentifier
+                                                                                 forIndexPath:indexPath];
 
     headerView.albumTitleLabel.text = photosetForCell.title;
     headerView.photoCountLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%lu photos", nil), (unsigned long)photosetForCell.photos.count];

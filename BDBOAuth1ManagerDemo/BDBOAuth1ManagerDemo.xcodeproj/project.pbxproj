@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E816CAD519565291009877A6 /* BDBTwitterClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E816CAD419565291009877A6 /* BDBTwitterClient.m */; };
 		E8284C8518464EF900B3C6AA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E8284C6918464ED900B3C6AA /* AppDelegate.m */; };
 		E8284C8F18464EF900B3C6AA /* PhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8284C7418464ED900B3C6AA /* PhotosViewController.m */; };
 		E8284C9F18464EF900B3C6AA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E8284C7118464ED900B3C6AA /* main.m */; };
@@ -17,6 +18,7 @@
 		E88595A2184A289300BD7AEC /* Twitter.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E88595A1184A289300BD7AEC /* Twitter.xcassets */; };
 		E88595A5184A28B700BD7AEC /* Flickr.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E88595A4184A28B700BD7AEC /* Flickr.xcassets */; };
 		E88595A8184A751500BD7AEC /* BDBFlickrClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E88595A7184A751500BD7AEC /* BDBFlickrClient.m */; };
+		E8D381E319592A5C00284883 /* BDBTweet.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D381E11959276400284883 /* BDBTweet.m */; };
 		E8D8E0BF180884DD00CDCB7D /* TweetsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D8E0BE180884DD00CDCB7D /* TweetsViewController.m */; };
 		E8E54C1C180C823400010143 /* TweetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8E54C1B180C823400010143 /* TweetCell.xib */; };
 		E8E54C20180C830A00010143 /* TweetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E54C1F180C830A00010143 /* TweetCell.m */; };
@@ -32,6 +34,8 @@
 
 /* Begin PBXFileReference section */
 		108EC6D2758D4F83A7E4EC02 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		E816CAD319565291009877A6 /* BDBTwitterClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BDBTwitterClient.h; path = Twitter/BDBTwitterClient.h; sourceTree = "<group>"; };
+		E816CAD419565291009877A6 /* BDBTwitterClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BDBTwitterClient.m; path = Twitter/BDBTwitterClient.m; sourceTree = "<group>"; };
 		E8284C6818464ED900B3C6AA /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E8284C6918464ED900B3C6AA /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		E8284C6E18464ED900B3C6AA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -46,6 +50,8 @@
 		E88595A4184A28B700BD7AEC /* Flickr.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Flickr.xcassets; sourceTree = "<group>"; };
 		E88595A6184A751500BD7AEC /* BDBFlickrClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDBFlickrClient.h; sourceTree = "<group>"; };
 		E88595A7184A751500BD7AEC /* BDBFlickrClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDBFlickrClient.m; sourceTree = "<group>"; };
+		E8D381E01959276400284883 /* BDBTweet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BDBTweet.h; path = Twitter/BDBTweet.h; sourceTree = "<group>"; };
+		E8D381E11959276400284883 /* BDBTweet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BDBTweet.m; path = Twitter/BDBTweet.m; sourceTree = "<group>"; };
 		E8D8E0BD180884DD00CDCB7D /* TweetsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetsViewController.h; sourceTree = "<group>"; };
 		E8D8E0BE180884DD00CDCB7D /* TweetsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetsViewController.m; sourceTree = "<group>"; };
 		E8E54C1B180C823400010143 /* TweetCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TweetCell.xib; sourceTree = "<group>"; };
@@ -91,6 +97,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E816CAD21956525D009877A6 /* Twitter */ = {
+			isa = PBXGroup;
+			children = (
+				E816CAD319565291009877A6 /* BDBTwitterClient.h */,
+				E816CAD419565291009877A6 /* BDBTwitterClient.m */,
+				E8D381E01959276400284883 /* BDBTweet.h */,
+				E8D381E11959276400284883 /* BDBTweet.m */,
+			);
+			name = Twitter;
+			sourceTree = "<group>";
+		};
 		E8284C6718464ED900B3C6AA /* Flickr Demo */ = {
 			isa = PBXGroup;
 			children = (
@@ -198,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				E88595A0184A289300BD7AEC /* Resources */,
+				E816CAD21956525D009877A6 /* Twitter */,
 				E8E54C1A180C81EA00010143 /* Views */,
 				E8D8E0C0180884E100CDCB7D /* View Controllers */,
 				E8F375D71808743300C40148 /* AppDelegate.h */,
@@ -409,7 +427,9 @@
 			files = (
 				E8F3763C1808769B00C40148 /* main.m in Sources */,
 				E8E54C20180C830A00010143 /* TweetCell.m in Sources */,
+				E816CAD519565291009877A6 /* BDBTwitterClient.m in Sources */,
 				E8F375D91808743300C40148 /* AppDelegate.m in Sources */,
+				E8D381E319592A5C00284883 /* BDBTweet.m in Sources */,
 				E8D8E0BF180884DD00CDCB7D /* TweetsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

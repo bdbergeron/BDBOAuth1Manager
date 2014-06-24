@@ -24,8 +24,6 @@
 
 #pragma mark -
 @interface TweetsViewController : UITableViewController
-<UIActionSheetDelegate>
-
-- (void)refreshFeed;
+<UIActionSheetDelegate, UIAlertViewDelegate>
 
 @end

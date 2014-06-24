@@ -22,26 +22,10 @@
 
 @import UIKit;
 
-#import "BDBOAuth1RequestOperationManager.h"
-#import "BDBOAuth1SessionManager.h"
-
 #pragma mark -
 @interface AppDelegate : UIResponder
 <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
-#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
-@property (nonatomic, readonly) BDBOAuth1SessionManager *networkManager;
-#else
-@property (nonatomic, readonly) BDBOAuth1RequestOperationManager *networkManager;
-#endif
-
-#pragma mark Initialization
-+ (instancetype)sharedDelegate;
-
-#pragma mark OAuth
-- (void)authorize;
-- (void)deauthorizeWithCompletion:(void (^)(void))completion;
 
 @end

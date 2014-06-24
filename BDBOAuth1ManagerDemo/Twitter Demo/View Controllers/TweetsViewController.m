@@ -21,16 +21,24 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "AppDelegate.h"
+#import "BDBTweet.h"
+#import "BDBTwitterClient.h"
 #import "TweetCell.h"
 #import "TweetsViewController.h"
 
-#import "UIKit+AFNetworking.h"
+#import "AFNetworking/UIKit+AFNetworking.h"
+#import "BBlock/UIKit+BBlock.h"
+
+
+static NSString * const kTweetCellName = @"TweetCell";
+
 
 #pragma mark -
 @interface TweetsViewController ()
 
-@property (nonatomic) NSMutableArray *tweets;
 @property (nonatomic, strong) TweetCell *tweetCell;
+
+@property (nonatomic) NSArray *tweets;
 
 - (void)logInOut;
 
@@ -39,111 +47,135 @@
 #pragma mark -
 @implementation TweetsViewController
 
+- (id)init {
+    self = [super init];
+
+    if (self) {
+        _tweets = [NSArray array];
+
+        self.tableView.rowHeight = 72.0f;
+
+        self.refreshControl = [UIRefreshControl new];
+        [self.refreshControl addTarget:self action:@selector(loadTweets) forControlEvents:UIControlEventValueChanged];
+
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
+            self.tableView.separatorInset = UIEdgeInsetsZero;
+        }
+
+        [[NSNotificationCenter defaultCenter] addObserverForName:BDBTwitterClientDidLogInNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+            [self loadTweets];
+
+            [self.navigationItem.rightBarButtonItem setTitle:NSLocalizedString(@"Log Out", nil)];
+        }];
+
+        [[NSNotificationCenter defaultCenter] addObserverForName:BDBTwitterClientDidLogOutNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+            self.tweets = [NSArray array];
+
+            [self.tableView reloadData];
+
+            [self.navigationItem.rightBarButtonItem setTitle:NSLocalizedString(@"Log In", nil)];
+        }];
+    }
+
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title = @"Tweets";
+    self.title = NSLocalizedString(@"Tweets", nil);
 
-    self.tableView.rowHeight = 72.0;
-
-    UINib *tableCellNib = [UINib nibWithNibName:@"TweetCell" bundle:nil];
-    [self.tableView registerNib:tableCellNib forCellReuseIdentifier:@"TweetCell"];
+    UINib *tableCellNib = [UINib nibWithNibName:kTweetCellName bundle:[NSBundle mainBundle]];
     self.tweetCell = [tableCellNib instantiateWithOwner:nil options:nil][0];
+    [self.tableView registerNib:tableCellNib forCellReuseIdentifier:kTweetCellName];
 
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(refreshFeed) forControlEvents:UIControlEventValueChanged];
+    NSString *logInOutString = ([[BDBTwitterClient sharedClient] isAuthorized]) ?
+        NSLocalizedString(@"Log Out", nil) : NSLocalizedString(@"Log In", nil);
 
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
-        self.tableView.separatorInset = UIEdgeInsetsZero;
-    }
-
-    NSString *logInOutString = ([[[AppDelegate sharedDelegate] networkManager] isAuthorized]) ? @"Log Out" : @"Log In";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:logInOutString
                                                                               style:UIBarButtonItemStylePlain
                                                                              target:self
                                                                              action:@selector(logInOut)];
-
-    self.tweets = [NSMutableArray array];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
-    if ([[[AppDelegate sharedDelegate] networkManager] isAuthorized]) {
-        [self refreshFeed];
+    if ([[BDBTwitterClient sharedClient] isAuthorized]) {
+        [self loadTweets];
     }
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark Authorization
 - (void)logInOut {
-    if ([[[AppDelegate sharedDelegate] networkManager] isAuthorized]) {
+    if ([[BDBTwitterClient sharedClient] isAuthorized]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?"
-                                         delegate:self
-                                cancelButtonTitle:@"Cancel"
-                           destructiveButtonTitle:@"Log Out"
-                                otherButtonTitles:nil] showInView:self.view];
+            [[[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to log out?", nil)
+                                cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                           destructiveButtonTitle:NSLocalizedString(@"Log Out", nil)
+                                 otherButtonTitle:nil
+                                  completionBlock:^(NSInteger buttonIndex, UIActionSheet *actionSheet) {
+                                      if (buttonIndex == actionSheet.destructiveButtonIndex) {
+                                          [[BDBTwitterClient sharedClient] deauthorize];
+                                      }
+                                 }]
+             showInView:self.view];
         });
     } else {
-        [[AppDelegate sharedDelegate] authorize];
-    }
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == actionSheet.destructiveButtonIndex) {
-        self.tweets = [NSMutableArray array];
-        [self.tableView reloadData];
-        [[AppDelegate sharedDelegate] deauthorizeWithCompletion:^{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                self.navigationItem.rightBarButtonItem.title = @"Log In";
-            });
-        }];
+        [[BDBTwitterClient sharedClient] authorize];
     }
 }
 
 #pragma mark Load Tweets
-- (void)refreshFeed {
-    if (![[[AppDelegate sharedDelegate] networkManager] isAuthorized]) {
-        [self didLoadTweetsWithError:nil];
+- (void)loadTweets {
+    if (![[BDBTwitterClient sharedClient] isAuthorized]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Not Logged In", nil)
+                                        message:NSLocalizedString(@"You have to log in before you can view your timeline!", nil)
+                              cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                               otherButtonTitle:NSLocalizedString(@"Log In", nil)
+                                completionBlock:^(NSInteger buttonIndex, UIAlertView *alertView) {
+                                    if (buttonIndex == alertView.cancelButtonIndex + 1) {
+                                        [[BDBTwitterClient sharedClient] authorize];
+                                    }
+                                }]
+             show];
+        });
+
+        [self.refreshControl endRefreshing];
 
         return;
     }
 
-    NSString *timeline = @"statuses/home_timeline.json?count=100";
-
-#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
-    BDBOAuth1SessionManager *manager = [[AppDelegate sharedDelegate] networkManager];
-    [manager GET:timeline
-      parameters:nil
-         success:^(NSURLSessionDataTask *task, id responseObject) {
-             self.tweets = (NSMutableArray *)responseObject;
-             [self didLoadTweetsWithError:nil];
-         }
-         failure:^(NSURLSessionDataTask *task, NSError *error) {
-             [self didLoadTweetsWithError:error];
-         }];
-#else
-    BDBOAuth1RequestOperationManager *manager = [[AppDelegate sharedDelegate] networkManager];
-    [manager GET:timeline
-      parameters:nil
-         success:^(AFHTTPRequestOperation *operation, id responseObject) {
-             self.tweets = (NSMutableArray *)responseObject;
-             [self didLoadTweetsWithError:nil];
-         }
-         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-             [self didLoadTweetsWithError:error];
-         }];
-#endif
-}
-
-- (void)didLoadTweetsWithError:(NSError *)error {
-    [self.refreshControl endRefreshing];
-
-    if (!error) {
-        [self.tableView reloadData];
-    } else {
-        NSLog(@"Error: %@", error);
+    if (!self.refreshControl.isRefreshing) {
+        [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y - self.refreshControl.frame.size.height)
+                                animated:NO];
+        [self.refreshControl beginRefreshing];
     }
+
+    [[BDBTwitterClient sharedClient] loadTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
+        if (error) {
+            NSLog(@"Error: %@", error.localizedDescription);
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
+                                            message:error.localizedDescription
+                                           delegate:self
+                                  cancelButtonTitle:NSLocalizedString(@"Dismiss", nil)
+                                  otherButtonTitles:nil] show];
+            });
+        } else {
+            self.tweets = tweets;
+
+            [self.tableView reloadData];
+
+            [self.refreshControl endRefreshing];
+        }
+    }];
 }
 
 #pragma mark TableView Data Source
@@ -156,15 +188,28 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell" forIndexPath:indexPath];
+    TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:kTweetCellName forIndexPath:indexPath];
 
     if (!cell) {
-        cell = [[TweetCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TweetCell"];
+        cell = [[TweetCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kTweetCellName];
     }
 
-    NSDictionary *tweet = self.tweets[indexPath.row];
-    cell.tweetLabel.text = tweet[@"text"];
-    [cell.userImage setImageWithURL:[NSURL URLWithString:[tweet[@"user"][@"profile_image_url"] stringByReplacingOccurrencesOfString:@"_normal" withString:@"_bigger"]]];
+    BDBTweet *tweet = self.tweets[indexPath.row];
+    cell.tweetLabel.text = tweet.text;
+
+    NSURL *userImageURL = tweet.userImageURL;
+
+    if (userImageURL) {
+        __weak TweetCell *weakCell = cell;
+        [weakCell.userImage setImageWithURLRequest:[NSURLRequest requestWithURL:tweet.userImageURL]
+                                  placeholderImage:nil
+                                           success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                               weakCell.userImage.image = image;
+                                           }
+                                           failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                               NSLog(@"Failed to load image for cell. %@", error.localizedDescription);
+                                           }];
+    }
     
     return cell;
 }

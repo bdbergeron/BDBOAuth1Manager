@@ -1,5 +1,5 @@
 //
-//  FLPhotoset.h
+//  BDBFlickrPhotoset.h
 //
 //  Copyright (c) 2014 Bradley David Bergeron
 //
@@ -23,20 +23,18 @@
 @import Foundation;
 
 #pragma mark -
-@interface FLPhotoset : NSObject
+@interface BDBFlickrPhotoset : NSObject
 
-@property (nonatomic, copy) NSString *setId;
-@property (nonatomic, copy) NSString *primary;
-@property (nonatomic, copy) NSString *secret;
+@property (nonatomic, copy, readonly) NSString *setId;
+@property (nonatomic, copy, readonly) NSString *title;
+
+@property (nonatomic, readonly) NSDate *dateCreated;
+@property (nonatomic, readonly) NSDate *dateUpdated;
 
 @property (nonatomic) NSArray *photos;
 
-@property (nonatomic) NSDate *dateCreated;
-@property (nonatomic) NSDate *dateUpdated;
-
-@property (nonatomic, copy) NSString *title;
-@property (nonatomic, copy) NSString *description;
-
 - (id)initWithDictionary:(NSDictionary *)photosetInfo;
+
+- (BOOL)isEqualToPhotoset:(BDBFlickrPhotoset *)photoset;
 
 @end

@@ -13,7 +13,7 @@
 	<key>CFBundleIcons~ipad</key>
 	<dict/>
 	<key>CFBundleIdentifier</key>
-	<string>com.bradbergeron.bdboauth.flickr</string>
+	<string>com.bradbergeron.bdbflickrclientdemo</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -21,7 +21,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2.1</string>
+	<string>1.2.2</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -30,10 +30,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.bradbergeron.bdboauth.flickr</string>
+			<string>com.bradbergeron.bdboauth1demo.flickr</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>bdbflickr</string>
+				<string>bdboauth1demo-flickr</string>
 			</array>
 		</dict>
 	</array>

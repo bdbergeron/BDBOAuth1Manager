@@ -1,5 +1,5 @@
 //
-//  FLPhotoset.m
+//  BDBFlickrPhotoset.m
 //
 //  Copyright (c) 2014 Bradley David Bergeron
 //
@@ -20,53 +20,58 @@
 //  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "FLPhotoset.h"
+#import "BDBFlickrPhotoset.h"
 
 #pragma mark -
-@implementation FLPhotoset
+@implementation BDBFlickrPhotoset
 
 - (id)initWithDictionary:(NSDictionary *)photosetInfo {
     self = [super init];
 
     if (self) {
-        _setId   = photosetInfo[@"id"];
-        _primary = photosetInfo[@"primary"];
-        _secret  = photosetInfo[@"secret"];
-
-        _photos = [NSArray array];
+        _setId   = [photosetInfo[@"id"] copy];
+        _title = [photosetInfo[@"title"][@"_content"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
         _dateCreated = [NSDate dateWithTimeIntervalSince1970:[photosetInfo[@"date_create"] integerValue]];
         _dateUpdated = [NSDate dateWithTimeIntervalSince1970:[photosetInfo[@"date_update"] integerValue]];
 
-        _title = [photosetInfo[@"title"][@"_content"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        _description = [photosetInfo[@"description"][@"_content"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        _photos = [NSArray array];
     }
 
     return self;
 }
 
 #pragma mark Equivalency
-- (BOOL)isEqualToPhotoset:(FLPhotoset *)album {
-    if (!album) {
-        return NO;
-    }
-
-    BOOL haveEqualTitles = (!self.title && !album.title) || [self.title isEqualToString:album.title];
-    BOOL haveSamePhotos = (!self.photos && !album.photos) || [self.photos isEqualToArray:album.photos];
-
-    return haveEqualTitles && haveSamePhotos;
-}
-
 - (BOOL)isEqual:(id)object {
     if (object == self) {
         return YES;
     }
 
-    if (![object isKindOfClass:[FLPhotoset class]]) {
+    if (![object isKindOfClass:[BDBFlickrPhotoset class]]) {
         return NO;
     } else {
-        return [self isEqualToPhotoset:(FLPhotoset *)object];
+        return [self isEqualToPhotoset:(BDBFlickrPhotoset *)object];
     }
+}
+
+- (BOOL)isEqualToPhotoset:(BDBFlickrPhotoset *)photoset {
+    if (!photoset) {
+        return NO;
+    }
+
+    BOOL equalId = (!self.setId && !photoset.setId) || [self.setId isEqualToString:photoset.setId];
+    BOOL equalTitle = (!self.title && !photoset.title) || [self.title isEqualToString:photoset.title];
+
+    BOOL equalDateCreated = [self.dateCreated isEqualToDate:photoset.dateCreated];
+    BOOL equalDateUpdated = [self.dateUpdated isEqualToDate:photoset.dateUpdated];
+
+    BOOL samePhotos = (!self.photos && !photoset.photos) || [self.photos isEqualToArray:photoset.photos];
+
+    return (equalId && equalTitle && equalDateCreated && equalDateUpdated && samePhotos);
+}
+
+- (NSUInteger)hash {
+    return (self.setId.hash ^ self.title.hash ^ self.dateCreated.hash ^ self.dateUpdated.hash ^ self.photos.hash);
 }
 
 @end

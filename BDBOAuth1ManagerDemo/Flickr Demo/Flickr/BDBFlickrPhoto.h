@@ -1,5 +1,5 @@
 //
-//  FLPhoto.h
+//  BDBFlickrPhoto.h
 //
 //  Copyright (c) 2014 Bradley David Bergeron
 //
@@ -23,17 +23,16 @@
 @import Foundation;
 
 #pragma mark -
-@interface FLPhoto : NSObject
+@interface BDBFlickrPhoto : NSObject
 
-@property (nonatomic, copy) NSString *photoId;
-@property (nonatomic, copy) NSString *secret;
+@property (nonatomic, copy, readonly) NSString *photoId;
+@property (nonatomic, copy, readonly) NSString *title;
 
-@property (nonatomic, copy) NSString *title;
-@property (nonatomic, copy) NSString *description;
-
-@property (nonatomic) NSURL *thumbnailURL;
-@property (nonatomic) NSURL *originalURL;
+@property (nonatomic, readonly) NSURL *thumbnailURL;
+@property (nonatomic, readonly) NSURL *originalURL;
 
 - (id)initWithDictionary:(NSDictionary *)photoInfo;
+
+- (BOOL)isEqualToPhoto:(BDBFlickrPhoto *)photo;
 
 @end

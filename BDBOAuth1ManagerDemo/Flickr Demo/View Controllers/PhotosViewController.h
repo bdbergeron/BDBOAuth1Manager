@@ -24,7 +24,8 @@
 
 #pragma mark -
 @interface PhotosViewController : UICollectionViewController
-<UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate, UIActionSheetDelegate>
+<UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate,
+UIActionSheetDelegate, UIAlertViewDelegate>
 
 - (void)loadImages;
 

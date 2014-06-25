@@ -466,8 +466,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Flickr Demo/Supporting Files/Flickr Demo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Flickr Demo/Supporting Files/Flickr Demo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "Flickr Demo";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = app;
 			};
@@ -483,8 +484,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Flickr Demo/Supporting Files/Flickr Demo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Flickr Demo/Supporting Files/Flickr Demo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "Flickr Demo";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = app;
 			};

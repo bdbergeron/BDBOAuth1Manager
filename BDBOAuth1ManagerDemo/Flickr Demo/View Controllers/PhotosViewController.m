@@ -47,7 +47,9 @@ static NSString * const kPhotoAlbumPhotoCellReuseIdentifier  = @"PhotoAlbumCell"
 
 @property (nonatomic) NSSet *photosets;
 @property (nonatomic) NSArray *sortedPhotosets;
-@property (nonatomic) NSInteger numberOfSetsLoading;
+@property (nonatomic) NSUInteger numberOfSetsLoading;
+
+@property (nonatomic) NSUInteger imagesPerRow;
 
 - (void)logInOut;
 
@@ -122,6 +124,22 @@ static NSString * const kPhotoAlbumPhotoCellReuseIdentifier  = @"PhotoAlbumCell"
     if ([[BDBFlickrClient sharedClient] isAuthorized]) {
         [self loadImages];
     }
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        self.imagesPerRow = 4;
+    } else if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+        self.imagesPerRow = 6;
+    } else {
+        self.imagesPerRow = 10;
+    }
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [self.collectionViewLayout invalidateLayout];
 }
 
 - (void)dealloc {
@@ -312,8 +330,8 @@ static NSString * const kPhotoAlbumPhotoCellReuseIdentifier  = @"PhotoAlbumCell"
                                     layout:collectionViewLayout
   minimumInteritemSpacingForSectionAtIndex:indexPath.section];
 
-    CGFloat collectionWidth = self.view.bounds.size.width - padding * (4 - 1);
-    CGFloat imageWidth = collectionWidth / 4;
+    CGFloat collectionWidth = self.view.bounds.size.width - padding * (self.imagesPerRow - 1);
+    CGFloat imageWidth = collectionWidth / self.imagesPerRow;
 
     return CGSizeMake(imageWidth, imageWidth);
 }

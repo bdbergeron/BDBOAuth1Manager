@@ -1,5 +1,5 @@
 //
-//  TweetCell.m
+//  BDBTweet.m
 //
 //  Copyright (c) 2014 Bradley David Bergeron
 //
@@ -20,32 +20,37 @@
 //  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TweetCell.h"
+#import "BDBTweet.h"
+
+
+static NSString * const kBDBTweetTweetTextName = @"text";
+static NSString * const kBDBTweetUserInfoName = @"user";
+static NSString * const kBDBTweetUserImageURLName = @"profile_image_url";
+static NSString * const kBDBTweetUserNameName = @"name";
+static NSString * const kBDBTweetUserScreenNameName = @"screen_name";
 
 #pragma mark -
-@implementation TweetCell
+@implementation BDBTweet
 
-- (void)awakeFromNib {
-    self.userImageView.layer.masksToBounds = YES;
+- (id)initWithDictionary:(NSDictionary *)tweetInfo {
+    self = [super init];
 
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
-        self.userImageView.layer.cornerRadius = self.userImageView.frame.size.width / 2.0f;
-    } else {
-        self.userImageView.layer.cornerRadius = 5.0f;
+    if (self) {
+        _tweetText = [tweetInfo[kBDBTweetTweetTextName] copy];
+
+        NSDictionary *userInfo = tweetInfo[kBDBTweetUserInfoName];
+
+        if (userInfo[kBDBTweetUserImageURLName]) {
+            NSString *userImageURLString = [userInfo[kBDBTweetUserImageURLName] stringByReplacingOccurrencesOfString:@"_normal"
+                                                                                                          withString:@"_bigger"];
+            _userImageURL = [NSURL URLWithString:userImageURLString];
+        }
+
+        _userName = userInfo[kBDBTweetUserNameName];
+        _userScreenName = userInfo[kBDBTweetUserScreenNameName];
     }
     
-    self.userImageView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
-    self.userImageView.layer.shouldRasterize = YES;
-    self.userImageView.clipsToBounds = YES;
-
-    [self prepareForReuse];
-}
-
-- (void)prepareForReuse {
-    self.userImageView.image = nil;
-    self.userNameLabel.text = @"";
-    self.userScreenNameLabel.text = @"@";
-    self.tweetLabel.text = nil;
+    return self;
 }
 
 @end

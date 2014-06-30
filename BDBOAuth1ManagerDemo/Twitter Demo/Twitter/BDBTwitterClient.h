@@ -1,5 +1,5 @@
 //
-//  TweetCell.h
+//  BDBTwitterClient.h
 //
 //  Copyright (c) 2014 Bradley David Bergeron
 //
@@ -20,13 +20,32 @@
 //  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-@import UIKit;
+@import Foundation;
 
-@interface TweetCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UIImageView *userImageView;
-@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *userScreenNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *tweetLabel;
+FOUNDATION_EXPORT NSString * const BDBTwitterClientErrorDomain;
+
+FOUNDATION_EXPORT NSString * const BDBTwitterClientDidLogInNotification;
+FOUNDATION_EXPORT NSString * const BDBTwitterClientDidLogOutNotification;
+
+
+#pragma mark -
+@interface BDBTwitterClient : NSObject
+
+@property (nonatomic, assign, readonly, getter = isAuthorized) BOOL authorized;
+
+#pragma mark Initialization
++ (instancetype)createWithConsumerKey:(NSString *)apiKey secret:(NSString *)secret;
++ (instancetype)sharedClient;
+
+#pragma mark Authorization
+- (BOOL)isAuthorized;
++ (BOOL)isAuthorizationCallbackURL:(NSURL *)url;
+- (void)authorize;
+- (BOOL)handleAuthorizationCallbackURL:(NSURL *)url;
+- (void)deauthorize;
+
+#pragma mark Tweets
+- (void)loadTimelineWithCompletion:(void (^)(NSArray *tweets, NSError *error))completion;
 
 @end

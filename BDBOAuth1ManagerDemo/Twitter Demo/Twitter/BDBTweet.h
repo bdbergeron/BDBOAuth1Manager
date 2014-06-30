@@ -1,5 +1,5 @@
 //
-//  TweetCell.h
+//  BDBTweet.h
 //
 //  Copyright (c) 2014 Bradley David Bergeron
 //
@@ -20,13 +20,17 @@
 //  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-@import UIKit;
+@import Foundation;
 
-@interface TweetCell : UITableViewCell
+#pragma mark -
+@interface BDBTweet : NSObject
 
-@property (weak, nonatomic) IBOutlet UIImageView *userImageView;
-@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *userScreenNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *tweetLabel;
+@property (nonatomic, copy, readonly) NSURL *userImageURL;
+@property (nonatomic, copy, readonly) NSString *userName;
+@property (nonatomic, copy, readonly) NSString *userScreenName;
+
+@property (nonatomic, copy, readonly) NSString *tweetText;
+
+- (id)initWithDictionary:(NSDictionary *)tweetInfo;
 
 @end

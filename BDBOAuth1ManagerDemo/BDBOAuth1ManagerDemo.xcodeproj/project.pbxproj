@@ -20,8 +20,8 @@
 		E88595A8184A751500BD7AEC /* BDBFlickrClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E88595A7184A751500BD7AEC /* BDBFlickrClient.m */; };
 		E8D381E319592A5C00284883 /* BDBTweet.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D381E11959276400284883 /* BDBTweet.m */; };
 		E8D8E0BF180884DD00CDCB7D /* TweetsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D8E0BE180884DD00CDCB7D /* TweetsViewController.m */; };
-		E8E54C1C180C823400010143 /* TweetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8E54C1B180C823400010143 /* TweetCell.xib */; };
 		E8E54C20180C830A00010143 /* TweetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E54C1F180C830A00010143 /* TweetCell.m */; };
+		E8F0016919618C7C00980015 /* TweetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8F0016819618C7C00980015 /* TweetCell.xib */; };
 		E8F375D91808743300C40148 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F375D81808743300C40148 /* AppDelegate.m */; };
 		E8F3763C1808769B00C40148 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F376391808769B00C40148 /* main.m */; };
 		E8F616881846555D008D9DC5 /* PhotoAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F616821846555D008D9DC5 /* PhotoAlbumCell.m */; };
@@ -54,9 +54,9 @@
 		E8D381E11959276400284883 /* BDBTweet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BDBTweet.m; path = Twitter/BDBTweet.m; sourceTree = "<group>"; };
 		E8D8E0BD180884DD00CDCB7D /* TweetsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetsViewController.h; sourceTree = "<group>"; };
 		E8D8E0BE180884DD00CDCB7D /* TweetsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetsViewController.m; sourceTree = "<group>"; };
-		E8E54C1B180C823400010143 /* TweetCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TweetCell.xib; sourceTree = "<group>"; };
 		E8E54C1E180C830A00010143 /* TweetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetCell.h; sourceTree = "<group>"; };
 		E8E54C1F180C830A00010143 /* TweetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetCell.m; sourceTree = "<group>"; };
+		E8F0016819618C7C00980015 /* TweetCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TweetCell.xib; sourceTree = "<group>"; };
 		E8F375C51808743300C40148 /* Twitter Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Twitter Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8F375D71808743300C40148 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E8F375D81808743300C40148 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -186,7 +186,7 @@
 			children = (
 				E8E54C1E180C830A00010143 /* TweetCell.h */,
 				E8E54C1F180C830A00010143 /* TweetCell.m */,
-				E8E54C1B180C823400010143 /* TweetCell.xib */,
+				E8F0016819618C7C00980015 /* TweetCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -335,7 +335,7 @@
 			files = (
 				E8284CB01846500000B3C6AA /* InfoPlist.strings in Resources */,
 				E88595A2184A289300BD7AEC /* Twitter.xcassets in Resources */,
-				E8E54C1C180C823400010143 /* TweetCell.xib in Resources */,
+				E8F0016919618C7C00980015 /* TweetCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -580,6 +580,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Twitter Demo/Supporting Files/Twitter Demo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Twitter Demo/Supporting Files/Twitter Demo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "Twitter Demo";
 				TARGETED_DEVICE_FAMILY = 1;
 				WARNING_CFLAGS = "-Wall";
@@ -597,6 +598,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Twitter Demo/Supporting Files/Twitter Demo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Twitter Demo/Supporting Files/Twitter Demo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "Twitter Demo";
 				TARGETED_DEVICE_FAMILY = 1;
 				WARNING_CFLAGS = "-Wall";

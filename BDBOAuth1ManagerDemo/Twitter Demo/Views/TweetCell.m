@@ -26,24 +26,26 @@
 @implementation TweetCell
 
 - (void)awakeFromNib {
-    self.userImage.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-    self.userImage.layer.masksToBounds = YES;
+    self.userImageView.layer.masksToBounds = YES;
 
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
-        self.userImage.layer.cornerRadius = self.userImage.frame.size.width / 2.0;
+        self.userImageView.layer.cornerRadius = self.userImageView.frame.size.width / 2.0f;
     } else {
-        self.userImage.layer.cornerRadius = 5.0;
+        self.userImageView.layer.cornerRadius = 5.0f;
     }
-    self.userImage.layer.rasterizationScale = [[UIScreen mainScreen] scale];
-    self.userImage.layer.shouldRasterize = YES;
-    self.userImage.clipsToBounds = YES;
+    
+    self.userImageView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+    self.userImageView.layer.shouldRasterize = YES;
+    self.userImageView.clipsToBounds = YES;
 
     [self prepareForReuse];
 }
 
 - (void)prepareForReuse {
+    self.userImageView.image = nil;
+    self.userNameLabel.text = @"";
+    self.userScreenNameLabel.text = @"@";
     self.tweetLabel.text = nil;
-    self.userImage.image = nil;
 }
 
 @end

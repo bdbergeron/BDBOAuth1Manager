@@ -171,9 +171,9 @@ static NSString * const kTweetCellName = @"TweetCell";
             self.tweets = tweets;
 
             [self.tableView reloadData];
-
-            [self.refreshControl endRefreshing];
         }
+
+        [self.refreshControl endRefreshing];
     }];
 }
 

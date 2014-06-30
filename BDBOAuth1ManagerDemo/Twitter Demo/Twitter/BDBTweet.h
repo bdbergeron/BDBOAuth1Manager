@@ -25,9 +25,11 @@
 #pragma mark -
 @interface BDBTweet : NSObject
 
-@property (nonatomic, copy, readonly) NSString *text;
-
 @property (nonatomic, copy, readonly) NSURL *userImageURL;
+@property (nonatomic, copy, readonly) NSString *userName;
+@property (nonatomic, copy, readonly) NSString *userScreenName;
+
+@property (nonatomic, copy, readonly) NSString *tweetText;
 
 - (id)initWithDictionary:(NSDictionary *)tweetInfo;
 

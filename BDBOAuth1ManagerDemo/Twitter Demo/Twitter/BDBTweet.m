@@ -22,6 +22,13 @@
 
 #import "BDBTweet.h"
 
+
+static NSString * const kBDBTweetTweetTextName = @"text";
+static NSString * const kBDBTweetUserInfoName = @"user";
+static NSString * const kBDBTweetUserImageURLName = @"profile_image_url";
+static NSString * const kBDBTweetUserNameName = @"name";
+static NSString * const kBDBTweetUserScreenNameName = @"screen_name";
+
 #pragma mark -
 @implementation BDBTweet
 
@@ -29,13 +36,18 @@
     self = [super init];
 
     if (self) {
-        _text = [tweetInfo[@"text"] copy];
+        _tweetText = [tweetInfo[kBDBTweetTweetTextName] copy];
 
-        if (tweetInfo[@"user"][@"profile_image_url"]) {
-            NSString *userImageURLString = [tweetInfo[@"user"][@"profile_image_url"] stringByReplacingOccurrencesOfString:@"_normal"
-                                                                                                               withString:@"_bigger"];
+        NSDictionary *userInfo = tweetInfo[kBDBTweetUserInfoName];
+
+        if (userInfo[kBDBTweetUserImageURLName]) {
+            NSString *userImageURLString = [userInfo[kBDBTweetUserImageURLName] stringByReplacingOccurrencesOfString:@"_normal"
+                                                                                                          withString:@"_bigger"];
             _userImageURL = [NSURL URLWithString:userImageURLString];
         }
+
+        _userName = userInfo[kBDBTweetUserNameName];
+        _userScreenName = userInfo[kBDBTweetUserScreenNameName];
     }
     
     return self;

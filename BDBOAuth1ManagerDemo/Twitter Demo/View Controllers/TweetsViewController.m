@@ -36,8 +36,7 @@ static NSString * const kTweetCellName = @"TweetCell";
 #pragma mark -
 @interface TweetsViewController ()
 
-@property (nonatomic, strong) TweetCell *tweetCell;
-
+@property (nonatomic) NSMutableDictionary *offscreenCells;
 @property (nonatomic) NSArray *tweets;
 
 - (void)logInOut;
@@ -51,6 +50,7 @@ static NSString * const kTweetCellName = @"TweetCell";
     self = [super init];
 
     if (self) {
+        _offscreenCells = [NSMutableDictionary dictionary];
         _tweets = [NSArray array];
 
         self.refreshControl = [UIRefreshControl new];
@@ -85,8 +85,7 @@ static NSString * const kTweetCellName = @"TweetCell";
 
     self.title = NSLocalizedString(@"Tweets", nil);
 
-    UINib *tableCellNib = [UINib nibWithNibName:kTweetCellName bundle:[NSBundle mainBundle]];
-    self.tweetCell = [tableCellNib instantiateWithOwner:nil options:nil][0];
+    UINib *tableCellNib = [UINib nibWithNibName:kTweetCellName bundle:nil];
     [self.tableView registerNib:tableCellNib forCellReuseIdentifier:kTweetCellName];
 
     NSString *logInOutString = ([[BDBTwitterClient sharedClient] isAuthorized]) ?
@@ -209,12 +208,38 @@ static NSString * const kTweetCellName = @"TweetCell";
                                                    NSLog(@"Failed to load image for cell. %@", error.localizedDescription);
                                                }];
     }
+
+    [cell setNeedsUpdateConstraints];
+    [cell updateConstraintsIfNeeded];
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return self.tweetCell.frame.size.height;
+    TweetCell *cell = [self.offscreenCells objectForKey:kTweetCellName];
+
+    if (!cell) {
+        cell = [[[UINib nibWithNibName:kTweetCellName bundle:nil] instantiateWithOwner:nil options:nil] objectAtIndex:0];
+        [self.offscreenCells setObject:cell forKey:kTweetCellName];
+    }
+
+    BDBTweet *tweet = self.tweets[indexPath.row];
+
+    cell.userNameLabel.text = tweet.userName;
+    cell.userScreenNameLabel.text = [NSString stringWithFormat:@"@%@", tweet.userScreenName];
+    cell.tweetLabel.text = tweet.tweetText;
+
+    [cell setNeedsUpdateConstraints];
+    [cell updateConstraintsIfNeeded];
+
+    cell.bounds = CGRectMake(0.0f, 0.0f, CGRectGetWidth(tableView.bounds), CGRectGetHeight(cell.bounds));
+
+    [cell setNeedsLayout];
+    [cell layoutIfNeeded];
+
+    CGFloat height = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+
+    return height + 1.0f;
 }
 
 @end

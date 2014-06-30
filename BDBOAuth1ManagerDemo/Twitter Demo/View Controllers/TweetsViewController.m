@@ -53,12 +53,12 @@ static NSString * const kTweetCellName = @"TweetCell";
     if (self) {
         _tweets = [NSArray array];
 
-        self.tableView.rowHeight = 72.0f;
-
         self.refreshControl = [UIRefreshControl new];
         [self.refreshControl addTarget:self action:@selector(loadTweets) forControlEvents:UIControlEventValueChanged];
 
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
+        self.tableView.rowHeight = 90.0f;
+
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0f) {
             self.tableView.separatorInset = UIEdgeInsetsZero;
         }
 
@@ -190,25 +190,24 @@ static NSString * const kTweetCellName = @"TweetCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:kTweetCellName forIndexPath:indexPath];
 
-    if (!cell) {
-        cell = [[TweetCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kTweetCellName];
-    }
-
     BDBTweet *tweet = self.tweets[indexPath.row];
-    cell.tweetLabel.text = tweet.text;
+
+    cell.userNameLabel.text = tweet.userName;
+    cell.userScreenNameLabel.text = [NSString stringWithFormat:@"@%@", tweet.userScreenName];
+    cell.tweetLabel.text = tweet.tweetText;
 
     NSURL *userImageURL = tweet.userImageURL;
 
     if (userImageURL) {
         __weak TweetCell *weakCell = cell;
-        [weakCell.userImage setImageWithURLRequest:[NSURLRequest requestWithURL:tweet.userImageURL]
-                                  placeholderImage:nil
-                                           success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                               weakCell.userImage.image = image;
-                                           }
-                                           failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                                               NSLog(@"Failed to load image for cell. %@", error.localizedDescription);
-                                           }];
+        [weakCell.userImageView setImageWithURLRequest:[NSURLRequest requestWithURL:tweet.userImageURL]
+                                      placeholderImage:nil
+                                               success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                                   weakCell.userImageView.image = image;
+                                               }
+                                               failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                                   NSLog(@"Failed to load image for cell. %@", error.localizedDescription);
+                                               }];
     }
     
     return cell;

@@ -28,12 +28,6 @@
 @implementation NSDictionary (BDBOAuth1Manager)
 
 + (instancetype)dictionaryFromQueryString:(NSString *)queryString
-{
-    return [[NSDictionary alloc] initWithQueryString:queryString];
-}
-
-- (id)initWithQueryString:(NSString *)queryString
-{
     NSArray *components = [queryString componentsSeparatedByString:@"&"];
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     for (NSString *component in components)

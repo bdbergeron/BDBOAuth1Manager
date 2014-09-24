@@ -27,7 +27,6 @@
 @interface NSDictionary (BDBOAuth1Manager)
 
 + (instancetype)dictionaryFromQueryString:(NSString *)queryString;
-- (id)initWithQueryString:(NSString *)queryString;
 
 - (NSString *)queryStringRepresentation;
 

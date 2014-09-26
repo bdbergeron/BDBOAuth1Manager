@@ -29,26 +29,28 @@
 
 + (instancetype)dictionaryFromQueryString:(NSString *)queryString
 {
-    return [[NSDictionary alloc] initWithQueryString:queryString];
+    return [[[self class] alloc] bdb_initWithQueryString:queryString];
 }
 
-- (id)initWithQueryString:(NSString *)queryString
+- (instancetype)bdb_initWithQueryString:(NSString *)queryString
 {
     NSArray *components = [queryString componentsSeparatedByString:@"&"];
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    for (NSString *component in components)
-    {
+    
+    for (NSString *component in components) {
         NSArray *keyValue = [component componentsSeparatedByString:@"="];
-        dictionary[[keyValue[0] URLDecode]] = [keyValue[1] URLDecode];
+        
+        dictionary[[keyValue[0] bdb_URLDecode]] = [keyValue[1] bdb_URLDecode];
     }
-    return dictionary;
+    
+    return [self initWithDictionary:dictionary];
 }
 
-- (NSString *)queryStringRepresentation
+- (NSString *)bdb_queryStringRepresentation
 {
     NSMutableArray *paramArray = [NSMutableArray array];
     [self enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        NSString *param = [NSString stringWithFormat:@"%@=%@", [key URLEncode], [obj URLEncode]];
+        NSString *param = [NSString stringWithFormat:@"%@=%@", [key bdb_URLEncode], [obj bdb_URLEncode]];
         [paramArray addObject:param];
     }];
     return [paramArray componentsJoinedByString:@"&"];

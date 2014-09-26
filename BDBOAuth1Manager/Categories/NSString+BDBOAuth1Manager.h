@@ -26,7 +26,7 @@
 #pragma mark -
 @interface NSString (BDBOAuth1Manager)
 
-- (NSString *)URLEncode;
-- (NSString *)URLDecode;
+- (NSString *)bdb_URLEncode;
+- (NSString *)bdb_URLDecode;
 
 @end

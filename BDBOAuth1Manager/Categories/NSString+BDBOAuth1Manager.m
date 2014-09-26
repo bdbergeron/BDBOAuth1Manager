@@ -28,7 +28,7 @@
 #pragma mark -
 @implementation NSString (BDBOAuth1Manager)
 
-- (NSString *)URLEncode
+- (NSString *)bdb_URLEncode
 {
     return (__bridge_transfer NSString *)
     CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
@@ -38,7 +38,7 @@
                                             kCFStringEncodingUTF8);
 }
 
-- (NSString *)URLDecode
+- (NSString *)bdb_URLDecode
 {
     return (__bridge_transfer NSString *)
     CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault,

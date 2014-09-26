@@ -60,7 +60,7 @@ FOUNDATION_EXPORT NSString * const BDBOAuth1OAuthCallbackParameter;
 
 #pragma mark Initialization
 + (instancetype)serializerForService:(NSString *)service withConsumerKey:(NSString *)key consumerSecret:(NSString *)secret;
-- (id)initWithService:(NSString *)service consumerKey:(NSString *)key consumerSecret:(NSString *)secret;
+- (instancetype)initWithService:(NSString *)service consumerKey:(NSString *)key consumerSecret:(NSString *)secret;
 
 #pragma mark OAuth
 - (NSDictionary *)OAuthParameters;

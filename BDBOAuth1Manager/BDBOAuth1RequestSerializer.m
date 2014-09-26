@@ -54,8 +54,8 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
 
 @property (nonatomic, strong) NSDate *expiration;
 
-- (id)initWithToken:(NSString *)token secret:(NSString *)secret expiration:(NSDate *)expiration;
-- (id)initWithQueryString:(NSString *)queryString;
+- (instancetype)initWithToken:(NSString *)token secret:(NSString *)secret expiration:(NSDate *)expiration;
+- (instancetype)initWithQueryString:(NSString *)queryString;
 
 @end
 
@@ -74,7 +74,7 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
     return [[[self class] alloc] initWithQueryString:queryString];
 }
 
-- (id)initWithToken:(NSString *)token secret:(NSString *)secret expiration:(NSDate *)expiration
+- (instancetype)initWithToken:(NSString *)token secret:(NSString *)secret expiration:(NSDate *)expiration
 {
     NSParameterAssert(token);
 
@@ -90,7 +90,7 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
     return self;
 }
 
-- (id)initWithQueryString:(NSString *)queryString
+- (instancetype)initWithQueryString:(NSString *)queryString
 {
     NSDictionary *attributes = [NSDictionary dictionaryFromQueryString:queryString];
 
@@ -198,7 +198,7 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
     return [[BDBOAuth1RequestSerializer alloc] initWithService:service consumerKey:key consumerSecret:secret];
 }
 
-- (id)initWithService:(NSString *)service consumerKey:(NSString *)key consumerSecret:(NSString *)secret
+- (instancetype)initWithService:(NSString *)service consumerKey:(NSString *)key consumerSecret:(NSString *)secret
 {
     self = [super init];
 
@@ -305,7 +305,7 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
     else if (self.requestToken)
         secret = self.requestToken.secret;
 
-    NSString *secretString = [[self.consumerSecret URLEncode] stringByAppendingFormat:@"&%@", [secret URLEncode]];
+    NSString *secretString = [[self.consumerSecret bdb_URLEncode] stringByAppendingFormat:@"&%@", [secret bdb_URLEncode]];
     NSData *secretData = [secretString dataUsingEncoding:NSUTF8StringEncoding];
 
     /**
@@ -318,10 +318,10 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
      * 5. Percent encode the query string and append it to the output string.
      */
     NSString *requestMethod = [[request HTTPMethod] uppercaseString];
-    NSString *requestURL    = [[[[request URL] absoluteString] componentsSeparatedByString:@"?"][0] URLEncode];
+    NSString *requestURL    = [[[[request URL] absoluteString] componentsSeparatedByString:@"?"][0] bdb_URLEncode];
 
     NSArray *sortedQueryString = [[[[request URL] query] componentsSeparatedByString:@"&"] sortedArrayUsingSelector:@selector(compare:)];
-    NSString *queryString   = [[sortedQueryString componentsJoinedByString:@"&"] URLEncode];
+    NSString *queryString   = [[sortedQueryString componentsJoinedByString:@"&"] bdb_URLEncode];
 
     NSString *requestString = [NSString stringWithFormat:@"%@&%@&%@", requestMethod, requestURL, queryString];
     NSData *requestData = [requestString dataUsingEncoding:NSUTF8StringEncoding];
@@ -374,7 +374,7 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service)
     [mutableParameters addEntriesFromDictionary:mutableAuthorizationParameters];
     mutableAuthorizationParameters[BDBOAuth1OAuthSignatureParameter] = [self OAuthSignatureForMethod:method URLString:URLString parameters:mutableParameters error:error];
 
-    NSArray *sortedComponents = [[[mutableAuthorizationParameters queryStringRepresentation] componentsSeparatedByString:@"&"] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    NSArray *sortedComponents = [[[mutableAuthorizationParameters bdb_queryStringRepresentation] componentsSeparatedByString:@"&"] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 
     NSMutableArray *mutableComponents = [NSMutableArray array];
 

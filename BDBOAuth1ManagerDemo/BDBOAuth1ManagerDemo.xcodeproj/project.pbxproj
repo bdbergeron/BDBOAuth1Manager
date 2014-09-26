@@ -13,11 +13,13 @@
 		E8284C9F18464EF900B3C6AA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E8284C7118464ED900B3C6AA /* main.m */; };
 		E8284CA618464EF900B3C6AA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E8284C6D18464ED900B3C6AA /* InfoPlist.strings */; };
 		E8284CB01846500000B3C6AA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E8F376351808769B00C40148 /* InfoPlist.strings */; };
+		E847027019D4DD2E00C10210 /* Flickr.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E847026F19D4DD2E00C10210 /* Flickr.xcassets */; };
 		E86A44DF19244C4400700A9C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E86A44DE19244C4400700A9C /* libPods.a */; };
 		E86A44E219244C9900700A9C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E86A44DE19244C4400700A9C /* libPods.a */; };
-		E88595A2184A289300BD7AEC /* Twitter.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E88595A1184A289300BD7AEC /* Twitter.xcassets */; };
-		E88595A5184A28B700BD7AEC /* Flickr.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E88595A4184A28B700BD7AEC /* Flickr.xcassets */; };
 		E88595A8184A751500BD7AEC /* BDBFlickrClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E88595A7184A751500BD7AEC /* BDBFlickrClient.m */; };
+		E8C6BAA119D4DDC300A2102A /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8C6BAA019D4DDC300A2102A /* Launch Screen.xib */; };
+		E8C6BAA319D4E02E00A2102A /* Twitter.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8C6BAA219D4E02E00A2102A /* Twitter.xcassets */; };
+		E8C6BAA519D4E05A00A2102A /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8C6BAA419D4E05A00A2102A /* Launch Screen.xib */; };
 		E8D381E319592A5C00284883 /* BDBTweet.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D381E11959276400284883 /* BDBTweet.m */; };
 		E8D8E0BF180884DD00CDCB7D /* TweetsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D8E0BE180884DD00CDCB7D /* TweetsViewController.m */; };
 		E8E54C20180C830A00010143 /* TweetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E54C1F180C830A00010143 /* TweetCell.m */; };
@@ -33,7 +35,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		108EC6D2758D4F83A7E4EC02 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		3C23EA492A8642587406840B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		D4E42A9BCC3D91597BD0D127 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E816CAD319565291009877A6 /* BDBTwitterClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BDBTwitterClient.h; path = Twitter/BDBTwitterClient.h; sourceTree = "<group>"; };
 		E816CAD419565291009877A6 /* BDBTwitterClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BDBTwitterClient.m; path = Twitter/BDBTwitterClient.m; sourceTree = "<group>"; };
 		E8284C6818464ED900B3C6AA /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -45,11 +48,13 @@
 		E8284C7318464ED900B3C6AA /* PhotosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotosViewController.h; sourceTree = "<group>"; };
 		E8284C7418464ED900B3C6AA /* PhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosViewController.m; sourceTree = "<group>"; };
 		E8284CAE18464EF900B3C6AA /* Flickr Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flickr Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E847026F19D4DD2E00C10210 /* Flickr.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Flickr.xcassets; sourceTree = "<group>"; };
 		E86A44DE19244C4400700A9C /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
-		E88595A1184A289300BD7AEC /* Twitter.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Twitter.xcassets; sourceTree = "<group>"; };
-		E88595A4184A28B700BD7AEC /* Flickr.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Flickr.xcassets; sourceTree = "<group>"; };
 		E88595A6184A751500BD7AEC /* BDBFlickrClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDBFlickrClient.h; sourceTree = "<group>"; };
 		E88595A7184A751500BD7AEC /* BDBFlickrClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDBFlickrClient.m; sourceTree = "<group>"; };
+		E8C6BAA019D4DDC300A2102A /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
+		E8C6BAA219D4E02E00A2102A /* Twitter.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Twitter.xcassets; sourceTree = "<group>"; };
+		E8C6BAA419D4E05A00A2102A /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		E8D381E01959276400284883 /* BDBTweet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BDBTweet.h; path = Twitter/BDBTweet.h; sourceTree = "<group>"; };
 		E8D381E11959276400284883 /* BDBTweet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BDBTweet.m; path = Twitter/BDBTweet.m; sourceTree = "<group>"; };
 		E8D8E0BD180884DD00CDCB7D /* TweetsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetsViewController.h; sourceTree = "<group>"; };
@@ -159,7 +164,8 @@
 		E88595A0184A289300BD7AEC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				E88595A1184A289300BD7AEC /* Twitter.xcassets */,
+				E8C6BAA419D4E05A00A2102A /* Launch Screen.xib */,
+				E8C6BAA219D4E02E00A2102A /* Twitter.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -167,7 +173,8 @@
 		E88595A3184A28A800BD7AEC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				E88595A4184A28B700BD7AEC /* Flickr.xcassets */,
+				E8C6BAA019D4DDC300A2102A /* Launch Screen.xib */,
+				E847026F19D4DD2E00C10210 /* Flickr.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -197,8 +204,8 @@
 				E8284C6718464ED900B3C6AA /* Flickr Demo */,
 				E8F375CE1808743300C40148 /* Twitter Demo */,
 				E8F375C61808743300C40148 /* Products */,
-				108EC6D2758D4F83A7E4EC02 /* Pods.xcconfig */,
 				E86A44DE19244C4400700A9C /* libPods.a */,
+				FC3EB9D2479E3EF337045269 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -247,6 +254,15 @@
 				E8F6169418496578008D9DC5 /* BDBFlickrPhoto.m */,
 			);
 			path = Flickr;
+			sourceTree = "<group>";
+		};
+		FC3EB9D2479E3EF337045269 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D4E42A9BCC3D91597BD0D127 /* Pods.debug.xcconfig */,
+				3C23EA492A8642587406840B /* Pods.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -323,8 +339,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E847027019D4DD2E00C10210 /* Flickr.xcassets in Resources */,
+				E8C6BAA119D4DDC300A2102A /* Launch Screen.xib in Resources */,
 				E8F6168A1846555D008D9DC5 /* PhotoAlbumHeaderView.xib in Resources */,
-				E88595A5184A28B700BD7AEC /* Flickr.xcassets in Resources */,
 				E8284CA618464EF900B3C6AA /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -333,8 +350,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8C6BAA319D4E02E00A2102A /* Twitter.xcassets in Resources */,
+				E8C6BAA519D4E05A00A2102A /* Launch Screen.xib in Resources */,
 				E8284CB01846500000B3C6AA /* InfoPlist.strings in Resources */,
-				E88595A2184A289300BD7AEC /* Twitter.xcassets in Resources */,
 				E8F0016919618C7C00980015 /* TweetCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -369,7 +387,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5DD86A06D72F47E49726F4A5 /* Check Pods Manifest.lock */ = {
@@ -399,7 +417,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -458,7 +476,7 @@
 /* Begin XCBuildConfiguration section */
 		E8284CAC18464EF900B3C6AA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 108EC6D2758D4F83A7E4EC02 /* Pods.xcconfig */;
+			baseConfigurationReference = D4E42A9BCC3D91597BD0D127 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -476,7 +494,7 @@
 		};
 		E8284CAD18464EF900B3C6AA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 108EC6D2758D4F83A7E4EC02 /* Pods.xcconfig */;
+			baseConfigurationReference = 3C23EA492A8642587406840B /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -572,7 +590,7 @@
 		};
 		E8F375F21808743300C40148 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 108EC6D2758D4F83A7E4EC02 /* Pods.xcconfig */;
+			baseConfigurationReference = D4E42A9BCC3D91597BD0D127 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -590,7 +608,7 @@
 		};
 		E8F375F31808743300C40148 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 108EC6D2758D4F83A7E4EC02 /* Pods.xcconfig */;
+			baseConfigurationReference = 3C23EA492A8642587406840B /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

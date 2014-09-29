@@ -14,7 +14,7 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - BBlock/UIKit (1.2.0)
-  - BDBOAuth1Manager (1.4.0):
+  - BDBOAuth1Manager (1.4.1):
     - AFNetworking/NSURLConnection (~> 2.4.0)
     - AFNetworking/NSURLSession (~> 2.4.0)
 
@@ -30,6 +30,6 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
   BBlock: 90f0ae0e3ba94fc88be6b9a85b4adbb73b8a7c9a
-  BDBOAuth1Manager: b4fbf16a027a5af311f75c2d3a129ef05236f193
+  BDBOAuth1Manager: 51b0f15c7592e0a97bc0879dda786262dcd6bd9a
 
 COCOAPODS: 0.34.1

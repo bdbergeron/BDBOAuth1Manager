@@ -23,10 +23,36 @@
 #import <Foundation/Foundation.h>
 
 
+/**
+ *  Additions to NSString.
+ */
 #pragma mark -
 @interface NSString (BDBOAuth1Manager)
 
-- (NSString *)bdb_URLEncode;
+/**
+ *  ---------------------------------------------------------------------------------------
+ * @name URL Encoding
+ *  ---------------------------------------------------------------------------------------
+ */
+#pragma mark URL Encoding/Decoding
+
+/**
+ *  Returns a properly URL-decoded representation of the given string.
+ *
+ *  See http://cybersam.com/ios-dev/proper-url-percent-encoding-in-ios for more details.
+ *
+ *  @return URL-decoded string
+ */
 - (NSString *)bdb_URLDecode;
+
+/**
+ *  Returns a properly URL-encoded representation of the given string.
+ *
+ *  See http://cybersam.com/ios-dev/proper-url-percent-encoding-in-ios for more details.
+ *
+ *  @return URL-encoded string
+ */
+
+- (NSString *)bdb_URLEncode;
 
 @end

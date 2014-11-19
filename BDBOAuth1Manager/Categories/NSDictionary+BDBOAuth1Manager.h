@@ -23,12 +23,33 @@
 #import <Foundation/Foundation.h>
 
 
+/**
+ *  Additions to NSDictionary.
+ */
 #pragma mark -
 @interface NSDictionary (BDBOAuth1Manager)
 
-+ (instancetype)dictionaryFromQueryString:(NSString *)queryString;
-- (instancetype)bdb_initWithQueryString:(NSString *)queryString;
+/**
+ *  ---------------------------------------------------------------------------------------
+ * @name Query String
+ *  ---------------------------------------------------------------------------------------
+ */
+#pragma mark Query String
 
+/**
+ *  Create a dictionary representation of a URL query string.
+ *
+ *  @param queryString URL query string.
+ *
+ *  @return Dictionary containing each key-value pair in the query string.
+ */
++ (instancetype)bdb_dictionaryFromQueryString:(NSString *)queryString;
+
+/**
+ *  Return each key-value pair in the dictionary as a URL query string.
+ *
+ *  @return URL query string reperesntation of this dictionary.
+ */
 - (NSString *)bdb_queryStringRepresentation;
 
 @end

@@ -27,32 +27,27 @@
 #pragma mark -
 @implementation NSDictionary (BDBOAuth1Manager)
 
-+ (instancetype)dictionaryFromQueryString:(NSString *)queryString
-{
-    return [[[self class] alloc] bdb_initWithQueryString:queryString];
-}
-
-- (instancetype)bdb_initWithQueryString:(NSString *)queryString
-{
+#pragma mark Query String
++ (instancetype)bdb_dictionaryFromQueryString:(NSString *)queryString {
     NSArray *components = [queryString componentsSeparatedByString:@"&"];
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    
+
     for (NSString *component in components) {
         NSArray *keyValue = [component componentsSeparatedByString:@"="];
-        
         dictionary[[keyValue[0] bdb_URLDecode]] = [keyValue[1] bdb_URLDecode];
     }
-    
-    return [self initWithDictionary:dictionary];
+
+    return [[[self class] alloc] initWithDictionary:dictionary];
 }
 
-- (NSString *)bdb_queryStringRepresentation
-{
+- (NSString *)bdb_queryStringRepresentation {
     NSMutableArray *paramArray = [NSMutableArray array];
+
     [self enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         NSString *param = [NSString stringWithFormat:@"%@=%@", [key bdb_URLEncode], [obj bdb_URLEncode]];
         [paramArray addObject:param];
     }];
+
     return [paramArray componentsJoinedByString:@"&"];
 }
 

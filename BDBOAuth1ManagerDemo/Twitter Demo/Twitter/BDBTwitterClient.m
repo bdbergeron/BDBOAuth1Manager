@@ -129,7 +129,7 @@ static BDBTwitterClient *_sharedClient = nil;
 }
 
 - (BOOL)handleAuthorizationCallbackURL:(NSURL *)url {
-    NSDictionary *parameters = [NSDictionary dictionaryFromQueryString:url.query];
+    NSDictionary *parameters = [NSDictionary bdb_dictionaryFromQueryString:url.query];
 
     if (parameters[BDBOAuth1OAuthTokenParameter] && parameters[BDBOAuth1OAuthVerifierParameter]) {
         [self.networkManager fetchAccessTokenWithPath:kBDBTwitterClientOAuthAccessTokenPath

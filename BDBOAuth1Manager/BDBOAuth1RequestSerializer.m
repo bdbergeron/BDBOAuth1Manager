@@ -92,7 +92,7 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
 
 - (instancetype)initWithQueryString:(NSString *)queryString
 {
-    NSDictionary *attributes = [NSDictionary dictionaryFromQueryString:queryString];
+    NSDictionary *attributes = [NSDictionary bdb_dictionaryFromQueryString:queryString];
 
     NSString *token    = attributes[BDBOAuth1OAuthTokenParameter];
     NSString *secret   = attributes[BDBOAuth1OAuthTokenSecretParameter];

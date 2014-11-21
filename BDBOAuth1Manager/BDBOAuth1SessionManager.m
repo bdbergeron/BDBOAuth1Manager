@@ -35,35 +35,36 @@
 @implementation BDBOAuth1SessionManager
 
 #pragma mark Initialization
-- (instancetype)initWithBaseURL:(NSURL *)url consumerKey:(NSString *)key consumerSecret:(NSString *)secret
-{
+- (instancetype)initWithBaseURL:(NSURL *)url
+                    consumerKey:(NSString *)key
+                 consumerSecret:(NSString *)secret {
     self = [super initWithBaseURL:url];
-    if (self)
-    {
-        self.requestSerializer  = [BDBOAuth1RequestSerializer serializerForService:url.host withConsumerKey:key consumerSecret:secret];
+
+    if (self) {
+        self.requestSerializer  = [BDBOAuth1RequestSerializer serializerForService:url.host
+                                                                   withConsumerKey:key
+                                                                    consumerSecret:secret];
     }
+
     return self;
 }
 
-#pragma mark Access Token
-- (BOOL)isAuthorized
-{
+#pragma mark Authorization Status
+- (BOOL)isAuthorized {
     return (self.requestSerializer.accessToken && !self.requestSerializer.accessToken.expired);
 }
 
-- (BOOL)deauthorize
-{
+- (BOOL)deauthorize {
     return [self.requestSerializer removeAccessToken];
 }
 
-#pragma mark Authorization Flow
+#pragma mark OAuth Handshake
 - (void)fetchRequestTokenWithPath:(NSString *)requestPath
                            method:(NSString *)method
                       callbackURL:(NSURL *)callbackURL
                             scope:(NSString *)scope
                           success:(void (^)(BDBOAuthToken *requestToken))success
-                          failure:(void (^)(NSError *error))failure
-{
+                          failure:(void (^)(NSError *error))failure {
     self.requestSerializer.requestToken = nil;
 
     AFHTTPResponseSerializer *defaultSerializer = self.responseSerializer;
@@ -71,33 +72,37 @@
 
     NSMutableDictionary *parameters = [[self.requestSerializer OAuthParameters] mutableCopy];
     parameters[BDBOAuth1OAuthCallbackParameter] = [callbackURL absoluteString];
-    if (scope && !self.requestSerializer.accessToken)
+
+    if (scope && !self.requestSerializer.accessToken) {
         parameters[@"scope"] = scope;
+    }
 
     NSString *URLString = [[NSURL URLWithString:requestPath relativeToURL:self.baseURL] absoluteString];
     NSError *error;
     NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:URLString parameters:parameters error:&error];
 
-    if (error)
-    {
+    if (error) {
         failure(error);
+
         return;
     }
 
-    NSURLSessionDataTask *task = [self dataTaskWithRequest:request completionHandler:^(NSURLResponse * __unused response, id responseObject, NSError *error) {
+    void (^completionBlock)(NSURLResponse * __unused, id, NSError *) = ^(NSURLResponse * __unused response, id responseObject, NSError *error) {
         self.responseSerializer = defaultSerializer;
-        if (!error)
-        {
-            BDBOAuthToken *requestToken = [BDBOAuthToken tokenWithQueryString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]];
-            self.requestSerializer.requestToken = requestToken;
-            if (success)
-                success(requestToken);
-        }
-        else
-            if (failure)
-                failure(error);
-    }];
 
+        if (error) {
+            failure(error);
+
+            return;
+        }
+
+        BDBOAuthToken *requestToken = [BDBOAuthToken tokenWithQueryString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]];
+        self.requestSerializer.requestToken = requestToken;
+
+        success(requestToken);
+    };
+
+    NSURLSessionDataTask *task = [self dataTaskWithRequest:request completionHandler:completionBlock];
     [task resume];
 }
 
@@ -105,51 +110,52 @@
                           method:(NSString *)method
                     requestToken:(BDBOAuthToken *)requestToken
                          success:(void (^)(BDBOAuthToken *accessToken))success
-                         failure:(void (^)(NSError *error))failure
-{
-    if (requestToken.token && requestToken.verifier)
-    {
-        AFHTTPResponseSerializer *defaultSerializer = self.responseSerializer;
-        self.responseSerializer = [AFHTTPResponseSerializer serializer];
-
-        NSMutableDictionary *parameters = [[self.requestSerializer OAuthParameters] mutableCopy];
-        parameters[BDBOAuth1OAuthTokenParameter]    = requestToken.token;
-        parameters[BDBOAuth1OAuthVerifierParameter] = requestToken.verifier;
-
-        NSString *URLString = [[NSURL URLWithString:accessPath relativeToURL:self.baseURL] absoluteString];
-        NSError *error;
-        NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:URLString parameters:parameters error:&error];
-
-        if (error)
-        {
-            failure(error);
-            return;
-        }
-
-        NSURLSessionDataTask *task = [self dataTaskWithRequest:request completionHandler:^(NSURLResponse * __unused response, id responseObject, NSError *error) {
-            self.responseSerializer = defaultSerializer;
-            self.requestSerializer.requestToken = nil;
-            if (!error)
-            {
-                BDBOAuthToken *accessToken = [BDBOAuthToken tokenWithQueryString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]];
-                [self.requestSerializer saveAccessToken:accessToken];
-                if (success)
-                    success(accessToken);
-            }
-            else
-                if (failure)
-                    failure(error);
-        }];
-
-        [task resume];
-    }
-    else
-    {
+                         failure:(void (^)(NSError *error))failure {
+    if (!requestToken.token || !requestToken.verifier) {
         NSError *error = [[NSError alloc] initWithDomain:BDBOAuth1ErrorDomain
                                                     code:NSURLErrorBadServerResponse
                                                 userInfo:@{NSLocalizedFailureReasonErrorKey:@"Invalid OAuth response received from server."}];
+
         failure(error);
+
+        return;
     }
+
+    AFHTTPResponseSerializer *defaultSerializer = self.responseSerializer;
+    self.responseSerializer = [AFHTTPResponseSerializer serializer];
+
+    NSMutableDictionary *parameters = [[self.requestSerializer OAuthParameters] mutableCopy];
+    parameters[BDBOAuth1OAuthTokenParameter]    = requestToken.token;
+    parameters[BDBOAuth1OAuthVerifierParameter] = requestToken.verifier;
+
+    NSString *URLString = [[NSURL URLWithString:accessPath relativeToURL:self.baseURL] absoluteString];
+    NSError *error;
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:URLString parameters:parameters error:&error];
+
+    if (error) {
+        failure(error);
+
+        return;
+    }
+
+    void (^completionBlock)(NSURLResponse * __unused, id, NSError *) = ^(NSURLResponse * __unused response, id responseObject, NSError *error) {
+        self.responseSerializer = defaultSerializer;
+        self.requestSerializer.requestToken = nil;
+
+        if (error) {
+            failure(error);
+
+            return;
+        }
+
+        BDBOAuthToken *accessToken = [BDBOAuthToken tokenWithQueryString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]];
+        [self.requestSerializer saveAccessToken:accessToken];
+
+        success(accessToken);
+    };
+
+    NSURLSessionDataTask *task = [self dataTaskWithRequest:request completionHandler:completionBlock];
+    [task resume];
 }
 
 @end

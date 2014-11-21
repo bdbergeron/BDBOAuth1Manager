@@ -28,16 +28,37 @@
 #pragma mark -
 @interface BDBOAuth1SessionManager : AFHTTPSessionManager
 
-@property (nonatomic, strong) BDBOAuth1RequestSerializer *requestSerializer;
+@property (nonatomic) BDBOAuth1RequestSerializer *requestSerializer;
+
+
+/**
+ *  ---------------------------------------------------------------------------------------
+ * @name Initialization
+ *  ---------------------------------------------------------------------------------------
+ */
+#pragma mark Initialization
+- (instancetype)initWithBaseURL:(NSURL *)url
+                    consumerKey:(NSString *)key
+                 consumerSecret:(NSString *)secret;
+
+
+/**
+ *  ---------------------------------------------------------------------------------------
+ * @name Authorization Status
+ *  ---------------------------------------------------------------------------------------
+ */
+#pragma mark Authorization Status
 @property (nonatomic, assign, readonly, getter = isAuthorized) BOOL authorized;
 
-#pragma mark Initialization
-- (instancetype)initWithBaseURL:(NSURL *)url consumerKey:(NSString *)key consumerSecret:(NSString *)secret;
-
-#pragma mark Deauthorize
 - (BOOL)deauthorize;
 
-#pragma mark Authorization Flow
+
+/**
+ *  ---------------------------------------------------------------------------------------
+ * @name OAuth Handshake
+ *  ---------------------------------------------------------------------------------------
+ */
+#pragma mark OAuth Handshake
 - (void)fetchRequestTokenWithPath:(NSString *)requestPath
                            method:(NSString *)method
                       callbackURL:(NSURL *)callbackURL

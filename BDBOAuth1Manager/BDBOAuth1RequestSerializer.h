@@ -45,9 +45,22 @@ FOUNDATION_EXPORT NSString * const BDBOAuth1OAuthCallbackParameter;
 
 @property (nonatomic) NSDictionary *userInfo;
 
+
+/**
+ *  ---------------------------------------------------------------------------------------
+ * @name Initialization
+ *  ---------------------------------------------------------------------------------------
+ */
 #pragma mark Initialization
-+ (instancetype)tokenWithToken:(NSString *)token secret:(NSString *)secret expiration:(NSDate *)expiration;
++ (instancetype)tokenWithToken:(NSString *)token
+                        secret:(NSString *)secret
+                    expiration:(NSDate *)expiration;
+- (instancetype)initWithToken:(NSString *)token
+                       secret:(NSString *)secret
+                   expiration:(NSDate *)expiration;
+
 + (instancetype)tokenWithQueryString:(NSString *)queryString;
+- (instancetype)initWithQueryString:(NSString *)queryString;
 
 @end
 
@@ -58,14 +71,36 @@ FOUNDATION_EXPORT NSString * const BDBOAuth1OAuthCallbackParameter;
 @property (nonatomic, copy) BDBOAuthToken *requestToken;
 @property (nonatomic, copy, readonly) BDBOAuthToken *accessToken;
 
-#pragma mark Initialization
-+ (instancetype)serializerForService:(NSString *)service withConsumerKey:(NSString *)key consumerSecret:(NSString *)secret;
-- (instancetype)initWithService:(NSString *)service consumerKey:(NSString *)key consumerSecret:(NSString *)secret;
 
-#pragma mark OAuth
+/**
+ *  ---------------------------------------------------------------------------------------
+ * @name Initialization
+ *  ---------------------------------------------------------------------------------------
+ */
+#pragma mark Initialization
++ (instancetype)serializerForService:(NSString *)service
+                     withConsumerKey:(NSString *)key
+                      consumerSecret:(NSString *)secret;
+- (instancetype)initWithService:(NSString *)service
+                    consumerKey:(NSString *)key
+                 consumerSecret:(NSString *)secret;
+
+
+/**
+ *  ---------------------------------------------------------------------------------------
+ * @name OAuth Parameters
+ *  ---------------------------------------------------------------------------------------
+ */
+#pragma mark OAuth Parameters
 - (NSDictionary *)OAuthParameters;
 
-#pragma mark AccessToken
+
+/**
+ *  ---------------------------------------------------------------------------------------
+ * @name Access Token
+ *  ---------------------------------------------------------------------------------------
+ */
+#pragma mark Access Token
 - (BOOL)saveAccessToken:(BDBOAuthToken *)accessToken;
 - (BOOL)removeAccessToken;
 

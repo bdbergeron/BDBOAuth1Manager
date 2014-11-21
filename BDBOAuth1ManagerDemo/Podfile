@@ -4,6 +4,6 @@ platform :ios, '7.0'
 
 link_with 'Twitter Demo', 'Flickr Demo'
 
-pod 'AFNetworking/UIKit', '~> 2.4.0'
+pod 'AFNetworking/UIKit', '~> 2.5.0'
 pod 'BBlock/UIKit', '~> 1.2.0'
 pod 'BDBOAuth1Manager', :path => '../'

@@ -12,8 +12,8 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '6.0'
   s.osx.deployment_target = '10.8'
 
-  s.source_files = 'BDBOAuth1Manager/Categories/*.{h,m}', 'BDBOAuth1Manager/*.{h,m}'
+  s.source_files = 'BDBOAuth1Manager/**/*.{h,m}'
 
-  s.dependency 'AFNetworking/NSURLConnection', '~> 2.4.0'
-  s.dependency 'AFNetworking/NSURLSession', '~> 2.4.0'
+  s.dependency 'AFNetworking/NSURLConnection', '~> 2.5.0'
+  s.dependency 'AFNetworking/NSURLSession', '~> 2.5.0'
 end

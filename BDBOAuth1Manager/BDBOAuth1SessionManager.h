@@ -37,10 +37,10 @@
  *  ---------------------------------------------------------------------------------------
  */
 #pragma mark Initialization
-- (instancetype)initWithBaseURL:(NSURL *)url
-                    consumerKey:(NSString *)key
-                 consumerSecret:(NSString *)secret;
 
+- (instancetype)initWithBaseURL:(NSURL *)baseURL
+                    consumerKey:(NSString *)consumerKey
+                 consumerSecret:(NSString *)consumerSecret;
 
 /**
  *  ---------------------------------------------------------------------------------------

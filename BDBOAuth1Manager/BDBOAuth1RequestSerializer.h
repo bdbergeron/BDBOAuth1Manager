@@ -79,11 +79,11 @@ FOUNDATION_EXPORT NSString * const BDBOAuth1OAuthCallbackParameter;
  */
 #pragma mark Initialization
 + (instancetype)serializerForService:(NSString *)service
-                     withConsumerKey:(NSString *)key
-                      consumerSecret:(NSString *)secret;
+                     withConsumerKey:(NSString *)consumerKey
+                      consumerSecret:(NSString *)consumerSecret;
 - (instancetype)initWithService:(NSString *)service
-                    consumerKey:(NSString *)key
-                 consumerSecret:(NSString *)secret;
+                    consumerKey:(NSString *)consumerKey
+                 consumerSecret:(NSString *)consumerSecret;
 
 
 /**

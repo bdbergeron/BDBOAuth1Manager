@@ -35,15 +35,15 @@
 @implementation BDBOAuth1SessionManager
 
 #pragma mark Initialization
-- (instancetype)initWithBaseURL:(NSURL *)url
-                    consumerKey:(NSString *)key
-                 consumerSecret:(NSString *)secret {
-    self = [super initWithBaseURL:url];
+- (instancetype)initWithBaseURL:(NSURL *)baseURL
+                    consumerKey:(NSString *)consumerKey
+                 consumerSecret:(NSString *)consumerSecret {
+    self = [super initWithBaseURL:baseURL];
 
     if (self) {
-        self.requestSerializer  = [BDBOAuth1RequestSerializer serializerForService:url.host
-                                                                   withConsumerKey:key
-                                                                    consumerSecret:secret];
+        self.requestSerializer  = [BDBOAuth1RequestSerializer serializerForService:baseURL.host
+                                                                   withConsumerKey:consumerKey
+                                                                    consumerSecret:consumerSecret];
     }
 
     return self;

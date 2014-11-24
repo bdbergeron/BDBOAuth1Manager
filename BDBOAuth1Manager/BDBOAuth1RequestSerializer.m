@@ -89,8 +89,7 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
     return [[[self class] alloc] initWithQueryString:queryString];
 }
 
-- (instancetype)initWithQueryString:(NSString *)queryString
-{
+- (instancetype)initWithQueryString:(NSString *)queryString {
     NSDictionary *attributes = [NSDictionary bdb_dictionaryFromQueryString:queryString];
 
     NSString *token    = attributes[BDBOAuth1OAuthTokenParameter];
@@ -192,22 +191,22 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
 
 #pragma mark Initialization
 + (instancetype)serializerForService:(NSString *)service
-                     withConsumerKey:(NSString *)key
-                      consumerSecret:(NSString *)secret {
-    return [[BDBOAuth1RequestSerializer alloc] initWithService:service
-                                                   consumerKey:key
-                                                consumerSecret:secret];
+                     withConsumerKey:(NSString *)consumerKey
+                      consumerSecret:(NSString *)consumerSecret {
+    return [[[self class] alloc] initWithService:service
+                                     consumerKey:consumerKey
+                                  consumerSecret:consumerSecret];
 }
 
 - (instancetype)initWithService:(NSString *)service
-                    consumerKey:(NSString *)key
-                 consumerSecret:(NSString *)secret {
+                    consumerKey:(NSString *)consumerKey
+                 consumerSecret:(NSString *)consumerSecret {
     self = [super init];
 
     if (self) {
         _service = service;
-        _consumerKey = key;
-        _consumerSecret = secret;
+        _consumerKey = consumerKey;
+        _consumerSecret = consumerSecret;
     }
 
     return self;

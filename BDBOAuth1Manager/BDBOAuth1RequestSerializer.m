@@ -228,7 +228,15 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
     NSData *data = (__bridge_transfer NSData *)result;
 
     if (status == noErr && data) {
-        return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        @try {
+            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+            [unarchiver setClass:[BDBOAuth1Credential class] forClassName:@"BDBOAuthToken"];
+
+            return [unarchiver decodeObjectForKey:NSKeyedArchiveRootObjectKey];
+        }
+        @catch (NSException *exception) {
+            return nil;
+        }
     }
 
     return nil;

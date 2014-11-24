@@ -34,7 +34,7 @@ FOUNDATION_EXPORT NSString * const BDBOAuth1OAuthCallbackParameter;
 
 
 #pragma mark -
-@interface BDBOAuthToken : NSObject
+@interface BDBOAuth1Credential : NSObject
 <NSCoding, NSCopying>
 
 @property (nonatomic, copy, readonly) NSString *token;
@@ -52,14 +52,14 @@ FOUNDATION_EXPORT NSString * const BDBOAuth1OAuthCallbackParameter;
  *  ---------------------------------------------------------------------------------------
  */
 #pragma mark Initialization
-+ (instancetype)tokenWithToken:(NSString *)token
-                        secret:(NSString *)secret
-                    expiration:(NSDate *)expiration;
++ (instancetype)credentialWithToken:(NSString *)token
+                             secret:(NSString *)secret
+                         expiration:(NSDate *)expiration;
 - (instancetype)initWithToken:(NSString *)token
                        secret:(NSString *)secret
                    expiration:(NSDate *)expiration;
 
-+ (instancetype)tokenWithQueryString:(NSString *)queryString;
++ (instancetype)credentialWithQueryString:(NSString *)queryString;
 - (instancetype)initWithQueryString:(NSString *)queryString;
 
 @end
@@ -68,8 +68,8 @@ FOUNDATION_EXPORT NSString * const BDBOAuth1OAuthCallbackParameter;
 #pragma mark -
 @interface BDBOAuth1RequestSerializer : AFHTTPRequestSerializer
 
-@property (nonatomic, copy) BDBOAuthToken *requestToken;
-@property (nonatomic, copy, readonly) BDBOAuthToken *accessToken;
+@property (nonatomic, copy) BDBOAuth1Credential *requestToken;
+@property (nonatomic, copy, readonly) BDBOAuth1Credential *accessToken;
 
 
 /**
@@ -101,7 +101,7 @@ FOUNDATION_EXPORT NSString * const BDBOAuth1OAuthCallbackParameter;
  *  ---------------------------------------------------------------------------------------
  */
 #pragma mark Access Token
-- (BOOL)saveAccessToken:(BDBOAuthToken *)accessToken;
+- (BOOL)saveAccessToken:(BDBOAuth1Credential *)accessToken;
 - (BOOL)removeAccessToken;
 
 @end

@@ -95,7 +95,7 @@
                            method:(NSString *)method
                       callbackURL:(NSURL *)callbackURL
                             scope:(NSString *)scope
-                          success:(void (^)(BDBOAuthToken *requestToken))success
+                          success:(void (^)(BDBOAuth1Credential *requestToken))success
                           failure:(void (^)(NSError *error))failure;
 
 /**
@@ -109,8 +109,8 @@
  */
 - (void)fetchAccessTokenWithPath:(NSString *)accessPath
                           method:(NSString *)method
-                    requestToken:(BDBOAuthToken *)requestToken
-                         success:(void (^)(BDBOAuthToken *accessToken))success
+                    requestToken:(BDBOAuth1Credential *)requestToken
+                         success:(void (^)(BDBOAuth1Credential *accessToken))success
                          failure:(void (^)(NSError *error))failure;
 
 @end

@@ -63,7 +63,7 @@
                            method:(NSString *)method
                       callbackURL:(NSURL *)callbackURL
                             scope:(NSString *)scope
-                          success:(void (^)(BDBOAuthToken *requestToken))success
+                          success:(void (^)(BDBOAuth1Credential *requestToken))success
                           failure:(void (^)(NSError *error))failure {
     self.requestSerializer.requestToken = nil;
 
@@ -96,7 +96,7 @@
             return;
         }
 
-        BDBOAuthToken *requestToken = [BDBOAuthToken tokenWithQueryString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]];
+        BDBOAuth1Credential *requestToken = [BDBOAuth1Credential credentialWithQueryString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]];
         self.requestSerializer.requestToken = requestToken;
 
         success(requestToken);
@@ -108,8 +108,8 @@
 
 - (void)fetchAccessTokenWithPath:(NSString *)accessPath
                           method:(NSString *)method
-                    requestToken:(BDBOAuthToken *)requestToken
-                         success:(void (^)(BDBOAuthToken *accessToken))success
+                    requestToken:(BDBOAuth1Credential *)requestToken
+                         success:(void (^)(BDBOAuth1Credential *accessToken))success
                          failure:(void (^)(NSError *error))failure {
     if (!requestToken.token || !requestToken.verifier) {
         NSError *error = [[NSError alloc] initWithDomain:BDBOAuth1ErrorDomain
@@ -148,7 +148,7 @@
             return;
         }
 
-        BDBOAuthToken *accessToken = [BDBOAuthToken tokenWithQueryString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]];
+        BDBOAuth1Credential *accessToken = [BDBOAuth1Credential credentialWithQueryString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]];
         [self.requestSerializer saveAccessToken:accessToken];
 
         success(accessToken);

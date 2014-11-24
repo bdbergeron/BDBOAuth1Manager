@@ -61,7 +61,7 @@
                            method:(NSString *)method
                       callbackURL:(NSURL *)callbackURL
                             scope:(NSString *)scope
-                          success:(void (^)(BDBOAuthToken *requestToken))success
+                          success:(void (^)(BDBOAuth1Credential *requestToken))success
                           failure:(void (^)(NSError *error))failure {
     self.requestSerializer.requestToken = nil;
 
@@ -88,7 +88,7 @@
     void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject) {
         self.responseSerializer = defaultSerializer;
 
-        BDBOAuthToken *requestToken = [BDBOAuthToken tokenWithQueryString:operation.responseString];
+        BDBOAuth1Credential *requestToken = [BDBOAuth1Credential credentialWithQueryString:operation.responseString];
         self.requestSerializer.requestToken = requestToken;
 
         success(requestToken);
@@ -106,8 +106,8 @@
 
 - (void)fetchAccessTokenWithPath:(NSString *)accessPath
                           method:(NSString *)method
-                    requestToken:(BDBOAuthToken *)requestToken
-                         success:(void (^)(BDBOAuthToken *accessToken))success
+                    requestToken:(BDBOAuth1Credential *)requestToken
+                         success:(void (^)(BDBOAuth1Credential *accessToken))success
                          failure:(void (^)(NSError *error))failure {
     if (!requestToken.token || !requestToken.verifier) {
         NSError *error = [[NSError alloc] initWithDomain:BDBOAuth1ErrorDomain
@@ -141,7 +141,7 @@
 
         self.requestSerializer.requestToken = nil;
 
-        BDBOAuthToken *accessToken = [BDBOAuthToken tokenWithQueryString:operation.responseString];
+        BDBOAuth1Credential *accessToken = [BDBOAuth1Credential credentialWithQueryString:operation.responseString];
         [self.requestSerializer saveAccessToken:accessToken];
 
         success(accessToken);

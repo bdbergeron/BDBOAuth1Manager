@@ -47,7 +47,7 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
 
 
 #pragma mark -
-@interface BDBOAuthToken ()
+@interface BDBOAuth1Credential ()
 
 @property (nonatomic, copy, readwrite) NSString *token;
 @property (nonatomic, copy, readwrite) NSString *secret;
@@ -58,10 +58,10 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
 
 
 #pragma mark -
-@implementation BDBOAuthToken
+@implementation BDBOAuth1Credential
 
 #pragma mark Initialization
-+ (instancetype)tokenWithToken:(NSString *)token
++ (instancetype)credentialWithToken:(NSString *)token
                         secret:(NSString *)secret
                     expiration:(NSDate *)expiration {
     return [[[self class] alloc] initWithToken:token
@@ -85,7 +85,7 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
     return self;
 }
 
-+ (instancetype)tokenWithQueryString:(NSString *)queryString {
++ (instancetype)credentialWithQueryString:(NSString *)queryString {
     return [[[self class] alloc] initWithQueryString:queryString];
 }
 
@@ -155,7 +155,7 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
 
 #pragma mark NSCopying
 - (id)copyWithZone:(NSZone *)zone {
-    BDBOAuthToken *copy = [[[self class] allocWithZone:zone] initWithToken:self.token
+    BDBOAuth1Credential *copy = [[[self class] allocWithZone:zone] initWithToken:self.token
                                                                     secret:self.secret
                                                                 expiration:self.expiration];
     copy.verifier = self.verifier;
@@ -218,7 +218,7 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
              (__bridge id)kSecAttrService:service};
 }
 
-- (BDBOAuthToken *)accessToken {
+- (BDBOAuth1Credential *)accessToken {
     NSMutableDictionary *dictionary = [OAuthKeychainDictionaryForService(self.service) mutableCopy];
     dictionary[(__bridge id)kSecReturnData] = (__bridge id)kCFBooleanTrue;
     dictionary[(__bridge id)kSecMatchLimit] = (__bridge id)kSecMatchLimitOne;
@@ -234,7 +234,7 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
     return nil;
 }
 
-- (BOOL)saveAccessToken:(BDBOAuthToken *)accessToken {
+- (BOOL)saveAccessToken:(BDBOAuth1Credential *)accessToken {
     NSMutableDictionary *dictionary = [OAuthKeychainDictionaryForService(self.service) mutableCopy];
 
     NSMutableDictionary *updateDictionary = [NSMutableDictionary dictionary];

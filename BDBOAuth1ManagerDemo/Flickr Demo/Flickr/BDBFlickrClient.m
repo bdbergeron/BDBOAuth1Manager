@@ -123,7 +123,7 @@ static BDBFlickrClient *_sharedClient = nil;
                                             method:@"POST"
                                        callbackURL:[NSURL URLWithString:kBDBFlickrClientOAuthCallbackURL]
                                              scope:nil
-                                           success:^(BDBOAuthToken *requestToken) {
+                                           success:^(BDBOAuth1Credential *requestToken) {
                                                // Perform Authorization via MobileSafari
                                                NSString *authURLString = [kBDBFlickrClientOAuthAuthorizeURL stringByAppendingFormat:@"?oauth_token=%@", requestToken.token];
 
@@ -148,8 +148,8 @@ static BDBFlickrClient *_sharedClient = nil;
     if (parameters[BDBOAuth1OAuthTokenParameter] && parameters[BDBOAuth1OAuthVerifierParameter]) {
         [self.networkManager fetchAccessTokenWithPath:kBDBFlickrClientOAuthAccessTokenPath
                                                method:@"POST"
-                                         requestToken:[BDBOAuthToken tokenWithQueryString:url.query]
-                                              success:^(BDBOAuthToken *accessToken) {
+                                         requestToken:[BDBOAuth1Credential credentialWithQueryString:url.query]
+                                              success:^(BDBOAuth1Credential *accessToken) {
                                                   [[NSNotificationCenter defaultCenter] postNotificationName:BDBFlickrClientDidLogInNotification
                                                                                                       object:self
                                                                                                     userInfo:accessToken.userInfo];

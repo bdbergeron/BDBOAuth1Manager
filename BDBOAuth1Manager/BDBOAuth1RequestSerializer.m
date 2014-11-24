@@ -156,8 +156,8 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
 #pragma mark NSCopying
 - (id)copyWithZone:(NSZone *)zone {
     BDBOAuth1Credential *copy = [[[self class] allocWithZone:zone] initWithToken:self.token
-                                                                    secret:self.secret
-                                                                expiration:self.expiration];
+                                                                          secret:self.secret
+                                                                      expiration:self.expiration];
     copy.verifier = self.verifier;
     copy.userInfo = self.userInfo;
 

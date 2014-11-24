@@ -207,18 +207,20 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
         _service = service;
         _consumerKey = consumerKey;
         _consumerSecret = consumerSecret;
+
+        _accessToken = [self readAccessTokenFromKeychain];
     }
 
     return self;
 }
 
-#pragma mark Access Token
+#pragma mark Storing the Access Token
 static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
     return @{(__bridge id)kSecClass:(__bridge id)kSecClassGenericPassword,
              (__bridge id)kSecAttrService:service};
 }
 
-- (BDBOAuth1Credential *)accessToken {
+- (BDBOAuth1Credential *)readAccessTokenFromKeychain {
     NSMutableDictionary *dictionary = [OAuthKeychainDictionaryForService(self.service) mutableCopy];
     dictionary[(__bridge id)kSecReturnData] = (__bridge id)kCFBooleanTrue;
     dictionary[(__bridge id)kSecMatchLimit] = (__bridge id)kSecMatchLimitOne;
@@ -251,12 +253,14 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
 
     OSStatus status;
 
-    if ([self accessToken]) {
+    if (self.accessToken) {
         status = SecItemUpdate((__bridge CFDictionaryRef)dictionary, (__bridge CFDictionaryRef)updateDictionary);
     } else {
         [dictionary addEntriesFromDictionary:updateDictionary];
         status = SecItemAdd((__bridge CFDictionaryRef)dictionary, NULL);
     }
+
+    _accessToken = accessToken;
 
     if (status == noErr) {
         return YES;
@@ -267,6 +271,8 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
 
 - (BOOL)removeAccessToken {
     OSStatus status = SecItemDelete((__bridge CFDictionaryRef)OAuthKeychainDictionaryForService(self.service));
+
+    _accessToken = nil;
 
     if (status == noErr) {
         return YES;

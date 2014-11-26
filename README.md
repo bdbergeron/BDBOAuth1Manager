@@ -87,12 +87,12 @@ In order to respond to your application's URL scheme being called, you must impl
 		if ([url.host isEqualToString:@"request"]) {
 			NSDictionary *parameters = [url dictionaryFromQueryString];
 			if (parameters[@"oauth_token"] && parameters[@"oauth_verifier"]) {
-			[self.networkManager fetchAccessTokenWithPath:@"/oauth/access_token"
-                                                       method:@"POST"
-                                                 requestToken:[BDBOAuth1Credential credentialWithQueryString:url.query]
-                                                      success:^(BDBOAuth1Credential *accessToken) {
-                                                          [self.networkManager.requestSerializer saveAccessToken:accessToken];
-                                                      }];
+				[self.networkManager fetchAccessTokenWithPath:@"/oauth/access_token"
+                	                                   method:@"POST"
+                    	                         requestToken:[BDBOAuth1Credential credentialWithQueryString:url.query]
+                        	                          success:^(BDBOAuth1Credential *accessToken) {
+                            	                          [self.networkManager.requestSerializer saveAccessToken:accessToken];
+                                	                  }];
 			}
 		}
 		return YES;

@@ -77,10 +77,10 @@ The first step in performing the OAuth handshake is getting an OAuth request tok
                                         method:@"POST"
                                    callbackURL:[NSURL URLWithString:@"bdboauth://request"]
                                          scope:nil
-                                       success:^(BDBOAuthToken *requestToken) {
-                                           NSString *authURL = [NSString stringWithFormat:@"https://api.twitter.com/oauth/authorize?oauth_token=%@", requestToken.token];
-                                           [[UIApplication sharedApplication] openURL:[NSURL URLWithString:authURL]];
-                                       }
+                                       success:^(BDBOAuth1Credential *accessToken) {
+                                                   NSString *authURL = [NSString stringWithFormat:@"https://api.twitter.com/oauth/authorize?oauth_token=%@", accessToken.token];
+                                                   [[UIApplication sharedApplication] openURL:[NSURL URLWithString:authURL]];
+                                               }
                                        failure:^(NSError *error) {
                                            NSLog(@"Error: %@", error.localizedDescription);
                                        }];

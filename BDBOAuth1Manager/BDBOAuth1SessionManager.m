@@ -87,11 +87,11 @@
         return;
     }
 
-    void (^completionBlock)(NSURLResponse * __unused, id, NSError *) = ^(NSURLResponse * __unused response, id responseObject, NSError *error) {
+    void (^completionBlock)(NSURLResponse * __unused, id, NSError *) = ^(NSURLResponse * __unused response, id responseObject, NSError *completionError) {
         self.responseSerializer = defaultSerializer;
 
-        if (error) {
-            failure(error);
+        if (completionError) {
+            failure(completionError);
 
             return;
         }
@@ -138,12 +138,12 @@
         return;
     }
 
-    void (^completionBlock)(NSURLResponse * __unused, id, NSError *) = ^(NSURLResponse * __unused response, id responseObject, NSError *error) {
+    void (^completionBlock)(NSURLResponse * __unused, id, NSError *) = ^(NSURLResponse * __unused response, id responseObject, NSError *completionError) {
         self.responseSerializer = defaultSerializer;
         self.requestSerializer.requestToken = nil;
 
-        if (error) {
-            failure(error);
+        if (completionError) {
+            failure(completionError);
 
             return;
         }

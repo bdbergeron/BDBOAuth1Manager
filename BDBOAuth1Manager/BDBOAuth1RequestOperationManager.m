@@ -94,10 +94,10 @@
         success(requestToken);
     };
 
-    void (^failureBlock)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+    void (^failureBlock)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *completionError) {
         self.responseSerializer = defaultSerializer;
 
-        failure(error);
+        failure(completionError);
     };
 
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:successBlock failure:failureBlock];
@@ -147,11 +147,11 @@
         success(accessToken);
     };
 
-    void (^failureBlock)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+    void (^failureBlock)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *completionError) {
         self.responseSerializer = defaultSerializer;
         self.requestSerializer.requestToken = nil;
 
-        failure(error);
+        failure(completionError);
     };
 
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:successBlock failure:failureBlock];

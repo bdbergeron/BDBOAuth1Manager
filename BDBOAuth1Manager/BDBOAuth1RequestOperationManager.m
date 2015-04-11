@@ -32,6 +32,8 @@
 #pragma mark -
 @implementation BDBOAuth1RequestOperationManager
 
+@dynamic requestSerializer;
+
 #pragma mark Initialization
 - (instancetype)initWithBaseURL:(NSURL *)baseURL
                     consumerKey:(NSString *)consumerKey

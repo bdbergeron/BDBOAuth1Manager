@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05022751EC3D08B7DCB1D614 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8241A861A961B246A8EEBF16 /* libPods.a */; };
+		1F1F009767F0F6E090D7BECA /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8241A861A961B246A8EEBF16 /* libPods.a */; };
+		398963E796E95A7C01D298CB /* libPods-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 577F1C9F5AB778827D69A425 /* libPods-osx.a */; };
+		666512CFA899B8288DA53355 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8241A861A961B246A8EEBF16 /* libPods.a */; };
+		96CDCC59BDDC25F2334E832A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8241A861A961B246A8EEBF16 /* libPods.a */; };
+		D91E288F1B2648A7005F9455 /* BDBOAuth1ManagerTests_iOS.m in Sources */ = {isa = PBXBuildFile; fileRef = D91E288E1B2648A7005F9455 /* BDBOAuth1ManagerTests_iOS.m */; };
+		D91E28A91B278AE1005F9455 /* BDBOAuth1ManagerTests_OSX.m in Sources */ = {isa = PBXBuildFile; fileRef = D91E28A81B278AE1005F9455 /* BDBOAuth1ManagerTests_OSX.m */; };
 		E816CAD519565291009877A6 /* BDBTwitterClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E816CAD419565291009877A6 /* BDBTwitterClient.m */; };
 		E8284C8518464EF900B3C6AA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E8284C6918464ED900B3C6AA /* AppDelegate.m */; };
 		E8284C8F18464EF900B3C6AA /* PhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8284C7418464ED900B3C6AA /* PhotosViewController.m */; };
@@ -14,8 +21,6 @@
 		E8284CA618464EF900B3C6AA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E8284C6D18464ED900B3C6AA /* InfoPlist.strings */; };
 		E8284CB01846500000B3C6AA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E8F376351808769B00C40148 /* InfoPlist.strings */; };
 		E847027019D4DD2E00C10210 /* Flickr.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E847026F19D4DD2E00C10210 /* Flickr.xcassets */; };
-		E86A44DF19244C4400700A9C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E86A44DE19244C4400700A9C /* libPods.a */; };
-		E86A44E219244C9900700A9C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E86A44DE19244C4400700A9C /* libPods.a */; };
 		E88595A8184A751500BD7AEC /* BDBFlickrClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E88595A7184A751500BD7AEC /* BDBFlickrClient.m */; };
 		E8C6BAA119D4DDC300A2102A /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8C6BAA019D4DDC300A2102A /* Launch Screen.xib */; };
 		E8C6BAA319D4E02E00A2102A /* Twitter.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8C6BAA219D4E02E00A2102A /* Twitter.xcassets */; };
@@ -34,9 +39,29 @@
 		E8F6169518496578008D9DC5 /* BDBFlickrPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F6169418496578008D9DC5 /* BDBFlickrPhoto.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		D91E28AA1B278AE1005F9455 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E8F375BD1808743300C40148 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E8F375C41808743300C40148;
+			remoteInfo = "Twitter Demo";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		33E03F5490FE80216781BCDE /* Pods-osx.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-osx.release.xcconfig"; path = "Pods/Target Support Files/Pods-osx/Pods-osx.release.xcconfig"; sourceTree = "<group>"; };
 		3C23EA492A8642587406840B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		577F1C9F5AB778827D69A425 /* libPods-osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-osx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8241A861A961B246A8EEBF16 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA2776B2923D583815CE75A5 /* Pods-osx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-osx.debug.xcconfig"; path = "Pods/Target Support Files/Pods-osx/Pods-osx.debug.xcconfig"; sourceTree = "<group>"; };
 		D4E42A9BCC3D91597BD0D127 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		D91E288A1B2648A7005F9455 /* BDBOAuth1ManagerTests-iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BDBOAuth1ManagerTests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D91E288D1B2648A7005F9455 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D91E288E1B2648A7005F9455 /* BDBOAuth1ManagerTests_iOS.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BDBOAuth1ManagerTests_iOS.m; sourceTree = "<group>"; };
+		D91E28A41B278AE1005F9455 /* BDBOAuth1ManagerTests-OSX.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BDBOAuth1ManagerTests-OSX.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D91E28A71B278AE1005F9455 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D91E28A81B278AE1005F9455 /* BDBOAuth1ManagerTests_OSX.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BDBOAuth1ManagerTests_OSX.m; sourceTree = "<group>"; };
 		E816CAD319565291009877A6 /* BDBTwitterClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BDBTwitterClient.h; path = Twitter/BDBTwitterClient.h; sourceTree = "<group>"; };
 		E816CAD419565291009877A6 /* BDBTwitterClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BDBTwitterClient.m; path = Twitter/BDBTwitterClient.m; sourceTree = "<group>"; };
 		E8284C6818464ED900B3C6AA /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -49,7 +74,6 @@
 		E8284C7418464ED900B3C6AA /* PhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosViewController.m; sourceTree = "<group>"; };
 		E8284CAE18464EF900B3C6AA /* Flickr Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flickr Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E847026F19D4DD2E00C10210 /* Flickr.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Flickr.xcassets; sourceTree = "<group>"; };
-		E86A44DE19244C4400700A9C /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		E88595A6184A751500BD7AEC /* BDBFlickrClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDBFlickrClient.h; sourceTree = "<group>"; };
 		E88595A7184A751500BD7AEC /* BDBFlickrClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDBFlickrClient.m; sourceTree = "<group>"; };
 		E8C6BAA019D4DDC300A2102A /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
@@ -83,11 +107,27 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D91E28871B2648A7005F9455 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F1F009767F0F6E090D7BECA /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D91E28A11B278AE1005F9455 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				398963E796E95A7C01D298CB /* libPods-osx.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E8284CA118464EF900B3C6AA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E86A44E219244C9900700A9C /* libPods.a in Frameworks */,
+				05022751EC3D08B7DCB1D614 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,13 +135,56 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E86A44DF19244C4400700A9C /* libPods.a in Frameworks */,
+				96CDCC59BDDC25F2334E832A /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9E5F78392547B0A56FE1BFB6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8241A861A961B246A8EEBF16 /* libPods.a */,
+				577F1C9F5AB778827D69A425 /* libPods-osx.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D91E288B1B2648A7005F9455 /* BDBOAuth1ManagerTests-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				D91E288E1B2648A7005F9455 /* BDBOAuth1ManagerTests_iOS.m */,
+				D91E288C1B2648A7005F9455 /* Supporting Files */,
+			);
+			path = "BDBOAuth1ManagerTests-iOS";
+			sourceTree = "<group>";
+		};
+		D91E288C1B2648A7005F9455 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D91E288D1B2648A7005F9455 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D91E28A51B278AE1005F9455 /* BDBOAuth1ManagerTests-OSX */ = {
+			isa = PBXGroup;
+			children = (
+				D91E28A81B278AE1005F9455 /* BDBOAuth1ManagerTests_OSX.m */,
+				D91E28A61B278AE1005F9455 /* Supporting Files */,
+			);
+			path = "BDBOAuth1ManagerTests-OSX";
+			sourceTree = "<group>";
+		};
+		D91E28A61B278AE1005F9455 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D91E28A71B278AE1005F9455 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		E816CAD21956525D009877A6 /* Twitter */ = {
 			isa = PBXGroup;
 			children = (
@@ -203,9 +286,11 @@
 			children = (
 				E8284C6718464ED900B3C6AA /* Flickr Demo */,
 				E8F375CE1808743300C40148 /* Twitter Demo */,
+				D91E288B1B2648A7005F9455 /* BDBOAuth1ManagerTests-iOS */,
+				D91E28A51B278AE1005F9455 /* BDBOAuth1ManagerTests-OSX */,
 				E8F375C61808743300C40148 /* Products */,
-				E86A44DE19244C4400700A9C /* libPods.a */,
 				FC3EB9D2479E3EF337045269 /* Pods */,
+				9E5F78392547B0A56FE1BFB6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -214,6 +299,8 @@
 			children = (
 				E8F375C51808743300C40148 /* Twitter Demo.app */,
 				E8284CAE18464EF900B3C6AA /* Flickr Demo.app */,
+				D91E288A1B2648A7005F9455 /* BDBOAuth1ManagerTests-iOS.xctest */,
+				D91E28A41B278AE1005F9455 /* BDBOAuth1ManagerTests-OSX.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -261,6 +348,8 @@
 			children = (
 				D4E42A9BCC3D91597BD0D127 /* Pods.debug.xcconfig */,
 				3C23EA492A8642587406840B /* Pods.release.xcconfig */,
+				AA2776B2923D583815CE75A5 /* Pods-osx.debug.xcconfig */,
+				33E03F5490FE80216781BCDE /* Pods-osx.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -268,6 +357,45 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		D91E28891B2648A7005F9455 /* BDBOAuth1ManagerTests-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D91E28901B2648A7005F9455 /* Build configuration list for PBXNativeTarget "BDBOAuth1ManagerTests-iOS" */;
+			buildPhases = (
+				CE050617FF0206A97C3315F3 /* Check Pods Manifest.lock */,
+				D91E28861B2648A7005F9455 /* Sources */,
+				D91E28871B2648A7005F9455 /* Frameworks */,
+				D91E28881B2648A7005F9455 /* Resources */,
+				71E1881C9EEC7FDA60581922 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "BDBOAuth1ManagerTests-iOS";
+			productName = BDBOAuth1ManagerTests;
+			productReference = D91E288A1B2648A7005F9455 /* BDBOAuth1ManagerTests-iOS.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D91E28A31B278AE1005F9455 /* BDBOAuth1ManagerTests-OSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D91E28AC1B278AE1005F9455 /* Build configuration list for PBXNativeTarget "BDBOAuth1ManagerTests-OSX" */;
+			buildPhases = (
+				48181B1AA5EA993CC1DD39BE /* Check Pods Manifest.lock */,
+				D91E28A01B278AE1005F9455 /* Sources */,
+				D91E28A11B278AE1005F9455 /* Frameworks */,
+				D91E28A21B278AE1005F9455 /* Resources */,
+				6724F647A8C0E150E87A646B /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D91E28AB1B278AE1005F9455 /* PBXTargetDependency */,
+			);
+			name = "BDBOAuth1ManagerTests-OSX";
+			productName = "BDBOAuth1ManagerTests-OSX";
+			productReference = D91E28A41B278AE1005F9455 /* BDBOAuth1ManagerTests-OSX.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		E8284C8118464EF900B3C6AA /* Flickr Demo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E8284CAB18464EF900B3C6AA /* Build configuration list for PBXNativeTarget "Flickr Demo" */;
@@ -314,6 +442,14 @@
 			attributes = {
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Bradley David Bergeron";
+				TargetAttributes = {
+					D91E28891B2648A7005F9455 = {
+						CreatedOnToolsVersion = 6.3.2;
+					};
+					D91E28A31B278AE1005F9455 = {
+						CreatedOnToolsVersion = 6.3.2;
+					};
+				};
 			};
 			buildConfigurationList = E8F375C01808743300C40148 /* Build configuration list for PBXProject "BDBOAuth1ManagerDemo" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -330,11 +466,27 @@
 			targets = (
 				E8F375C41808743300C40148 /* Twitter Demo */,
 				E8284C8118464EF900B3C6AA /* Flickr Demo */,
+				D91E28891B2648A7005F9455 /* BDBOAuth1ManagerTests-iOS */,
+				D91E28A31B278AE1005F9455 /* BDBOAuth1ManagerTests-OSX */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		D91E28881B2648A7005F9455 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D91E28A21B278AE1005F9455 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E8284CA418464EF900B3C6AA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -390,6 +542,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		48181B1AA5EA993CC1DD39BE /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		5DD86A06D72F47E49726F4A5 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -403,6 +570,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		6724F647A8C0E150E87A646B /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-osx/Pods-osx-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		71E1881C9EEC7FDA60581922 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B7F71007CEE3472886B6578E /* Copy Pods Resources */ = {
@@ -420,9 +617,40 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		CE050617FF0206A97C3315F3 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		D91E28861B2648A7005F9455 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D91E288F1B2648A7005F9455 /* BDBOAuth1ManagerTests_iOS.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D91E28A01B278AE1005F9455 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D91E28A91B278AE1005F9455 /* BDBOAuth1ManagerTests_OSX.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E8284C8218464EF900B3C6AA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -454,6 +682,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		D91E28AB1B278AE1005F9455 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E8F375C41808743300C40148 /* Twitter Demo */;
+			targetProxy = D91E28AA1B278AE1005F9455 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		E8284C6D18464ED900B3C6AA /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -474,6 +710,104 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		D91E28911B2648A7005F9455 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D4E42A9BCC3D91597BD0D127 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "BDBOAuth1ManagerTests-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D91E28921B2648A7005F9455 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3C23EA492A8642587406840B /* Pods.release.xcconfig */;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "BDBOAuth1ManagerTests-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		D91E28AD1B278AE1005F9455 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AA2776B2923D583815CE75A5 /* Pods-osx.debug.xcconfig */;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "BDBOAuth1ManagerTests-OSX/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D91E28AE1B278AE1005F9455 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 33E03F5490FE80216781BCDE /* Pods-osx.release.xcconfig */;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "BDBOAuth1ManagerTests-OSX/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 		E8284CAC18464EF900B3C6AA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D4E42A9BCC3D91597BD0D127 /* Pods.debug.xcconfig */;
@@ -599,6 +933,10 @@
 				GCC_PREFIX_HEADER = "Twitter Demo/Supporting Files/Twitter Demo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Twitter Demo/Supporting Files/Twitter Demo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				PRODUCT_NAME = "Twitter Demo";
 				TARGETED_DEVICE_FAMILY = 1;
 				WARNING_CFLAGS = "-Wall";
@@ -617,6 +955,10 @@
 				GCC_PREFIX_HEADER = "Twitter Demo/Supporting Files/Twitter Demo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Twitter Demo/Supporting Files/Twitter Demo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				PRODUCT_NAME = "Twitter Demo";
 				TARGETED_DEVICE_FAMILY = 1;
 				WARNING_CFLAGS = "-Wall";
@@ -627,6 +969,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D91E28901B2648A7005F9455 /* Build configuration list for PBXNativeTarget "BDBOAuth1ManagerTests-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D91E28911B2648A7005F9455 /* Debug */,
+				D91E28921B2648A7005F9455 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D91E28AC1B278AE1005F9455 /* Build configuration list for PBXNativeTarget "BDBOAuth1ManagerTests-OSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D91E28AD1B278AE1005F9455 /* Debug */,
+				D91E28AE1B278AE1005F9455 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E8284CAB18464EF900B3C6AA /* Build configuration list for PBXNativeTarget "Flickr Demo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

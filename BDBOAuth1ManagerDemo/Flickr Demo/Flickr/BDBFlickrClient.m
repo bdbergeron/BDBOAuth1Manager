@@ -47,8 +47,8 @@ static NSString * const kBDBFlickrClientAPIURL   = @"https://api.flickr.com/serv
 
 static NSString * const kBDBFlickrClientOAuthAuthorizeURL     = @"https://www.flickr.com/services/oauth/authorize";
 static NSString * const kBDBFlickrClientOAuthCallbackURL      = @"bdboauth1demo-flickr://authorize";
-static NSString * const kBDBFlickrClientOAuthRequestTokenPath = @"oauth/request_token";
-static NSString * const kBDBFlickrClientOAuthAccessTokenPath  = @"oauth/access_token";
+static NSString * const kBDBFlickrClientOAuthRequestTokenPath = @"https://www.flickr.com/services/oauth/request_token";
+static NSString * const kBDBFlickrClientOAuthAccessTokenPath  = @"https://www.flickr.com/services/oauth/access_token";
 
 
 #pragma mark -

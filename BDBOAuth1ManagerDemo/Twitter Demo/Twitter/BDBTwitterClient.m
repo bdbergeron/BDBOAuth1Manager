@@ -39,8 +39,8 @@ static NSString * const kBDBTwitterClientAPIURL   = @"https://api.twitter.com/1.
 
 static NSString * const kBDBTwitterClientOAuthAuthorizeURL     = @"https://api.twitter.com/oauth/authorize";
 static NSString * const kBDBTwitterClientOAuthCallbackURL      = @"bdboauth1demo-twitter://authorize";
-static NSString * const kBDBTwitterClientOAuthRequestTokenPath = @"/oauth/request_token";
-static NSString * const kBDBTwitterClientOAuthAccessTokenPath  = @"/oauth/access_token";
+static NSString * const kBDBTwitterClientOAuthRequestTokenPath = @"https://api.twitter.com/oauth/request_token";
+static NSString * const kBDBTwitterClientOAuthAccessTokenPath  = @"https://api.twitter.com/oauth/access_token";
 
 
 #pragma mark -

@@ -28,6 +28,13 @@
 #import "NSDictionary+BDBOAuth1Manager.h"
 
 
+#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+#define USE_NSURLSESSION true
+#else
+#define USE_NSURLSESSION false
+#endif
+
+
 // Exported
 NSString * const BDBTwitterClientErrorDomain = @"BDBTwitterClientErrorDomain";
 
@@ -46,7 +53,7 @@ static NSString * const kBDBTwitterClientOAuthAccessTokenPath  = @"https://api.t
 #pragma mark -
 @interface BDBTwitterClient ()
 
-#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+#if USE_NSURLSESSION
 @property (nonatomic) BDBOAuth1SessionManager *networkManager;
 #else
 @property (nonatomic) BDBOAuth1RequestOperationManager *networkManager;
@@ -77,7 +84,7 @@ static BDBTwitterClient *_sharedClient = nil;
     if (self) {
         NSURL *baseURL = [NSURL URLWithString:kBDBTwitterClientAPIURL];
 
-#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+#if USE_NSURLSESSION
         _networkManager = [[BDBOAuth1SessionManager alloc] initWithBaseURL:baseURL consumerKey:key consumerSecret:secret];
 #else
         _networkManager = [[BDBOAuth1RequestOperationManager alloc] initWithBaseURL:baseURL consumerKey:key consumerSecret:secret];
@@ -168,7 +175,7 @@ static BDBTwitterClient *_sharedClient = nil;
 - (void)loadTimelineWithCompletion:(void (^)(NSArray *, NSError *))completion {
     static NSString *timelinePath = @"statuses/home_timeline.json?count=100";
 
-#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+#if USE_NSURLSESSION
     [self.networkManager GET:timelinePath
                   parameters:nil
                      success:^(NSURLSessionDataTask *task, id responseObject) {

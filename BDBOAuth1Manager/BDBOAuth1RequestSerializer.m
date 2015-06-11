@@ -218,12 +218,16 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
 + (instancetype)serializerForService:(NSString *)service
                      withConsumerKey:(NSString *)consumerKey
                        RSAPrivateKey:(SecKeyRef)RSAPrivateKey {
-    return [[[self class] alloc] initWithService:service consumerKey:consumerKey RSAPrivateKey:RSAPrivateKey];
+    CFRetain(RSAPrivateKey);
+    BDBOAuth1RequestSerializer *serializer = [[[self class] alloc] initWithService:service consumerKey:consumerKey RSAPrivateKey:RSAPrivateKey];
+    CFRelease(RSAPrivateKey);
+    return serializer;
 }
 
 - (instancetype)initWithService:(NSString *)service
                     consumerKey:(NSString *)consumerKey
                   RSAPrivateKey:(SecKeyRef)RSAPrivateKey {
+    CFRetain(RSAPrivateKey);
     self = [super init];
 
     if (self) {
@@ -231,6 +235,7 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
         _consumerKey = consumerKey;
         _RSAPrivateKey = RSAPrivateKey;
     }
+    CFRelease(RSAPrivateKey);
     return self;
 }
 

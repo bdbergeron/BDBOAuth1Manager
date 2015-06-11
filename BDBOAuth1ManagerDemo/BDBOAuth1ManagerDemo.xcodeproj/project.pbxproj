@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7135B4EC3B79D00ADF40A279 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C3B0FA9CC5A36C648FFC0D /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		7B50EFDB2936607FA87A794E /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C3B0FA9CC5A36C648FFC0D /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		E816CAD519565291009877A6 /* BDBTwitterClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E816CAD419565291009877A6 /* BDBTwitterClient.m */; };
 		E8284C8518464EF900B3C6AA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E8284C6918464ED900B3C6AA /* AppDelegate.m */; };
 		E8284C8F18464EF900B3C6AA /* PhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8284C7418464ED900B3C6AA /* PhotosViewController.m */; };
@@ -14,8 +16,6 @@
 		E8284CA618464EF900B3C6AA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E8284C6D18464ED900B3C6AA /* InfoPlist.strings */; };
 		E8284CB01846500000B3C6AA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E8F376351808769B00C40148 /* InfoPlist.strings */; };
 		E847027019D4DD2E00C10210 /* Flickr.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E847026F19D4DD2E00C10210 /* Flickr.xcassets */; };
-		E86A44DF19244C4400700A9C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E86A44DE19244C4400700A9C /* libPods.a */; };
-		E86A44E219244C9900700A9C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E86A44DE19244C4400700A9C /* libPods.a */; };
 		E88595A8184A751500BD7AEC /* BDBFlickrClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E88595A7184A751500BD7AEC /* BDBFlickrClient.m */; };
 		E8C6BAA119D4DDC300A2102A /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8C6BAA019D4DDC300A2102A /* Launch Screen.xib */; };
 		E8C6BAA319D4E02E00A2102A /* Twitter.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8C6BAA219D4E02E00A2102A /* Twitter.xcassets */; };
@@ -36,6 +36,7 @@
 
 /* Begin PBXFileReference section */
 		3C23EA492A8642587406840B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		B1C3B0FA9CC5A36C648FFC0D /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4E42A9BCC3D91597BD0D127 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E816CAD319565291009877A6 /* BDBTwitterClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BDBTwitterClient.h; path = Twitter/BDBTwitterClient.h; sourceTree = "<group>"; };
 		E816CAD419565291009877A6 /* BDBTwitterClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BDBTwitterClient.m; path = Twitter/BDBTwitterClient.m; sourceTree = "<group>"; };
@@ -49,7 +50,6 @@
 		E8284C7418464ED900B3C6AA /* PhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosViewController.m; sourceTree = "<group>"; };
 		E8284CAE18464EF900B3C6AA /* Flickr Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flickr Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E847026F19D4DD2E00C10210 /* Flickr.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Flickr.xcassets; sourceTree = "<group>"; };
-		E86A44DE19244C4400700A9C /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		E88595A6184A751500BD7AEC /* BDBFlickrClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDBFlickrClient.h; sourceTree = "<group>"; };
 		E88595A7184A751500BD7AEC /* BDBFlickrClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDBFlickrClient.m; sourceTree = "<group>"; };
 		E8C6BAA019D4DDC300A2102A /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
@@ -87,7 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E86A44E219244C9900700A9C /* libPods.a in Frameworks */,
+				7B50EFDB2936607FA87A794E /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,13 +95,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E86A44DF19244C4400700A9C /* libPods.a in Frameworks */,
+				7135B4EC3B79D00ADF40A279 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A6043C13D226C0657EA52EE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B1C3B0FA9CC5A36C648FFC0D /* Pods.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E816CAD21956525D009877A6 /* Twitter */ = {
 			isa = PBXGroup;
 			children = (
@@ -204,8 +212,8 @@
 				E8284C6718464ED900B3C6AA /* Flickr Demo */,
 				E8F375CE1808743300C40148 /* Twitter Demo */,
 				E8F375C61808743300C40148 /* Products */,
-				E86A44DE19244C4400700A9C /* libPods.a */,
 				FC3EB9D2479E3EF337045269 /* Pods */,
+				9A6043C13D226C0657EA52EE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -277,6 +285,7 @@
 				E8284CA118464EF900B3C6AA /* Frameworks */,
 				E8284CA418464EF900B3C6AA /* Resources */,
 				B7F71007CEE3472886B6578E /* Copy Pods Resources */,
+				14DA5A365CE8D2401235B614 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -296,6 +305,7 @@
 				E8F375C21808743300C40148 /* Frameworks */,
 				E8F375C31808743300C40148 /* Resources */,
 				30BA89E5E3B946A8871684DF /* Copy Pods Resources */,
+				BB65E6A8189A9B62F3868610 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -375,6 +385,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		14DA5A365CE8D2401235B614 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		30BA89E5E3B946A8871684DF /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -418,6 +443,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BB65E6A8189A9B62F3868610 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -484,7 +524,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Flickr Demo/Supporting Files/Flickr Demo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Flickr Demo/Supporting Files/Flickr Demo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "Flickr Demo";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WARNING_CFLAGS = "-Wall";
@@ -502,7 +541,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Flickr Demo/Supporting Files/Flickr Demo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Flickr Demo/Supporting Files/Flickr Demo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "Flickr Demo";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WARNING_CFLAGS = "-Wall";
@@ -543,7 +581,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -579,7 +617,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -598,7 +636,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Twitter Demo/Supporting Files/Twitter Demo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Twitter Demo/Supporting Files/Twitter Demo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "Twitter Demo";
 				TARGETED_DEVICE_FAMILY = 1;
 				WARNING_CFLAGS = "-Wall";
@@ -616,7 +653,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Twitter Demo/Supporting Files/Twitter Demo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Twitter Demo/Supporting Files/Twitter Demo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "Twitter Demo";
 				TARGETED_DEVICE_FAMILY = 1;
 				WARNING_CFLAGS = "-Wall";

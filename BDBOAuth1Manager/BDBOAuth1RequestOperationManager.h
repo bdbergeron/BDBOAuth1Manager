@@ -53,6 +53,10 @@
                     consumerKey:(NSString *)consumerKey
                  consumerSecret:(NSString *)consumerSecret;
 
+- (instancetype)initWithBaseURLAndRealm:(NSURL *)baseURL
+                            consumerKey:(NSString *)consumerKey
+                         consumerSecret:(NSString *)consumerSecret
+                                  realm:(NSString *)realm;
 
 /**
  *  ---------------------------------------------------------------------------------------
@@ -112,5 +116,12 @@
                     requestToken:(BDBOAuth1Credential *)requestToken
                          success:(void (^)(BDBOAuth1Credential *accessToken))success
                          failure:(void (^)(NSError *error))failure;
+
+- (void)fetchAccessTokenWithPathUsingXAuth:(NSString *)accessPath
+                                    method:(NSString *)method
+                                  username:(NSString *)username
+                                  password:(NSString *)password
+                                   success:(void (^)(BDBOAuth1Credential *accessToken))success
+                                   failure:(void (^)(NSError *error))failure;
 
 @end

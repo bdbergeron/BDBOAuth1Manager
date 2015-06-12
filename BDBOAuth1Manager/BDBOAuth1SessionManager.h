@@ -55,6 +55,7 @@
                  consumerSecret:(NSString *)consumerSecret;
 
 
+- (instancetype)initWithBaseURLAndRealm:(NSURL *)url consumerKey:(NSString *)key consumerSecret:(NSString *)secret realm:(NSString *)realm;
 /**
  *  ---------------------------------------------------------------------------------------
  * @name Authorization Status
@@ -114,6 +115,13 @@
                     requestToken:(BDBOAuth1Credential *)requestToken
                          success:(void (^)(BDBOAuth1Credential *accessToken))success
                          failure:(void (^)(NSError *error))failure;
+
+- (void)fetchAccessTokenWithPathUsingXAuth:(NSString *)accessPath
+                                    method:(NSString *)method
+                                  username:(NSString *)username
+                                  password:(NSString *)password
+                                   success:(void (^)(BDBOAuth1Credential *accessToken))success
+                                   failure:(void (^)(NSError *error))failure;
 
 @end
 

@@ -171,6 +171,7 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
 @interface BDBOAuth1RequestSerializer ()
 
 @property (nonatomic, copy) NSString *service;
+@property (nonatomic, copy) NSString *realm;
 @property (nonatomic, copy) NSString *consumerKey;
 @property (nonatomic, copy) NSString *consumerSecret;
 
@@ -207,8 +208,27 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
         _service = service;
         _consumerKey = consumerKey;
         _consumerSecret = consumerSecret;
+        _realm = nil;
 
         _accessToken = [self readAccessTokenFromKeychain];
+    }
+
+    return self;
+}
+
++ (instancetype)serializerForServiceAndRealm:(NSString *)service withConsumerKey:(NSString *)key consumerSecret:(NSString *)secret realm:(NSString *)realm
+{
+    return [[BDBOAuth1RequestSerializer alloc] initWithServiceAndRealm:service consumerKey:key consumerSecret:secret realm:realm];
+}
+
+- (id)initWithServiceAndRealm:(NSString *)service consumerKey:(NSString *)key consumerSecret:(NSString *)secret realm:(NSString *)realm
+{
+    self = [super init];
+    if (self) {
+        _service = service;
+        _realm = realm;
+        _consumerKey = key;
+        _consumerSecret = secret;
     }
 
     return self;
@@ -289,16 +309,20 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
     parameters[BDBOAuth1SignatureTimestampParameter]   = [@(floor([[NSDate date] timeIntervalSince1970])) stringValue];
     parameters[BDBOAuth1SignatureMethodParameter]      = @"HMAC-SHA1";
 
+    if (self.realm) {
+        parameters[@"realm"] = self.realm;
+    }
+
     CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
     CFUUIDBytes uuidBytes = CFUUIDGetUUIDBytes(uuid);
     CFRelease(uuid);
-    
+
 #if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
     parameters[BDBOAuth1SignatureNonceParameter] = [[NSData dataWithBytes:&uuidBytes length:sizeof(uuidBytes)] base64EncodedStringWithOptions:0];
 #else
     parameters[BDBOAuth1SignatureNonceParameter] = [[NSData dataWithBytes:&uuidBytes length:sizeof(uuidBytes)] base64Encoding];
 #endif
-                                  
+
     return parameters;
 }
 
@@ -306,8 +330,11 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
                             URLString:(NSString *)URLString
                            parameters:(NSDictionary *)parameters
                                 error:(NSError *__autoreleasing *)error {
-    NSMutableURLRequest *request = [super requestWithMethod:@"GET" URLString:URLString parameters:parameters error:error];
+    // don't include realm in signing parameters as per RFC 5849 Section 3.4.1.3.1
+    NSMutableDictionary *signatureParameters = [parameters mutableCopy];
+    [signatureParameters removeObjectForKey:@"realm"];
 
+    NSMutableURLRequest *request = [super requestWithMethod:@"GET" URLString:URLString parameters:signatureParameters error:error];
     [request setHTTPMethod:method];
 
     NSString *secret = @"";
@@ -372,8 +399,10 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
     if (self.consumerKey && self.consumerSecret) {
         [mutableAuthorizationParameters addEntriesFromDictionary:[self OAuthParameters]];
 
+        // Realm gets explicitly added at start of sorted list below.
+        [mutableAuthorizationParameters removeObjectForKey:@"realm"];
         NSString *token = self.accessToken.token;
-        
+
         if (token) {
             mutableAuthorizationParameters[BDBOAuth1OAuthTokenParameter] = token;
         }
@@ -391,7 +420,17 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
                                                                                           parameters:mutableParameters
                                                                                                error:error];
 
-    NSArray *sortedComponents = [[[mutableAuthorizationParameters bdb_queryStringRepresentation] componentsSeparatedByString:@"&"] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    // Put realm first if it exists. Not required by RFC 5849 but some providers expect it.
+    NSMutableDictionary *realmParameters = [[NSMutableDictionary alloc] init];
+    if ([parameters objectForKey:@"realm"]) {
+        [realmParameters setObject:[parameters objectForKey:@"realm"] forKey:@"realm"];
+    }
+    NSMutableArray *sortedComponents = [[[[realmParameters bdb_queryStringRepresentation] componentsSeparatedByString:@"&"] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
+
+    // Other components get sorted. Not required by RFC but makes requests consistent.
+    NSArray *sortedComponentsWithoutRealm = [[[mutableAuthorizationParameters bdb_queryStringRepresentation] componentsSeparatedByString:@"&"] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+
+    [sortedComponents addObjectsFromArray:sortedComponentsWithoutRealm];
 
     NSMutableArray *mutableComponents = [NSMutableArray array];
 
@@ -414,7 +453,7 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
     NSMutableDictionary *mutableParameters = [parameters mutableCopy];
 
     for (NSString *key in parameters) {
-        if ([key hasPrefix:@"oauth_"]) {
+        if ([key hasPrefix:@"oauth_"] || [key isEqualToString:@"realm"]) {
             [mutableParameters removeObjectForKey:key];
         }
     }
@@ -451,7 +490,7 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
     NSMutableDictionary *mutableParameters = [parameters mutableCopy];
 
     for (NSString *key in parameters) {
-        if ([key hasPrefix:@"oauth_"]) {
+        if ([key hasPrefix:@"oauth_"] || [key isEqualToString:@"realm"]) {
             [mutableParameters removeObjectForKey:key];
         }
     }

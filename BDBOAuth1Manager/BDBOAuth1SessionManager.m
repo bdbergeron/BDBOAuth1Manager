@@ -43,10 +43,10 @@
     self = [super initWithBaseURL:baseURL];
 
     if (self) {
-        self.requestSerializer  = [BDBOAuth1RequestSerializer serializerForService:baseURL.host
-                                                                   withConsumerKey:consumerKey
-                                                                    consumerSecret:consumerSecret
-                                                                             realm:nil];
+        self.requestSerializer  = [BDBOAuth1RequestSerializer serializerForServiceAndRealm:baseURL.host
+                                                                           withConsumerKey:consumerKey
+                                                                            consumerSecret:consumerSecret
+                                                                                     realm:nil];
     }
 
     return self;
@@ -194,8 +194,8 @@
         self.responseSerializer = defaultSerializer;
         self.requestSerializer.requestToken = nil;
         if (!error) {
-            BDBOAuth1Credential *accessToken = [BDBOAuth1Credential tokenWithQueryString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]];
-            [self.requestSerializer 
+            BDBOAuth1Credential *accessToken = [BDBOAuth1Credential credentialWithQueryString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]];
+            [self.requestSerializer saveAccessToken:accessToken];
             if (success) {
                 success(accessToken);
             }

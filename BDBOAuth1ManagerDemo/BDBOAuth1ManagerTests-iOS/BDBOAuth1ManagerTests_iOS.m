@@ -143,7 +143,7 @@
     SecKeyRef RSAPrivateKey = NULL;
     SecIdentityCopyPrivateKey(identity, &RSAPrivateKey);
 
-    BDBOAuth1RequestSerializer *serializer = [BDBOAuth1RequestSerializer serializerForService:service withConsumerKey:consumerKey RSAPrivateKey:RSAPrivateKey];
+    BDBOAuth1RequestSerializer *serializer = [BDBOAuth1RequestSerializer serializerForService:service withConsumerKey:consumerKey RSAPrivateKey:(__bridge_transfer id)RSAPrivateKey];
     CFRelease(RSAPrivateKey);
     NSString *signature = [serializer OAuthSignatureForMethod:@"GET" URLString:[NSString stringWithFormat:@"%@/%@", service, path] parameters:parameters error:nil];
     XCTAssertEqualObjects(signature, expectedSignature, @"Computed OAuth signature does not match expected signature");

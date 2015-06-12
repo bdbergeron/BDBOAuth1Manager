@@ -176,7 +176,7 @@ FOUNDATION_EXPORT NSString * const BDBOAuth1OAuthCallbackParameter;
  */
 + (instancetype)serializerForService:(NSString *)service
                      withConsumerKey:(NSString *)consumerKey
-                       RSAPrivateKey:(SecKeyRef)RSAPrivateKey;
+                       RSAPrivateKey:(id)RSAPrivateKey;
 
 /**
  *  Instantiate a new BDBOAuth1RequestSerializer instance for the given service with its consumerKey and RSAPrivateKey
@@ -189,7 +189,7 @@ FOUNDATION_EXPORT NSString * const BDBOAuth1OAuthCallbackParameter;
  */
 - (instancetype)initWithService:(NSString *)service
                     consumerKey:(NSString *)consumerKey
-                  RSAPrivateKey:(SecKeyRef)RSAPrivateKey;
+                  RSAPrivateKey:(id)RSAPrivateKey;
 #endif
 
 

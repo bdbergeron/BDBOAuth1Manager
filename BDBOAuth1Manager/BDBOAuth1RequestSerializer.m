@@ -173,7 +173,7 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
 @property (nonatomic, copy) NSString *service;
 @property (nonatomic, copy) NSString *consumerKey;
 @property (nonatomic, copy) NSString *consumerSecret;
-@property (nonatomic) __attribute__((NSObject)) SecKeyRef RSAPrivateKey;
+@property (nonatomic, copy) id RSAPrivateKey;
 
 - (NSString *)OAuthSignatureForMethod:(NSString *)method
                             URLString:(NSString *)URLString
@@ -217,17 +217,13 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
 
 + (instancetype)serializerForService:(NSString *)service
                      withConsumerKey:(NSString *)consumerKey
-                       RSAPrivateKey:(SecKeyRef)RSAPrivateKey {
-    CFRetain(RSAPrivateKey);
-    BDBOAuth1RequestSerializer *serializer = [[[self class] alloc] initWithService:service consumerKey:consumerKey RSAPrivateKey:RSAPrivateKey];
-    CFRelease(RSAPrivateKey);
-    return serializer;
+                       RSAPrivateKey:(id)RSAPrivateKey {
+    return[[[self class] alloc] initWithService:service consumerKey:consumerKey RSAPrivateKey:RSAPrivateKey];
 }
 
 - (instancetype)initWithService:(NSString *)service
                     consumerKey:(NSString *)consumerKey
-                  RSAPrivateKey:(SecKeyRef)RSAPrivateKey {
-    CFRetain(RSAPrivateKey);
+                  RSAPrivateKey:(id)RSAPrivateKey {
     self = [super init];
 
     if (self) {
@@ -235,7 +231,6 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
         _consumerKey = consumerKey;
         _RSAPrivateKey = RSAPrivateKey;
     }
-    CFRelease(RSAPrivateKey);
     return self;
 }
 
@@ -363,9 +358,9 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
     uint8_t digest[CC_SHA1_DIGEST_LENGTH];
     CC_SHA1([requestData bytes], (unsigned int)[requestData length], digest);
 
-    size_t signatureSize = SecKeyGetBlockSize(self.RSAPrivateKey);
+    size_t signatureSize = SecKeyGetBlockSize((__bridge SecKeyRef)self.RSAPrivateKey);
     uint8_t signature[signatureSize];
-    SecKeyRawSign(self.RSAPrivateKey, kSecPaddingPKCS1SHA1, digest, sizeof(digest), signature, &signatureSize);
+    SecKeyRawSign((__bridge SecKeyRef)self.RSAPrivateKey, kSecPaddingPKCS1SHA1, digest, sizeof(digest), signature, &signatureSize);
 #if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
 
     return [[NSData dataWithBytes:signature length:signatureSize] base64EncodedStringWithOptions:0];

@@ -199,8 +199,7 @@
             if (success) {
                 success(accessToken);
             }
-        }
-        else {
+        } else {
             if (failure) {
                 failure(error);
             }

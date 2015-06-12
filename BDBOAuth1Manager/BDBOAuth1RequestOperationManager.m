@@ -41,10 +41,10 @@
     self = [super initWithBaseURL:baseURL];
 
     if (self) {
-        self.requestSerializer = [BDBOAuth1RequestSerializer serializerForService:baseURL.host
-                                                                  withConsumerKey:consumerKey
-                                                                   consumerSecret:consumerSecret
-                                                                            realm:nil];
+        self.requestSerializer = [BDBOAuth1RequestSerializer serializerForServiceAndRealm:baseURL.host
+                                                                          withConsumerKey:consumerKey
+                                                                           consumerSecret:consumerSecret
+                                                                                    realm:nil];
     }
 
     return self;
@@ -55,11 +55,12 @@
                          consumerSecret:(NSString *)consumerSecret
                                   realm:(NSString *)realm {
     self = [super initWithBaseURL:url];
+
     if (self)
     {
         self.requestSerializer = [BDBOAuth1RequestSerializer serializerForServiceAndRealm:url.host
                                                                           withConsumerKey:key
-                                                                           consumerSecret:secret
+                                                                           consumerSecret:consumerSecret
                                                                                     realm:realm];
     }
 
@@ -181,24 +182,25 @@
                           method:(NSString *)method
                         username:(NSString *)username
                         password:(NSString *)password
-                         success:(void (^)(BDBOAuthToken *accessToken))success
+                         success:(void (^)(BDBOAuth1Credential *accessToken))success
                          failure:(void (^)(NSError *error))failure
 {
     AFHTTPResponseSerializer *defaultSerializer = self.responseSerializer;
     self.responseSerializer = [AFHTTPResponseSerializer serializer];
-    
+
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"x_auth_username"] = username;
     parameters[@"x_auth_password"] = password;
     parameters[@"x_auth_mode"]     = @"client_auth";
-    
+
     NSString *URLString = [[NSURL URLWithString:accessPath relativeToURL:self.baseURL] absoluteString];
     NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:URLString parameters:parameters error:nil];
-    
+
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
         self.responseSerializer = defaultSerializer;
         self.requestSerializer.requestToken = nil;
-        BDBOAuthToken *accessToken = [BDBOAuthToken tokenWithQueryString:operation.responseString];
+//        BDBOAuth1Credential *accessToken = [BDBOAuth1Credential tokenWithQueryString:operation.responseString];
+        BDBOAuth1Credential *accessToken = [BDBOAuth1Credential credentialWithQueryString:operation.responseString];
         [self.requestSerializer saveAccessToken:accessToken];
         if (success)
             success(accessToken);
@@ -208,7 +210,7 @@
         if (failure)
             failure(error);
     }];
-    
+
     [self.operationQueue addOperation:operation];
 }
 

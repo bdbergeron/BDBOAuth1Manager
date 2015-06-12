@@ -425,10 +425,10 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
     if ([parameters objectForKey:@"realm"])
         [realmParameters setObject:[parameters objectForKey:@"realm"] forKey:@"realm"];
 
-    NSMutableArray *sortedComponents =[[[[realmParameters queryStringRepresentation] componentsSeparatedByString:@"&"] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
+    NSMutableArray *sortedComponents =[[[[realmParameters bdb_queryStringRepresentation] componentsSeparatedByString:@"&"] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
 
     // Other components get sorted. Not required by RFC but makes requests consistent.
-    NSArray *sortedComponentsWithoutRealm = [[[mutableAuthorizationParameters queryStringRepresentation] componentsSeparatedByString:@"&"] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    NSArray *sortedComponentsWithoutRealm = [[[mutableAuthorizationParameters bdb_queryStringRepresentation] componentsSeparatedByString:@"&"] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 
     [sortedComponents addObjectsFromArray:sortedComponentsWithoutRealm];
 

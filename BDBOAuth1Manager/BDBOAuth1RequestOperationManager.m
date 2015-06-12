@@ -179,11 +179,11 @@
 }
 
 - (void)fetchAccessTokenWithPathUsingXAuth:(NSString *)accessPath
-                          method:(NSString *)method
-                        username:(NSString *)username
-                        password:(NSString *)password
-                         success:(void (^)(BDBOAuth1Credential *accessToken))success
-                         failure:(void (^)(NSError *error))failure
+                                    method:(NSString *)method
+                                  username:(NSString *)username
+                                  password:(NSString *)password
+                                   success:(void (^)(BDBOAuth1Credential *accessToken))success
+                                   failure:(void (^)(NSError *error))failure
 {
     AFHTTPResponseSerializer *defaultSerializer = self.responseSerializer;
     self.responseSerializer = [AFHTTPResponseSerializer serializer];
@@ -199,16 +199,17 @@
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
         self.responseSerializer = defaultSerializer;
         self.requestSerializer.requestToken = nil;
-//        BDBOAuth1Credential *accessToken = [BDBOAuth1Credential tokenWithQueryString:operation.responseString];
         BDBOAuth1Credential *accessToken = [BDBOAuth1Credential credentialWithQueryString:operation.responseString];
         [self.requestSerializer saveAccessToken:accessToken];
-        if (success)
+        if (success) {
             success(accessToken);
+        }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         self.responseSerializer = defaultSerializer;
         self.requestSerializer.requestToken = nil;
-        if (failure)
+        if (failure) {
             failure(error);
+        }
     }];
 
     [self.operationQueue addOperation:operation];

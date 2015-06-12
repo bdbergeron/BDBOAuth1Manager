@@ -117,11 +117,11 @@
                          failure:(void (^)(NSError *error))failure;
 
 - (void)fetchAccessTokenWithPathUsingXAuth:(NSString *)accessPath
-                          method:(NSString *)method
-                        username:(NSString *)username
-                        password:(NSString *)password
-                         success:(void (^)(BDBOAuthToken *accessToken))success
-                         failure:(void (^)(NSError *error))failure;
+                                    method:(NSString *)method
+                                  username:(NSString *)username
+                                  password:(NSString *)password
+                                   success:(void (^)(BDBOAuth1Credential *accessToken))success
+                                   failure:(void (^)(NSError *error))failure;
 
 @end
 

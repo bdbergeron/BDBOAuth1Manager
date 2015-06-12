@@ -252,7 +252,7 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
     if (status == noErr && data) {
         @try {
             NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-            [unarchiver setClass:[BDBOAuth1Credential class] forClassName:@"BDBOAuthToken"];
+            [unarchiver setClass:[BDBOAuth1Credential class] forClassName:@"BDBOAuth1Credential"];
 
             return [unarchiver decodeObjectForKey:NSKeyedArchiveRootObjectKey];
         }
@@ -309,20 +309,20 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
     parameters[BDBOAuth1SignatureTimestampParameter]   = [@(floor([[NSDate date] timeIntervalSince1970])) stringValue];
     parameters[BDBOAuth1SignatureMethodParameter]      = @"HMAC-SHA1";
 
-    if (self.realm)
+    if (self.realm) {
         parameters[@"realm"] = self.realm;
-
+    }
 
     CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
     CFUUIDBytes uuidBytes = CFUUIDGetUUIDBytes(uuid);
     CFRelease(uuid);
-    
+
 #if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
     parameters[BDBOAuth1SignatureNonceParameter] = [[NSData dataWithBytes:&uuidBytes length:sizeof(uuidBytes)] base64EncodedStringWithOptions:0];
 #else
     parameters[BDBOAuth1SignatureNonceParameter] = [[NSData dataWithBytes:&uuidBytes length:sizeof(uuidBytes)] base64Encoding];
 #endif
-                                  
+
     return parameters;
 }
 
@@ -422,10 +422,10 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
 
     // Put realm first if it exists. Not required by RFC 5849 but some providers expect it.
     NSMutableDictionary *realmParameters = [[NSMutableDictionary alloc] init];
-    if ([parameters objectForKey:@"realm"])
+    if ([parameters objectForKey:@"realm"]) {
         [realmParameters setObject:[parameters objectForKey:@"realm"] forKey:@"realm"];
-
-    NSMutableArray *sortedComponents =[[[[realmParameters bdb_queryStringRepresentation] componentsSeparatedByString:@"&"] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
+    }
+    NSMutableArray *sortedComponents = [[[[realmParameters bdb_queryStringRepresentation] componentsSeparatedByString:@"&"] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
 
     // Other components get sorted. Not required by RFC but makes requests consistent.
     NSArray *sortedComponentsWithoutRealm = [[[mutableAuthorizationParameters bdb_queryStringRepresentation] componentsSeparatedByString:@"&"] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];

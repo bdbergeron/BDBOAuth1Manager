@@ -60,5 +60,4 @@
     XCTAssertEqualObjects(signature, expectedSignature, @"Computed OAuth signature does not match expected signature");
 }
 
-
 @end

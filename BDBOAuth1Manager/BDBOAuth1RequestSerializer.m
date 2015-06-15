@@ -218,7 +218,7 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
 + (instancetype)serializerForService:(NSString *)service
                      withConsumerKey:(NSString *)consumerKey
                        RSAPrivateKey:(id)RSAPrivateKey {
-    return[[[self class] alloc] initWithService:service consumerKey:consumerKey RSAPrivateKey:RSAPrivateKey];
+    return [[[self class] alloc] initWithService:service consumerKey:consumerKey RSAPrivateKey:RSAPrivateKey];
 }
 
 - (instancetype)initWithService:(NSString *)service
@@ -350,7 +350,6 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
 #else
     return [[NSData dataWithBytes:digest length:CC_SHA1_DIGEST_LENGTH] base64Encoding];
 #endif
-
 }
 
 #if TARGET_OS_IPHONE
@@ -362,7 +361,6 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
     uint8_t signature[signatureSize];
     SecKeyRawSign((__bridge SecKeyRef)self.RSAPrivateKey, kSecPaddingPKCS1SHA1, digest, sizeof(digest), signature, &signatureSize);
 #if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
-
     return [[NSData dataWithBytes:signature length:signatureSize] base64EncodedStringWithOptions:0];
 #else
     return [[NSData dataWithBytes:signature length:signatureSize] base64Encoding];

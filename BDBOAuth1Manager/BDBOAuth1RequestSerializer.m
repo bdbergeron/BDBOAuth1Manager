@@ -422,7 +422,7 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
 
     NSMutableDictionary *mutableAuthorizationParameters = [NSMutableDictionary dictionary];
 
-    if (self.consumerKey && self.consumerSecret) {
+    if (self.consumerKey && (self.consumerSecret || self.RSAPrivateKey)) {
         [mutableAuthorizationParameters addEntriesFromDictionary:[self OAuthParameters]];
 
         NSString *token = self.accessToken.token;

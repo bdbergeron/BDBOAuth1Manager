@@ -115,6 +115,23 @@
                          success:(void (^)(BDBOAuth1Credential *accessToken))success
                          failure:(void (^)(NSError *error))failure;
 
+
+/**
+ *  Sends a generic OAuth signed request (using "Authentication" header) for JSON object.
+ *  You should have successfully fetched access token first before using this method.
+ *
+ *  @param accessPath   An endpoint that requires an OAuth signed request.
+ *  @param method       HTTP method for the request.
+ *  @param parameters   The parameters to be either set as a query string for `GET` requests, or the request HTTP body.
+ *  @param success      Completion block performed upon successful request.
+ *  @param failure      Completion block performed if the request failed.
+ */
+- (void)jsonObjectWithPath:(NSString *)accessPath
+                    method:(NSString *)method
+                parameters:(NSDictionary *)parameters
+                   success:(void (^)(NSURLResponse *response, id jsonObject))success
+                   failure:(void (^)(NSURLResponse *response, NSError *error))failure;
+
 @end
 
 #endif

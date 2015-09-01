@@ -10,7 +10,6 @@
 		05022751EC3D08B7DCB1D614 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8241A861A961B246A8EEBF16 /* libPods.a */; };
 		1F1F009767F0F6E090D7BECA /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8241A861A961B246A8EEBF16 /* libPods.a */; };
 		398963E796E95A7C01D298CB /* libPods-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 577F1C9F5AB778827D69A425 /* libPods-osx.a */; };
-		666512CFA899B8288DA53355 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8241A861A961B246A8EEBF16 /* libPods.a */; };
 		96CDCC59BDDC25F2334E832A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8241A861A961B246A8EEBF16 /* libPods.a */; };
 		D91E288F1B2648A7005F9455 /* BDBOAuth1ManagerTests_iOS.m in Sources */ = {isa = PBXBuildFile; fileRef = D91E288E1B2648A7005F9455 /* BDBOAuth1ManagerTests_iOS.m */; };
 		D91E28A91B278AE1005F9455 /* BDBOAuth1ManagerTests_OSX.m in Sources */ = {isa = PBXBuildFile; fileRef = D91E28A81B278AE1005F9455 /* BDBOAuth1ManagerTests_OSX.m */; };
@@ -38,16 +37,6 @@
 		E8F6169218496326008D9DC5 /* BDBFlickrPhotoset.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F6169118496326008D9DC5 /* BDBFlickrPhotoset.m */; };
 		E8F6169518496578008D9DC5 /* BDBFlickrPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F6169418496578008D9DC5 /* BDBFlickrPhoto.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		D91E28AA1B278AE1005F9455 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E8F375BD1808743300C40148 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E8F375C41808743300C40148;
-			remoteInfo = "Twitter Demo";
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		33E03F5490FE80216781BCDE /* Pods-osx.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-osx.release.xcconfig"; path = "Pods/Target Support Files/Pods-osx/Pods-osx.release.xcconfig"; sourceTree = "<group>"; };
@@ -389,7 +378,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				D91E28AB1B278AE1005F9455 /* PBXTargetDependency */,
 			);
 			name = "BDBOAuth1ManagerTests-OSX";
 			productName = "BDBOAuth1ManagerTests-OSX";
@@ -681,14 +669,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		D91E28AB1B278AE1005F9455 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E8F375C41808743300C40148 /* Twitter Demo */;
-			targetProxy = D91E28AA1B278AE1005F9455 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		E8284C6D18464ED900B3C6AA /* InfoPlist.strings */ = {

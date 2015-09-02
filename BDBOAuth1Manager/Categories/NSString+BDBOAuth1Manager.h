@@ -55,4 +55,14 @@
 
 - (NSString *)bdb_URLEncode;
 
+
+/**
+ *  Returns the given string with the '/' and '?' characters URL-encoded.
+ *
+ *  AFNetworking 2.6 no longer encodes '/' and '?' characters. See https://github.com/AFNetworking/AFNetworking/pull/2908
+ *
+ *  @return '?' and '/' URL-encoded string
+ */
+- (NSString *)bdb_URLEncodeSlashesAndQuestionMarks;
+
 @end

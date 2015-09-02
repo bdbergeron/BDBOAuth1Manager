@@ -389,7 +389,7 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
     NSString *requestURL    = [[[[request URL] absoluteString] componentsSeparatedByString:@"?"][0] bdb_URLEncode];
 
     NSArray *sortedQueryString = [[[[request URL] query] componentsSeparatedByString:@"&"] sortedArrayUsingSelector:@selector(compare:)];
-    NSString *queryString   = [[sortedQueryString componentsJoinedByString:@"&"] bdb_URLEncode];
+    NSString *queryString   = [[[sortedQueryString componentsJoinedByString:@"&"] bdb_URLEncodeSlashesAndQuestionMarks] bdb_URLEncode];
 
     NSString *requestString = [NSString stringWithFormat:@"%@&%@&%@", requestMethod, requestURL, queryString];
     NSData *requestData = [requestString dataUsingEncoding:NSUTF8StringEncoding];

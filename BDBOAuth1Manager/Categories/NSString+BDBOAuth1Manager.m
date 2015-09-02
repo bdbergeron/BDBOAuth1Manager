@@ -46,4 +46,10 @@
                                                             kCFStringEncodingUTF8);
 }
 
+- (NSString *)bdb_URLEncodeSlashesAndQuestionMarks {
+    NSString *selfWithSlashesEscaped = [self stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
+    NSString *selfWithQuestionMarksEscaped = [selfWithSlashesEscaped stringByReplacingOccurrencesOfString:@"?" withString:@"%3F"];
+    return selfWithQuestionMarksEscaped;
+}
+
 @end

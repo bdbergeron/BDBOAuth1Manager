@@ -173,6 +173,7 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
 @property (nonatomic, copy) NSString *service;
 @property (nonatomic, copy) NSString *consumerKey;
 @property (nonatomic, copy) NSString *consumerSecret;
+@property (nonatomic, copy) id RSAPrivateKey;
 
 - (NSString *)OAuthSignatureForMethod:(NSString *)method
                             URLString:(NSString *)URLString
@@ -211,6 +212,25 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
         _accessToken = [self readAccessTokenFromKeychain];
     }
 
+    return self;
+}
+
++ (instancetype)serializerForService:(NSString *)service
+                     withConsumerKey:(NSString *)consumerKey
+                       RSAPrivateKey:(id)RSAPrivateKey {
+    return [[[self class] alloc] initWithService:service consumerKey:consumerKey RSAPrivateKey:RSAPrivateKey];
+}
+
+- (instancetype)initWithService:(NSString *)service
+                    consumerKey:(NSString *)consumerKey
+                  RSAPrivateKey:(id)RSAPrivateKey {
+    self = [super init];
+
+    if (self) {
+        _service = service;
+        _consumerKey = consumerKey;
+        _RSAPrivateKey = RSAPrivateKey;
+    }
     return self;
 }
 
@@ -287,7 +307,12 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
     parameters[BDBOAuth1SignatureVersionParameter]     = @"1.0";
     parameters[BDBOAuth1SignatureConsumerKeyParameter] = self.consumerKey;
     parameters[BDBOAuth1SignatureTimestampParameter]   = [@(floor([[NSDate date] timeIntervalSince1970])) stringValue];
-    parameters[BDBOAuth1SignatureMethodParameter]      = @"HMAC-SHA1";
+
+    if (self.RSAPrivateKey) {
+        parameters[BDBOAuth1SignatureMethodParameter] = @"RSA-SHA1";
+    } else {
+        parameters[BDBOAuth1SignatureMethodParameter] = @"HMAC-SHA1";
+    }
 
     CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
     CFUUIDBytes uuidBytes = CFUUIDGetUUIDBytes(uuid);
@@ -302,14 +327,7 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
     return parameters;
 }
 
-- (NSString *)OAuthSignatureForMethod:(NSString *)method
-                            URLString:(NSString *)URLString
-                           parameters:(NSDictionary *)parameters
-                                error:(NSError *__autoreleasing *)error {
-    NSMutableURLRequest *request = [super requestWithMethod:@"GET" URLString:URLString parameters:parameters error:error];
-
-    [request setHTTPMethod:method];
-
+- (NSString *)OAuthHMACSignatureForRequestData:(NSData *)requestData {
     NSString *secret = @"";
 
     if (self.accessToken) {
@@ -320,6 +338,43 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
 
     NSString *secretString = [[self.consumerSecret bdb_URLEncode] stringByAppendingFormat:@"&%@", [secret bdb_URLEncode]];
     NSData *secretData = [secretString dataUsingEncoding:NSUTF8StringEncoding];
+
+    uint8_t digest[CC_SHA1_DIGEST_LENGTH];
+    CCHmacContext context;
+    CCHmacInit(&context, kCCHmacAlgSHA1, [secretData bytes], [secretData length]);
+    CCHmacUpdate(&context, [requestData bytes], [requestData length]);
+    CCHmacFinal(&context, digest);
+
+#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
+    return [[NSData dataWithBytes:digest length:CC_SHA1_DIGEST_LENGTH] base64EncodedStringWithOptions:0];
+#else
+    return [[NSData dataWithBytes:digest length:CC_SHA1_DIGEST_LENGTH] base64Encoding];
+#endif
+}
+
+#if TARGET_OS_IPHONE
+- (NSString *)OAuthRSASignatureForRequestData:(NSData*)requestData {
+    uint8_t digest[CC_SHA1_DIGEST_LENGTH];
+    CC_SHA1([requestData bytes], (unsigned int)[requestData length], digest);
+
+    size_t signatureSize = SecKeyGetBlockSize((__bridge SecKeyRef)self.RSAPrivateKey);
+    uint8_t signature[signatureSize];
+    SecKeyRawSign((__bridge SecKeyRef)self.RSAPrivateKey, kSecPaddingPKCS1SHA1, digest, sizeof(digest), signature, &signatureSize);
+#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
+    return [[NSData dataWithBytes:signature length:signatureSize] base64EncodedStringWithOptions:0];
+#else
+    return [[NSData dataWithBytes:signature length:signatureSize] base64Encoding];
+#endif
+}
+#endif
+
+- (NSString *)OAuthSignatureForMethod:(NSString *)method
+                            URLString:(NSString *)URLString
+                           parameters:(NSDictionary *)parameters
+                                error:(NSError *__autoreleasing *)error {
+    NSMutableURLRequest *request = [super requestWithMethod:@"GET" URLString:URLString parameters:parameters error:error];
+
+    [request setHTTPMethod:method];
 
     /**
      * Create signature from request data
@@ -334,21 +389,19 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
     NSString *requestURL    = [[[[request URL] absoluteString] componentsSeparatedByString:@"?"][0] bdb_URLEncode];
 
     NSArray *sortedQueryString = [[[[request URL] query] componentsSeparatedByString:@"&"] sortedArrayUsingSelector:@selector(compare:)];
-    NSString *queryString   = [[sortedQueryString componentsJoinedByString:@"&"] bdb_URLEncode];
+    NSString *queryString   = [[[sortedQueryString componentsJoinedByString:@"&"] bdb_URLEncodeSlashesAndQuestionMarks] bdb_URLEncode];
 
     NSString *requestString = [NSString stringWithFormat:@"%@&%@&%@", requestMethod, requestURL, queryString];
     NSData *requestData = [requestString dataUsingEncoding:NSUTF8StringEncoding];
 
-    uint8_t digest[CC_SHA1_DIGEST_LENGTH];
-    CCHmacContext context;
-    CCHmacInit(&context, kCCHmacAlgSHA1, [secretData bytes], [secretData length]);
-    CCHmacUpdate(&context, [requestData bytes], [requestData length]);
-    CCHmacFinal(&context, digest);
-
-#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
-    return [[NSData dataWithBytes:digest length:CC_SHA1_DIGEST_LENGTH] base64EncodedStringWithOptions:0];
+#if TARGET_OS_IPHONE
+    if (self.RSAPrivateKey) {
+        return [self OAuthRSASignatureForRequestData:requestData];
+    } else {
+        return [self OAuthHMACSignatureForRequestData:requestData];
+    }
 #else
-    return [[NSData dataWithBytes:digest length:CC_SHA1_DIGEST_LENGTH] base64Encoding];
+    return [self OAuthHMACSignatureForRequestData:requestData];
 #endif
 }
 
@@ -369,7 +422,7 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
 
     NSMutableDictionary *mutableAuthorizationParameters = [NSMutableDictionary dictionary];
 
-    if (self.consumerKey && self.consumerSecret) {
+    if (self.consumerKey && (self.consumerSecret || self.RSAPrivateKey)) {
         [mutableAuthorizationParameters addEntriesFromDictionary:[self OAuthParameters]];
 
         NSString *token = self.accessToken.token;

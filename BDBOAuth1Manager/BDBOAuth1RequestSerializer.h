@@ -164,6 +164,34 @@ FOUNDATION_EXPORT NSString * const BDBOAuth1OAuthCallbackParameter;
                     consumerKey:(NSString *)consumerKey
                  consumerSecret:(NSString *)consumerSecret;
 
+#if TARGET_OS_IPHONE
+/**
+ *  Create a new BDBOAuth1RequestSerializer instance for the given service with its consumerKey and RSAPrivateKey
+ *
+ *  @param service       Service (base URL) this request serializer is used for.
+ *  @param consumerKey   OAuth consumer key
+ *  @param RSAPrivateKey RSA private key
+ *
+ *  @return New BDBOAuth1RequestSerializer for the specified service
+ */
++ (instancetype)serializerForService:(NSString *)service
+                     withConsumerKey:(NSString *)consumerKey
+                       RSAPrivateKey:(id)RSAPrivateKey;
+
+/**
+ *  Instantiate a new BDBOAuth1RequestSerializer instance for the given service with its consumerKey and RSAPrivateKey
+ *
+ *  @param service       Service (base URL) this request serializer is used for.
+ *  @param consumerKey   OAuth consumer key
+ *  @param RSAPrivateKey RSA private key
+ *
+ *  @return New BDBOAuth1RequestSerializer for the specified service
+ */
+- (instancetype)initWithService:(NSString *)service
+                    consumerKey:(NSString *)consumerKey
+                  RSAPrivateKey:(id)RSAPrivateKey;
+#endif
+
 
 /**
  *  ---------------------------------------------------------------------------------------

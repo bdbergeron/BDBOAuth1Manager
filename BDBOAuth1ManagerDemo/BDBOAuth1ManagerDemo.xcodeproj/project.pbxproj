@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7135B4EC3B79D00ADF40A279 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C3B0FA9CC5A36C648FFC0D /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		7B50EFDB2936607FA87A794E /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C3B0FA9CC5A36C648FFC0D /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		7B50EFDB2936607FA87A794E /* (null) in Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (Weak, ); }; };
+		8D7A2DB0C746C903C5229408 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9933D252FFDAB621FA733223 /* libPods.a */; };
 		E816CAD519565291009877A6 /* BDBTwitterClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E816CAD419565291009877A6 /* BDBTwitterClient.m */; };
+		E81E4E34B39A39E45479B4A5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9933D252FFDAB621FA733223 /* libPods.a */; };
 		E8284C8518464EF900B3C6AA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E8284C6918464ED900B3C6AA /* AppDelegate.m */; };
 		E8284C8F18464EF900B3C6AA /* PhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8284C7418464ED900B3C6AA /* PhotosViewController.m */; };
 		E8284C9F18464EF900B3C6AA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E8284C7118464ED900B3C6AA /* main.m */; };
@@ -36,7 +37,7 @@
 
 /* Begin PBXFileReference section */
 		3C23EA492A8642587406840B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		B1C3B0FA9CC5A36C648FFC0D /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9933D252FFDAB621FA733223 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4E42A9BCC3D91597BD0D127 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E816CAD319565291009877A6 /* BDBTwitterClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BDBTwitterClient.h; path = Twitter/BDBTwitterClient.h; sourceTree = "<group>"; };
 		E816CAD419565291009877A6 /* BDBTwitterClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BDBTwitterClient.m; path = Twitter/BDBTwitterClient.m; sourceTree = "<group>"; };
@@ -87,7 +88,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B50EFDB2936607FA87A794E /* Pods.framework in Frameworks */,
+				7B50EFDB2936607FA87A794E /* (null) in Frameworks */,
+				8D7A2DB0C746C903C5229408 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,7 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7135B4EC3B79D00ADF40A279 /* Pods.framework in Frameworks */,
+				E81E4E34B39A39E45479B4A5 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,7 +107,7 @@
 		9A6043C13D226C0657EA52EE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B1C3B0FA9CC5A36C648FFC0D /* Pods.framework */,
+				9933D252FFDAB621FA733223 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -285,7 +287,6 @@
 				E8284CA118464EF900B3C6AA /* Frameworks */,
 				E8284CA418464EF900B3C6AA /* Resources */,
 				B7F71007CEE3472886B6578E /* Copy Pods Resources */,
-				14DA5A365CE8D2401235B614 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -305,7 +306,6 @@
 				E8F375C21808743300C40148 /* Frameworks */,
 				E8F375C31808743300C40148 /* Resources */,
 				30BA89E5E3B946A8871684DF /* Copy Pods Resources */,
-				BB65E6A8189A9B62F3868610 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -322,7 +322,7 @@
 		E8F375BD1808743300C40148 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Bradley David Bergeron";
 			};
 			buildConfigurationList = E8F375C01808743300C40148 /* Build configuration list for PBXProject "BDBOAuth1ManagerDemo" */;
@@ -385,21 +385,6 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		14DA5A365CE8D2401235B614 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		30BA89E5E3B946A8871684DF /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -443,21 +428,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BB65E6A8189A9B62F3868610 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -524,6 +494,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Flickr Demo/Supporting Files/Flickr Demo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Flickr Demo/Supporting Files/Flickr Demo-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bradbergeron.bdboauth1demo.flickr;
 				PRODUCT_NAME = "Flickr Demo";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WARNING_CFLAGS = "-Wall";
@@ -541,6 +512,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Flickr Demo/Supporting Files/Flickr Demo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Flickr Demo/Supporting Files/Flickr Demo-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bradbergeron.bdboauth1demo.flickr;
 				PRODUCT_NAME = "Flickr Demo";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WARNING_CFLAGS = "-Wall";
@@ -566,6 +538,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -636,6 +609,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Twitter Demo/Supporting Files/Twitter Demo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Twitter Demo/Supporting Files/Twitter Demo-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bradbergeron.bdboauth1demo.twitter;
 				PRODUCT_NAME = "Twitter Demo";
 				TARGETED_DEVICE_FAMILY = 1;
 				WARNING_CFLAGS = "-Wall";
@@ -653,6 +627,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Twitter Demo/Supporting Files/Twitter Demo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Twitter Demo/Supporting Files/Twitter Demo-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bradbergeron.bdboauth1demo.twitter;
 				PRODUCT_NAME = "Twitter Demo";
 				TARGETED_DEVICE_FAMILY = 1;
 				WARNING_CFLAGS = "-Wall";

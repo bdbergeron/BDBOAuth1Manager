@@ -306,7 +306,7 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[BDBOAuth1SignatureVersionParameter]     = @"1.0";
     parameters[BDBOAuth1SignatureConsumerKeyParameter] = self.consumerKey;
-    parameters[BDBOAuth1SignatureTimestampParameter]   = [@(floor([[NSDate date] timeIntervalSince1970])) stringValue];
+    parameters[BDBOAuth1SignatureTimestampParameter]   = [@(floor([[NSDate dateWithTimeIntervalSinceNow:self.clockOffset] timeIntervalSince1970])) stringValue];
 
     if (self.RSAPrivateKey) {
         parameters[BDBOAuth1SignatureMethodParameter] = @"RSA-SHA1";

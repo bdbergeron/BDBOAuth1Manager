@@ -130,6 +130,10 @@ FOUNDATION_EXPORT NSString * const BDBOAuth1OAuthCallbackParameter;
  */
 @property (nonatomic, copy, readonly) BDBOAuth1Credential *accessToken;
 
+/**
+ *  Clock offset from the system time to use when calculating the date for the OAuth timestamp parameter
+ */
+@property (nonatomic, assign) NSTimeInterval clockOffset;
 
 /**
  *  ---------------------------------------------------------------------------------------

@@ -101,7 +101,7 @@
         success(requestToken);
     };
 
-    NSURLSessionDataTask *task = [self dataTaskWithRequest:request completionHandler:completionBlock];
+    NSURLSessionDataTask *task = [self dataTaskWithRequest:[self fixPercentEscapedSlashes:request] completionHandler:completionBlock];
     [task resume];
 }
 
@@ -153,8 +153,18 @@
         success(accessToken);
     };
 
-    NSURLSessionDataTask *task = [self dataTaskWithRequest:request completionHandler:completionBlock];
+    NSURLSessionDataTask *task = [self dataTaskWithRequest:[self fixPercentEscapedSlashes:request] completionHandler:completionBlock];
     [task resume];
+}
+
+- (NSURLRequest *)fixPercentEscapedSlashes:(NSURLRequest *)request {
+    // fix for AFNetworking 2.6 percent escaping slashes
+    // https://github.com/AFNetworking/AFNetworking/issues/2999
+    NSMutableURLRequest *mutableRequest = [request mutableCopy];
+    NSString *authorizationKey = @"Authorization";
+    NSString *authorizationValue = request.allHTTPHeaderFields[authorizationKey];
+    [mutableRequest setValue:[authorizationValue stringByReplacingOccurrencesOfString:@"%2F" withString:@"/"] forHTTPHeaderField:authorizationKey];
+    return mutableRequest;
 }
 
 @end

@@ -23,13 +23,20 @@ DEPENDENCIES:
   - BBlock/UIKit (~> 1.2.0)
   - BDBOAuth1Manager (from `../`)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AFNetworking
+    - BBlock
+
 EXTERNAL SOURCES:
   BDBOAuth1Manager:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
   AFNetworking: 79f7eb1a0fcfa7beb409332b2ca49afe9ce53b05
   BBlock: 11c666b6898c074eceb40fa56a901b96415ebf68
-  BDBOAuth1Manager: 0c2504af494803d48ae45b6622ddd448a740ff54
+  BDBOAuth1Manager: d81056c1a971bb56ab1e92f1ca989664d6314efe
 
-COCOAPODS: 0.38.2
+PODFILE CHECKSUM: ab57e47a0029125bd251bd7642264c5f35409905
+
+COCOAPODS: 1.5.3

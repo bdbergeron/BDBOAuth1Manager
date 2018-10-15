@@ -1,16 +1,27 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
-platform :ios, '7.0'
+abstract_target "iOS" do
+  platform :ios, '8.0'
 
-link_with 'Twitter Demo', 'Flickr Demo', 'BDBOAuth1ManagerTests-iOS'
+  pod 'AFNetworking/UIKit', '~> 2.6.0'
+  pod 'BBlock/UIKit', '~> 1.2.0'
+  pod 'BDBOAuth1Manager', :path => '../'
 
-pod 'AFNetworking/UIKit', '~> 2.6.0'
-pod 'BBlock/UIKit', '~> 1.2.0'
-pod 'BDBOAuth1Manager', :path => '../'
+  target 'Twitter Demo' do
+  end
 
-target :osx, :exclusive => true do
-platform :osx, '10.9'
-link_with 'BDBOAuth1ManagerTests-OSX'
+  target 'Flickr Demo' do
+  end
 
-pod 'BDBOAuth1Manager', :path => '../'
+  target 'BDBOAuth1ManagerTests-iOS' do
+  end
+end
+
+abstract_target "OSX" do
+  platform :osx, '10.9'
+
+  pod 'BDBOAuth1Manager', :path => '../'
+
+  target 'BDBOAuth1ManagerTests-OSX' do
+  end
 end

@@ -35,7 +35,7 @@ FOUNDATION_EXPORT NSString * const BDBOAuth1OAuthCallbackParameter;
 
 #pragma mark -
 @interface BDBOAuth1Credential : NSObject
-<NSCoding, NSCopying>
+<NSSecureCoding, NSCopying>
 
 /**
  *  Token ('oauth_token')

@@ -130,7 +130,11 @@ NSString * const BDBOAuth1SignatureNonceParameter       = @"oauth_nonce";
     }
 }
 
-#pragma mark NSCoding
+#pragma mark NSSecureCoding
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
 
